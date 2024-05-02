@@ -1,8 +1,21 @@
-# React + Vite
+Landing Page/ Main Page option - bank deposit and cms transaction
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Admin View
+		- Transactions Mode - Add, Edit and Delete
+		- Can view all Transactions and also filter based on the date and emp
 
-Currently, two official plugins are available:
+Employee View
+		- Transactions Mode - Add Transaction
+		- Emp can filter based on date
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Manager View
+		- Transactions Mode - Add Transaction
+		- Can view all Transactions and also filter based on the date and emp
+
+Admin will add opening balance and all transaction will be added and substracted to the opening balance
+
+Daily Transaction Details
+
+Monthly Transaction Details
+
+Export to excel functionality will be there for all the data which will be there in the table.
