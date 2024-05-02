@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material";
 
 
-const font = "'Inter', sans-serif";
+const font = "'Rethink Sans', sans-serif";
 
 
 export const FinoTheme=(mode)=>{
