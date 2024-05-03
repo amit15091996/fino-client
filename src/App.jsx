@@ -6,6 +6,7 @@ import { Card } from "@mui/material";
 import TopNavbar from "./pages/HomeComponent/TopNavbar";
 import Layout from "./pages/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import Payments from "./pages/Payments/Payments";
 
 const App = () => {
 
@@ -13,12 +14,13 @@ const App = () => {
   return (
     <ThemeProvider theme={FinoTheme()}>
      <Card elevation={0} sx={{backgroundColor:"#F1F3F8",borderRadius:0,height:"100dvh",width:"100dvw"}}>
-     <TopNavbar/>
     <Routes>
     <Route path="/" element={<FinoLogin/>}></Route>
     <Route path="/Layout" element={<Layout/>}>
-      <Route path="dashboard" element={<Dashboard/>}></Route>
+      <Route path="Dashboard" element={<Dashboard/>}></Route>
+      <Route path="Payments" element={<Payments/>}></Route>
 
+      
     </Route>
     </Routes>
     </Card> 
