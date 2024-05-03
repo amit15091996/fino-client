@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material";
 
-const { palette } = createTheme();
 const font = "'Rethink Sans', sans-serif";
 
 
@@ -9,10 +8,11 @@ export const FinoTheme = (mode) => {
   return createTheme({
     shadows: 0,
     palette: {
-      primary: { main: "#003566" },
+      primary: { main: "#0a2472" },
       secondary: { main: '#00509d' },
       white: { main: '#FFF' },
-      p1: palette?.augmentColor({ color: { main: '#1976d2' }, name: 'p1', }),
+      p1:{ main: '#1976d2' },
+      p2:{ main: '#ff6700' },
       //    mode:mode
     },
     typography: {

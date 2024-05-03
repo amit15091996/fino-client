@@ -58,7 +58,7 @@ const onLogin=(e)=>{
        </Box>
 
        <Box sx={{p:1,mt:1,...GlobalStyles.alignmentStyles}}>
-        <CustomButton color={"p1"} isFullwidth={true} title={FinoLabel.loginTitle}/>
+        <CustomButton color={"p1"} isFullwidth={true} title={FinoLabel.loginPageTitle}/>
        </Box>
        </form>
 

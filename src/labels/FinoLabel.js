@@ -1,7 +1,7 @@
 export const FinoLabel={
-    loginPageTitle:"WELCOME",
+    loginPageTitle:"LOGIN",
     loginPageTitle_1:"Sign in to your account",
-    loginTitle:"LOGIN",
+    loginTitle:"WELCOME",
     forgotPassword:"Forgot Password?",
     dontHaveAnAccount:"Don't Have An Account?",
     createAnAccount:"Create Account",

@@ -4,7 +4,9 @@ import CustomTooltips from '../../CustomTooltips/CustomTooltips';
 import { BiReset } from "react-icons/bi";
 import CustomDropDown, { menuItemStyle } from '../../CustomDropDown/CustomDropDown';
 import CustomTextField from '../../CustomTextField/CustomTextField';
-CustomTextField
+import UnderLine from '../../UnderLine/UnderLine';
+import { GlobalStyles } from '../../../styles/GlobalStyles';
+import { useTheme } from '@emotion/react';
 
 export const Operators=[
     {id:1,value:"contains",input:"contains"},
@@ -17,15 +19,17 @@ export const Operators=[
   
 export default function FilteredItem({headCells,customFilter}) {
 
+const theme=useTheme()
+
 const{filterItem,setFilterItem}=customFilter
 
 
   return (
     <Card elevation={0} sx={{maxWidth:400,borderRadius:0,margin:"5px"}}>
     <Box sx={{justifyContent:"space-between",display:"flex",alignItems:"center"}}>
-      <Typography variant='v2'>Filter Panel <span><Box sx={{width:"30px",height:"4px",backgroundColor:"#ff6700",borderRadius:1}}></Box></span></Typography>
+      <Typography variant='v2'>Filter Panel <span><UnderLine width={"25px"}/></span></Typography>
       <CustomTooltips title="Reset Filters">
-      <BiReset  style={{cursor:"pointer",color:"#ff6700"}} onClick={()=>{ setFilterItem({columns:"", operators:"",filterValue:""})}} fontSize='small' color='primary'/>
+      <BiReset   style={{cursor:"pointer",color:theme?.palette?.p2?.main}} onClick={()=>{ setFilterItem({columns:"", operators:"",filterValue:""})}} fontSize={20}/>
       </CustomTooltips>
      </Box>
      
