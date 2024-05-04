@@ -7,6 +7,7 @@ import TopNavbar from "./pages/HomeComponent/TopNavbar";
 import Layout from "./pages/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Payments from "./pages/Payments/Payments";
+import HomePage from "./pages/HomeComponent/HomePage";
 
 const App = () => {
 
@@ -26,7 +27,7 @@ const App = () => {
         }}
       >
         <Routes>
-          <Route path="/" element={<FinoLogin />}></Route>
+          <Route path="/" element={<HomePage />}></Route>
           <Route path="/Layout" element={<Layout />}>
             <Route path="Dashboard" element={<Dashboard />}></Route>
             <Route path="Payments" element={<Payments />}></Route>

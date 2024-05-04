@@ -31,13 +31,14 @@ const FinoLogin = ({}) => {
       >
         <Card
           sx={{
-            height: 420,
+            height: 370,
             width: 350,
             border: `1px solid ${theme?.palette?.primary?.main}`,
+            p:2
           }}
         >
           <form onSubmit={onLogin}>
-            <Box sx={{ bgcolor: theme?.palette?.primary?.main }}>
+            <Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
                 <Avatar
                   sx={{ mt: 0.5, width: 50, height: 50, objectFit: "fill" }}
@@ -46,12 +47,12 @@ const FinoLogin = ({}) => {
                 />
               </Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                <Typography color={theme?.palette?.p3?.main} variant="v1">
+                <Typography color={theme?.palette?.primary?.main} variant="v1">
                   {FinoLabel.loginPageTitle}
                 </Typography>
               </Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                <Typography color={theme?.palette?.p3?.main} variant="v2">
+                <Typography color={theme?.palette?.primary?.main} variant="v2">
                   {FinoLabel.loginPageTitle_1}
                 </Typography>
               </Box>
@@ -103,20 +104,6 @@ const FinoLogin = ({}) => {
        </Box>
        </form>
 
-          <Box sx={{ mt: 3, ...GlobalStyles.alignmentStyles }}>
-            <Typography color="primary" variant="v2">
-              {FinoLabel.dontHaveAnAccount}
-            </Typography>
-          </Box>
-          <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
-           
-              <CustomButton
-                color={"success"}
-                isFullwidth={true}
-                title={FinoLabel.createAnAccount}
-              />
-          
-          </Box>
         </Card>
       </Box>
     </Box>
