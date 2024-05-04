@@ -10,6 +10,8 @@ import { FaArrowUpRightFromSquare } from "react-icons/fa6";
 import CustomDrawer from '../../components/CustomDrawer/CustomDrawer'
 import FinoLogin from './FinoLogin'
 import CustomDialog from '../../components/CustomDialog/CustomDialog'
+import DynamicHead from "../../components/DynamicHead/DynamicHead"
+import { FinoLabel } from '../../labels/FinoLabel'
 
 const HomePage = ({}) => {
 const theme=useTheme()
@@ -28,6 +30,11 @@ const onLoginButtonClick=()=>{
     backgroundRepeat:"no-repeat"
     
     }}>
+
+<DynamicHead
+        title={FinoLabel.homePage}
+        key={FinoLabel.homePage}
+      />
 
 {/* borderBottom:`1px solid ${theme?.palette?.p3?.main} ` */}
 

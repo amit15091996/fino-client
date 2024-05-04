@@ -1,5 +1,4 @@
 import { Avatar, Box, Card, Typography } from "@mui/material";
-import DynamicHead from "../../components/DynamicHead/DynamicHead";
 import { FinoLabel } from "../../labels/FinoLabel";
 import loginImage from "../../assets/loginImage.jpg";
 import { GlobalStyles } from "../../styles/GlobalStyles";
@@ -21,10 +20,6 @@ const FinoLogin = ({}) => {
 
   return (
     <Box sx={{ height: "100%", width: "100%" }}>
-      <DynamicHead
-        title={FinoLabel.loginPageTitle}
-        key={FinoLabel.loginPageTitle}
-      />
 
       <Box
         sx={{ height: "100%", width: "100%", ...GlobalStyles.alignmentStyles }}
