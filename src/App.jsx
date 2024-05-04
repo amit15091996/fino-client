@@ -9,21 +9,25 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Payments from "./pages/Payments/Payments";
 
 const App = () => {
-
-
   return (
     <ThemeProvider theme={FinoTheme()}>
-     <Card elevation={0} sx={{backgroundColor:"#F1F3F8",borderRadius:0,height:"100dvh",width:"100dvw"}}>
-    <Routes>
-    <Route path="/" element={<FinoLogin/>}></Route>
-    <Route path="/Layout" element={<Layout/>}>
-      <Route path="Dashboard" element={<Dashboard/>}></Route>
-      <Route path="Payments" element={<Payments/>}></Route>
-
-      
-    </Route>
-    </Routes>
-    </Card> 
+      <Card
+        elevation={0}
+        sx={{
+          backgroundColor: "#F1F3F8",
+          borderRadius: 0,
+          height: "100dvh",
+          width: "100dvw",
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<FinoLogin />}></Route>
+          <Route path="/Layout" element={<Layout />}>
+            <Route path="Dashboard" element={<Dashboard />}></Route>
+            <Route path="Payments" element={<Payments />}></Route>
+          </Route>
+        </Routes>
+      </Card>
     </ThemeProvider>
   );
 };
