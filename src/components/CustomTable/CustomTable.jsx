@@ -190,12 +190,12 @@ const Exceldownload=()=>{
 
 <CustomTooltips title="EDIT">
 <IconButton sx={{p:0}} color="primary" onClick={(e)=>onEditClick?onEditClick(row):emptyFunc()}>
-                        <CiEdit fontSize='small' />
+                        <CiEdit fontSize={18}  />
                       </IconButton>
   </CustomTooltips>     
   <CustomTooltips title="DELETE">
   <IconButton sx={{p:0,ml:0.5}} color="error"  onClick={(e)=>onDeleteClick?onDeleteClick(row):emptyFunc()}>
-                        <MdDeleteForever  fontSize='small' />
+                        <MdDeleteForever  fontSize={18} />
                       </IconButton>
     </CustomTooltips>   
 

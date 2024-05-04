@@ -33,11 +33,11 @@ const FinoLogin = ({}) => {
           sx={{
             height: 420,
             width: 350,
-            border: `1px solid ${theme?.palette?.p1?.main}`,
+            border: `1px solid ${theme?.palette?.primary?.main}`,
           }}
         >
           <form onSubmit={onLogin}>
-            <Box sx={{ bgcolor: theme?.palette?.p1?.main }}>
+            <Box sx={{ bgcolor: theme?.palette?.primary?.main }}>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
                 <Avatar
                   sx={{ mt: 0.5, width: 50, height: 50, objectFit: "fill" }}
@@ -46,12 +46,12 @@ const FinoLogin = ({}) => {
                 />
               </Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                <Typography color="#FFF" variant="v1">
+                <Typography color={theme?.palette?.p3?.main} variant="v1">
                   {FinoLabel.loginPageTitle}
                 </Typography>
               </Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                <Typography color="#FFF" variant="v2">
+                <Typography color={theme?.palette?.p3?.main} variant="v2">
                   {FinoLabel.loginPageTitle_1}
                 </Typography>
               </Box>
@@ -99,23 +99,23 @@ const FinoLogin = ({}) => {
             </Box>
 
        <Box sx={{p:1,mt:1,...GlobalStyles.alignmentStyles}}>
-        <CustomButton color={"p1"} isFullwidth={true} title={FinoLabel.loginTitle}/>
+        <CustomButton color={"primary"} isFullwidth={true} title={FinoLabel.loginPageTitle}/>
        </Box>
        </form>
 
           <Box sx={{ mt: 3, ...GlobalStyles.alignmentStyles }}>
-            <Typography color="error" variant="v2">
+            <Typography color="primary" variant="v2">
               {FinoLabel.dontHaveAnAccount}
             </Typography>
           </Box>
           <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
-            <Box sx={{ width: "60%" }}>
+           
               <CustomButton
                 color={"success"}
                 isFullwidth={true}
                 title={FinoLabel.createAnAccount}
               />
-            </Box>
+          
           </Box>
         </Card>
       </Box>

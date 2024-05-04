@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
 
+
 const font = "'Rethink Sans', sans-serif";
 
 
@@ -11,9 +12,11 @@ export const FinoTheme = (mode) => {
       primary: { main: "#0a2472" },
       secondary: { main: '#00509d' },
       white: { main: '#FFF' },
-      p1:{ main: '#1976d2' },
-      p2:{ main: '#ff6700' },
-      //    mode:mode
+      p1:{ main: '#1976d2',contrastText: "#FFF" }, //blue
+      p2:{ main: '#ff6700',contrastText: "#FFF" }, //orange
+      p3:{ main: '#FFF',contrastText: "#000" }, //white
+
+         // mode:"dark"
     },
     typography: {
       fontFamily: font, fontSize: 14,

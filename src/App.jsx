@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import FinoLogin from "./pages/HomeComponent/FinoLogin";
-import { ThemeProvider } from "@emotion/react";
+import { ThemeProvider, useTheme } from "@emotion/react";
 import { FinoTheme } from "./theme/FinoTheme";
 import { Card } from "@mui/material";
 import TopNavbar from "./pages/HomeComponent/TopNavbar";
@@ -9,12 +9,17 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Payments from "./pages/Payments/Payments";
 
 const App = () => {
+
+
+
+  // #001d3d
+
   return (
     <ThemeProvider theme={FinoTheme()}>
-      <Card
+     <Card
         elevation={0}
         sx={{
-          backgroundColor: "#F1F3F8",
+          backgroundColor:"#F1F3F8",
           borderRadius: 0,
           height: "100dvh",
           width: "100dvw",
