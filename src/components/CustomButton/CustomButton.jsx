@@ -6,7 +6,7 @@ import React from 'react'
   return (
     <Button endIcon={endIcon} type={type?type:"submit"}  startIcon={startIcon} onClick={onClick} size={size?size:'small'} disabled={isDisabled}
      variant={variant?variant:'contained'}
-    color={color} fullWidth={isFullwidth} sx={{width:width,fontWeight:"700",letterSpacing:1.5}}>{title}</Button>
+     fullWidth={isFullwidth} sx={{width:width,fontWeight:"700",letterSpacing:1.5,color:color}}>{title}</Button>
   )
 }
 

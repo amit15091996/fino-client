@@ -1,5 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,16 +11,17 @@ import Checkbox from '@mui/material/Checkbox';
 import jsPDF from 'jspdf'
 import autoTable from 'jspdf-autotable'
 import { downloadExcel } from 'react-export-table-to-excel';
-import EnhancedTableToolbar from './TableHelpers/CustomToolBar';
 import EnhancedTableHead from './TableHelpers/TableHead';
 import { filteredArray, getComparator, stableSort } from './TableHelpers/HelperFunctions';
 import CustomPopover from '../CustomPopover/CustomPopover';
 import FilteredItem from './TableHelpers/FilteredItem';
-import { IconButton, Typography } from '@mui/material';;
+import { IconButton } from '@mui/material';;
 import { useTheme } from '@emotion/react';
 import CustomTooltips from '../CustomTooltips/CustomTooltips';
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
+import CustomToolBar from './TableHelpers/CustomToolBar';
+import { GlobalStyles } from '../../styles/GlobalStyles';
 
 const CustomTable=({sortBy,onEditClick,onDeleteClick,isActionRequired,isSelected,handleClick,handleSelectAllClick,selected,onRowClick,headCells,rows,isCheckBoxRequird,isSelectItemRequired,TableName})=>{
   const [order, setOrder] = React.useState('asc');
@@ -111,10 +111,10 @@ const Exceldownload=()=>{
   return (
     <Box sx={{ width: '100%',".MuiTablePagination-root":{height:35,overflow:"hidden",display:"flex",justifyContent:"flex-end",alignItems:"center",alignContent:"center"}}}>
      
-     <EnhancedTableToolbar TableName={TableName} numSelected={selected?selected?.length:0} onFilterClick={handleFilterClick} pdfdownload={pdfDownload} Exceldownload={Exceldownload} />
+     <CustomToolBar TableName={TableName} numSelected={selected?selected?.length:0} onFilterClick={handleFilterClick} pdfdownload={pdfDownload} Exceldownload={Exceldownload} />
 
       <Paper elevation={0} sx={{ width: '100%'}}>
-        <TableContainer sx={{maxHeight:"410px",overflow:"auto"}}>
+        <TableContainer sx={{overflow:"auto"}}>
           <Table stickyHeader aria-labelledby="tableTitle" sx={{  "&:last-child":{borderRight:"1px solid rgb(213,218,222)",borderBottom:"1px solid rgb(213,218,222)"}}}>
             <EnhancedTableHead
               headCells={headCells}
@@ -214,12 +214,12 @@ const Exceldownload=()=>{
         <TablePagination
 
          sx={{display:"flex",justifyContent:"flex-end",alignItems:"center", borderLeft:"1px solid rgb(213,218,222)", borderRight:"1px solid rgb(213,218,222)", borderBottom:"1px solid rgb(213,218,222)",
-        ".MuiTablePagination-selectLabel":{fontSize:14,fontWeight:"900!important",color:"#ff6700"},
-        ".MuiInputBase-root":{mt:0.5,fontSize:14,fontWeight:"900!important",color:"#ff6700"},
-        ".MuiTablePagination-displayedRows":{fontSize:14,fontWeight:"900!important",color:"#ff6700"},
-        ".MuiTablePagination-select":{fontSize:14,fontWeight:"900!important",color:"#ff6700"},
+        ".MuiTablePagination-selectLabel":{fontSize:14,fontWeight:"900!important",color:theme?.palette?.p2?.main},
+        ".MuiInputBase-root":{mt:0.5,fontSize:14,fontWeight:"900!important",color:theme?.palette?.p2?.main},
+        ".MuiTablePagination-displayedRows":{fontSize:14,fontWeight:"900!important",color:theme?.palette?.p2?.main},
+        ".MuiTablePagination-select":{fontSize:14,fontWeight:"900!important",color:theme?.palette?.p2?.main},
         ".MuiTablePagination-selectIcon":{height:11},
-        ".MuiSvgIcon-root":{fontSize:14,fontWeight:"900!important",color:"#ff6700"},
+        ".MuiSvgIcon-root":{fontSize:14,fontWeight:"900!important",color:theme?.palette?.p2?.main},
      
       }}
 

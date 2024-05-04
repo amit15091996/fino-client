@@ -98,14 +98,10 @@ const FinoLogin = ({}) => {
               </Typography>
             </Box>
 
-            <Box sx={{ p: 1, mt: 1, ...GlobalStyles.alignmentStyles }}>
-              <CustomButton
-                color={"p1"}
-                isFullwidth={true}
-                title={FinoLabel.loginTitle}
-              />
-            </Box>
-          </form>
+       <Box sx={{p:1,mt:1,...GlobalStyles.alignmentStyles}}>
+        <CustomButton color={"p1"} isFullwidth={true} title={FinoLabel.loginTitle}/>
+       </Box>
+       </form>
 
           <Box sx={{ mt: 3, ...GlobalStyles.alignmentStyles }}>
             <Typography color="error" variant="v2">

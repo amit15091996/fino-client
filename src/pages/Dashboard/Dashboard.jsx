@@ -6,7 +6,8 @@ import { useTheme } from '@emotion/react';
 import CustomTabs from '../../components/CustomTabs/CustomTabs';
 import BankDeposit from './TxnAndDeposit/BankDeposit';
 import CmsTransaction from './TxnAndDeposit/CmsTransaction';
-
+import { BsBank } from "react-icons/bs";
+import { TbTransactionRupee } from "react-icons/tb";
 
 const Dashboard = ({}) => {
 const[tabValue,setTabValue]=useState(0)
@@ -14,8 +15,8 @@ const handleTabChange=(e,value)=>{setTabValue(value)}
   const theme=useTheme()
 
 const tabs=[
-  {label:"Bank Deposit ",minWidth:140,component:<BankDeposit/>},
-  {label:"Cms Transaction",minWidth:140,component:<CmsTransaction/>},
+  {label:"Bank Deposit ",minWidth:140,component:<BankDeposit/>,icon:<BsBank fontSize={18}/>},
+  {label:"Cms Transaction",minWidth:150,component:<CmsTransaction/>,icon:<TbTransactionRupee fontSize={18}/>},
 
 ]
 

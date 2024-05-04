@@ -3,73 +3,32 @@ import PropTypes from 'prop-types';
 import { MdDeleteForever } from "react-icons/md";
 import { FaFilter } from "react-icons/fa";
 import CustomTooltips from "../../CustomTooltips/CustomTooltips";
+import UnderLine from "../../UnderLine/UnderLine";
+import CustomButton from "../../CustomButton/CustomButton";
+import { GlobalStyles } from "../../../styles/GlobalStyles";
+import { useTheme } from "@emotion/react";
 
 
 
-export default function EnhancedTableToolbar({numSelected,onFilterClick,pdfdownload,Exceldownload,TableName,selectedItemRequired}) {
+const CustomToolBar = ({onFilterClick, pdfdownload, Exceldownload, TableName }) => {
 
-    return (
-    
-      <Box
-        sx={{
-          display:"flex",
-          justifyContent:"space-between",
-          alignItems:"center"
-        }}
-      >
-        { selectedItemRequired?numSelected > 0 ? (
-          <Typography
-            sx={{ flex: '1 1 100%' }}
-            color="inherit"
-            variant="subtitle1"
-            component="div"
-          >
-            {numSelected} selected
-          </Typography>
-        ) :null: (
-          <Typography
-            sx={{ flex: '1 1 100%',ml:0.2 }}
-            variant="v2"
-            id="tableTitle"
-            component="div"
-            color={"primary"}
-          >
-            {TableName}{TableName?<span><Box sx={{width:"30px",height:"4px",backgroundColor:"#ff6700",borderRadius:1}}></Box></span>:null}
-          </Typography>
-        )}
-  
-        {selectedItemRequired?numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton>
-              <MdDeleteForever />
-            </IconButton>
-          </Tooltip>
-        ):null : (
-          <Box sx={{display:"flex",justifyContent:"center",alignItems:"center"}}>
-          <CustomTooltips title="Pdf Download">
-          <Button sx={{fontSize:12,color:"#ff6700"}}  onClick={pdfdownload}>PDF</Button>
-            </CustomTooltips> 
-            
+  const theme=useTheme()
 
-            <CustomTooltips title="Excel Download">
-            <Button sx={{fontSize:12,color:"#ff6700"}} onClick={Exceldownload}>EXCEL</Button>
-            </CustomTooltips>
+  return (
 
-            
-        <CustomTooltips title="FILTER LIST">
-            <IconButton onClick={onFilterClick}>
-              <FaFilter fontSize="small"  style={{color:"#ff6700"}} />
-            </IconButton>
-          </CustomTooltips>
-          </Box>
-         
-        )}
+    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+
+      {TableName && <Typography variant="v2"  >{TableName}<span><UnderLine /></span></Typography>}
+
+      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <CustomTooltips title="Pdf Download"><CustomButton color={theme?.palette?.p2?.main} variant={"standard"} onClick={pdfdownload} title={"PDF"}></CustomButton></CustomTooltips>
+        <CustomTooltips title="Excel Download"><CustomButton color={theme?.palette?.p2?.main} variant={"standard"} onClick={Exceldownload} title={"EXCEL"}></CustomButton></CustomTooltips>
+        <CustomTooltips title="FILTER LIST"> <IconButton onClick={onFilterClick}><FaFilter fontSize="small" style={{ color:theme?.palette?.p2?.main}} /> </IconButton></CustomTooltips>
       </Box>
-    );
-  }
-  
-  EnhancedTableToolbar.propTypes = {
-    numSelected: PropTypes.number.isRequired,
-  };
+    </Box>
+  );
+}
 
-  // sx={{color:"#1A4198"}}
+export default CustomToolBar;
+
+// sx={{color:"#1A4198"}}
