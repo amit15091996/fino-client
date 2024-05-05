@@ -14,7 +14,7 @@ import dayjs from "dayjs";
 import DepositAndCmsForm from "./DepositAndCmsForm";
 
 
- const depositData = [
+ export const depositData = [
   {
     id: 1,
     date: "01/05/2023",
