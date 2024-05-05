@@ -10,8 +10,8 @@ export const FinoLabel={
     password:"PASSWORD",
     bankDepositTableHead:[
         {id:"date",label:"Transaction Date"},
-        {id:"name",label:"Received From"},
-        {id:"collectBy",label:"Collected By"},
+        {id:"receiveFrom",label:"Received From"},
+        {id:"collectedBy",label:"Collected By"},
         {id:"amount",label:"Amount"},
 
 

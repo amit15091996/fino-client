@@ -36,9 +36,9 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
             isFullwidth={true}
             label={"Received From"}
             placeholder={"Received From"}
-            value={depositFields.name}
+            value={depositFields?.receiveFrom}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, amount: e.target.value });
+              setDepositFields({ ...depositFields, receiveFrom: e.target.value });
             }}
           />
         </Box>
@@ -47,9 +47,9 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
             isFullwidth={true}
             label={"Collected By"}
             placeholder={"Collected By"}
-            value={depositFields.collectBy}
+            value={depositFields?.collectedBy}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, name: e.target.value });
+              setDepositFields({ ...depositFields, collectedBy: e.target.value });
             }}
           />
         </Box>
