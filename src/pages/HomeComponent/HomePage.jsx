@@ -67,8 +67,9 @@ const onLoginButtonClick=()=>{
 
 <CustomDialog open={loginDialog} anchor={"bottom"}  onClose={()=>{setLoginDialog(false)}}>
     <FinoLogin/>
-
 </CustomDialog>
+
+
 
     </Box>
   )

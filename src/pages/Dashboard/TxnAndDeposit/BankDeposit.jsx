@@ -116,6 +116,8 @@ const onUpdateClick=(row)=>{
 </Card>
 
 </CustomModal>
+
+
     </Box>
   )
 }

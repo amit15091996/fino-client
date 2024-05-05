@@ -4,9 +4,11 @@ import { Outlet } from 'react-router-dom'
 import SideNavbar from '../HomeComponent/SideNavbar'
 import { GlobalStyles } from '../../styles/GlobalStyles'
 import TopNavbar from '../HomeComponent/TopNavbar'
+import { useTheme } from '@emotion/react'
 
 const Layout = ({ }) => {
 
+const theme=useTheme()
 
     return (
         <Box>
@@ -19,7 +21,7 @@ const Layout = ({ }) => {
                 </Grid>
 
                 <Grid item md={10.2}>
-                    <Box sx={{ p:1, height: "92dvh", width: "99.42%", overflow: "auto" }}>
+                    <Box sx={{ p:1, height: "92dvh", width: "99.42%", overflow: "auto"}}>
                         <Outlet />
                     </Box>
                 </Grid>

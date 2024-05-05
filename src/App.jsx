@@ -8,10 +8,11 @@ import Layout from "./pages/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Payments from "./pages/Payments/Payments";
 import HomePage from "./pages/HomeComponent/HomePage";
+import "./App.css"
 
 const App = () => {
 
-
+const themecolor=useTheme()
 
   // #001d3d
 
