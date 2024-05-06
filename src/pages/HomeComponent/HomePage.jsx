@@ -20,6 +20,7 @@ import Businessmanrafiki from "../../assets/Businessmanrafiki.png"
 import Carousel from 'react-material-ui-carousel'
 import CarouselSlide from 'react-material-ui-carousel';
 import FinoSignup from './FinoSignup'
+import ForgotPassword from './ForgotPassword'
 
 const businessImage = [
   { imageName: "Businessmanamico", url: Businessmanamico },
@@ -40,12 +41,17 @@ const HomePage = ({ }) => {
   }
 
   const [signUpDrawer, setSignUpDrawer] = useState(false)
+  const [forgotPasswordDrawer, setforgotPasswordDrawer] = useState(false)
 
   const onCreateAccount = (e) => {
     setSignUpDrawer(true)
 
   }
 
+  const onForgotPassword = (e) => {
+    setforgotPasswordDrawer(true)
+
+  }
 
 
   return (
@@ -93,7 +99,7 @@ const HomePage = ({ }) => {
         </Grid>
         <Grid item xs={12} md={2.5}>
           <Box sx={{ height: "100%" }}>
-            <FinoLogin onCreateAccount={onCreateAccount} />
+            <FinoLogin onForgotPassword={onForgotPassword} onCreateAccount={onCreateAccount} />
           </Box>
         </Grid>
       </Grid>
@@ -105,6 +111,9 @@ const HomePage = ({ }) => {
       </CustomDrawer>
 
 
+      <CustomDrawer anchor={"right"} open={forgotPasswordDrawer} onClose={() => { setforgotPasswordDrawer(false) }}>
+        <ForgotPassword/>
+      </CustomDrawer>
 
 
 
