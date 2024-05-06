@@ -3,14 +3,14 @@ import React from "react";
 import CustomDatePicker from "../../../components/CustomDatePicker/CustomDatePicker";
 import CustomTextField from "../../../components/CustomTextField/CustomTextField";
 import CustomButton from "../../../components/CustomButton/CustomButton";
+import { useTheme } from "@emotion/react";
 
 const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
   const { depositFields, setDepositFields } = fields;
-
   return (
-    <Box>
+    <Box >
       <form onSubmit={onSubmit}>
-        <Box sx={{ p: 1, mt: 1 }}>
+        <Box sx={{ p: 1, mt: 1}}>
           <CustomDatePicker
             isFullWidth={true}
             value={depositFields.date}
