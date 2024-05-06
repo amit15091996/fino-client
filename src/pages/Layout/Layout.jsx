@@ -20,7 +20,7 @@ const theme=useTheme()
                     </Box>
                 </Grid>
 
-                <Grid item md={10.2}>
+                <Grid item xs={12} sm={12} md={10.2}>
                     <Box sx={{ p:1, height: "92dvh", width: "99.42%", overflow: "auto"}}>
                         <Outlet />
                     </Box>

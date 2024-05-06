@@ -9,7 +9,7 @@ import { TbPasswordFingerprint } from "react-icons/tb";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 
-const FinoLogin = ({}) => {
+const FinoLogin = ({onCreateAccount}) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -19,17 +19,17 @@ const FinoLogin = ({}) => {
   };
 
   return (
-    <Box sx={{ height: "100%", width: "100%" }}>
+    <Card sx={{ height: "100%", width: "100%"}}>
 
       <Box
-        sx={{ height: "100%", width: "100%", ...GlobalStyles.alignmentStyles }}
+        sx={{ height: "100%", width: "100%", ...GlobalStyles.alignmentStyles  }}
       >
-        <Card
+        <Box
           sx={{
-            height: 370,
-            width: 350,
-            border: `1px solid ${theme?.palette?.primary?.main}`,
-            p:2
+            height: "94.5%",
+            width:"100%",
+            p:2,
+            borderRadius:0,
           }}
         >
           <form onSubmit={onLogin}>
@@ -98,10 +98,27 @@ const FinoLogin = ({}) => {
         <CustomButton color={"primary"} isFullwidth={true} title={FinoLabel.loginPageTitle}/>
        </Box>
        </form>
+   
+       <Box sx={{ mt: 3, ...GlobalStyles.alignmentStyles }}>
+            <Typography color="primary" variant="v2">
+              {FinoLabel.dontHaveAnAccount}
+            </Typography>
+          </Box>
+          <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+           
+              <CustomButton
+                
+                onClick={onCreateAccount}
+                color={"success"}
+                isFullwidth={true}
+                title={FinoLabel.createAnAccount}
+              />
+          
+          </Box>
 
-        </Card>
+        </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 

@@ -12,6 +12,7 @@ import { IoClose } from "react-icons/io5";
 import CustomDatePicker from "../../../components/CustomDatePicker/CustomDatePicker";
 import dayjs from "dayjs";
 import DepositAndCmsForm from "./DepositAndCmsForm";
+import CustomDialog from "../../../components/CustomDialog/CustomDialog";
 
 
  export const depositData = [
@@ -113,13 +114,13 @@ const BankDeposit = () => {
         />
       </Box>
 
-      <CustomModal
+      <CustomDialog
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
         }}
       >
-        <Card sx={{ height: 500, width: 350, p: 2 }}>
+        <Card sx={{  height: 370, width: 320, p: 2}}>
           <Box
             sx={{
               p: 1,
@@ -151,15 +152,15 @@ const BankDeposit = () => {
             onSubmit={onDepositDataAdd}
           />
         </Card>
-      </CustomModal>
+      </CustomDialog>
 
-      <CustomModal
+      <CustomDialog
         open={updateModal}
         onClose={() => {
           setupdateModal(false);
         }}
       >
-        <Card sx={{ height: 500, width: 350, p: 2 }}>
+        <Card sx={{  height: 370, width: 320, p: 2 }}>
           <Box
             sx={{
               p: 1,
@@ -191,7 +192,7 @@ const BankDeposit = () => {
             isUpdate={true}
           />
         </Card>
-      </CustomModal>
+      </CustomDialog>
     </Box>
   );
 };
