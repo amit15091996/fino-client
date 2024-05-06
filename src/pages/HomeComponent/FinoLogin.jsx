@@ -8,8 +8,10 @@ import { FaUserCircle } from "react-icons/fa";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import CustomButton from "../../components/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
+import { IoMdLogIn } from "react-icons/io";
+import { IoIosCreate } from "react-icons/io";
 
-const FinoLogin = ({onCreateAccount}) => {
+const FinoLogin = ({onCreateAccount,onForgotPassword}) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -82,7 +84,7 @@ const FinoLogin = ({onCreateAccount}) => {
               />
             </Box>
 
-            <Box
+            <Box onClick={onForgotPassword}
               sx={{
                 cursor: "pointer",
                 ...GlobalStyles.alignmentStyles_2,
@@ -95,7 +97,7 @@ const FinoLogin = ({onCreateAccount}) => {
             </Box>
 
        <Box sx={{p:1,mt:1,...GlobalStyles.alignmentStyles}}>
-        <CustomButton color={"primary"} isFullwidth={true} title={FinoLabel.loginPageTitle}/>
+        <CustomButton endIcon={<IoMdLogIn />} color={"primary"} isFullwidth={true} title={FinoLabel.loginPageTitle}/>
        </Box>
        </form>
    
@@ -107,6 +109,7 @@ const FinoLogin = ({onCreateAccount}) => {
           <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
            
               <CustomButton
+              endIcon={<IoIosCreate />}
                 
                 onClick={onCreateAccount}
                 color={"success"}

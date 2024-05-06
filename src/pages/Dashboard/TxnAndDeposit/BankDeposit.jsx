@@ -120,7 +120,7 @@ const BankDeposit = () => {
           setModalOpen(false);
         }}
       >
-        <Card sx={{  height: 370, width: 320, p: 2}}>
+        <Card sx={{  height: 370, width: 320, p: 2 }}>
           <Box
             sx={{
               p: 1,
