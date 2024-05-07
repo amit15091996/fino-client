@@ -106,12 +106,12 @@ const HomePage = ({ }) => {
 
 
 
-      <CustomDrawer anchor={"right"} open={signUpDrawer} onClose={() => { setSignUpDrawer(false) }}>
+      <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={signUpDrawer} onClose={() => { setSignUpDrawer(false) }}>
         <FinoSignup/>
       </CustomDrawer>
 
 
-      <CustomDrawer anchor={"right"} open={forgotPasswordDrawer} onClose={() => { setforgotPasswordDrawer(false) }}>
+      <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={forgotPasswordDrawer} onClose={() => { setforgotPasswordDrawer(false) }}>
         <ForgotPassword/>
       </CustomDrawer>
 
