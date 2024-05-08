@@ -91,7 +91,7 @@ const CmsTransaction = () => {
           setModalOpen(false);
         }}
       >
-        <Card sx={{ height: 500, width: 350, p: 2 }}>
+        <Card sx={{ height: 370,width: 350, p: 2 }}>
           <Box
             sx={{
               p: 1,
