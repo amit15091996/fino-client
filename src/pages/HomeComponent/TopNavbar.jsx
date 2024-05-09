@@ -4,16 +4,22 @@ import { GlobalStyles } from '../../styles/GlobalStyles'
 import { SiContactlesspayment } from "react-icons/si";
 import { useTheme } from '@emotion/react';
 import lock from "../../assets/lock.jpg"
+import { useNavigate } from 'react-router-dom';
 
 
 
 const TopNavbar = () => {
 
   const theme=useTheme()
+  const navigate = useNavigate();
+
+
+
+
   return (
     <Card elevation={1} sx={{height:"8dvh",display:"flex",borderRadius:0,width:"100%",borderBottom:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
         
-         <Box sx={{height:"100%",width:"50%",display:"flex",justifyContent:"flex-start",alignItems:"center",ml:2}}>
+         <Box onClick={()=>{navigate("/")}} sx={{cursor:"pointer",height:"100%",width:"50%",display:"flex",justifyContent:"flex-start",alignItems:"center",ml:2}}>
           <SiContactlesspayment fontSize={30} color={theme?.palette?.primary?.main} />
           <Typography color={"secondary"} variant='v1'>FINO</Typography>
          </Box>
