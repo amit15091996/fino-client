@@ -1,10 +1,144 @@
+import { Box, Card, Grid, MenuItem, Typography } from "@mui/material"
 import FinoSignup from "../HomeComponent/FinoSignup"
+import CustomTextField from "../../components/CustomTextField/CustomTextField"
+import { GlobalStyles } from "../../styles/GlobalStyles"
+import { useTheme } from "@emotion/react"
+import { FinoLabel } from "../../labels/FinoLabel"
+import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import { FaArrowUpRightFromSquare } from "react-icons/fa6";
+import CustomButton from "../../components/CustomButton/CustomButton";
+import UnderLine from "../../components/UnderLine/UnderLine"
+import CustomDropDown, { menuItemStyle } from "../../components/CustomDropDown/CustomDropDown"
+import CustomTable from "../../components/CustomTable/CustomTable"
 
-const AddUser = () => {
+const AddUser = ({}) => {
+
+  const theme = useTheme();
+
   return (
-    <div>
-      <FinoSignup />
-    </div>
+  <>
+
+    <Card sx={{p:2,mr:1}}>
+      
+         <Box sx={{ml:1,mb:1.5}}>
+          <Typography variant="v5">
+            {FinoLabel.registerAUser}
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21}/>
+          </Box>    
+       <Grid container >
+        <Grid item xs={12} md={3}>
+          <Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+            <CustomTextField
+              label={FinoLabel.firstName}
+              placeholder={FinoLabel.firstName}
+              isFullwidth={true}
+            />
+          </Box>
+
+        </Grid>
+        <Grid item xs={12} md={3}>
+        <Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+            <CustomTextField
+              label={FinoLabel.surname}
+              placeholder={FinoLabel.surname}
+              isFullwidth={true}
+            />
+          </Box>
+          </Grid>
+
+          <Grid item xs={12} md={3}>
+          <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+          <CustomDatePicker isFullWidth={true} label={FinoLabel.dateOfBirth} />
+        </Box>
+          </Grid>
+<Grid item xs={12} md={3}>
+<Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+          <CustomTextField
+            label={FinoLabel.mobileNumber}
+            placeholder={FinoLabel.mobileNumber}
+            isFullwidth={true}
+          />
+        </Box>
+          </Grid>
+       </Grid>
+        
+
+     <Grid container>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+          <CustomTextField
+            label={FinoLabel.emailID}
+            placeholder={FinoLabel.emailID}
+            isFullwidth={true}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+          <CustomTextField
+            label={FinoLabel.userName}
+            placeholder={FinoLabel.userName}
+            isFullwidth={true}
+          />
+        </Box>
+
+</Grid>
+<Grid item xs={12} md={3}>
+<Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+          <CustomTextField
+            label={FinoLabel.password}
+            placeholder={FinoLabel.password}
+            isFullwidth={true}
+          />
+        </Box>
+</Grid>
+<Grid item xs={12} md={3}>
+<Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+          <CustomTextField
+            label={FinoLabel.confirmPassword}
+            placeholder={FinoLabel.confirmPassword}
+             isFullwidth={true}
+          />
+        </Box>
+</Grid>
+
+     </Grid>
+
+       
+<Grid container>
+  <Grid item xs={12} md={3}>
+  <Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+         <CustomDropDown isFullwidth={true}
+         label={FinoLabel.userRole}
+         placeholder={FinoLabel.userRole}
+         children={FinoLabel.finoUserRoles?.map((item)=>{
+          return(<MenuItem sx={menuItemStyle} key={item} value={item} id={item}>{item}</MenuItem>)
+         })}
+         />
+        </Box>
+  </Grid>
+<Grid item xs={12} md={3}>
+<Box sx={{ p: 1,width:"50%", ...GlobalStyles.alignmentStyles_1 }}>
+          <CustomButton
+            endIcon={<FaArrowUpRightFromSquare />}
+            color={"p1"}
+            isFullwidth={true}
+            title={FinoLabel.registerAUser}
+          />
+        </Box>
+  </Grid>
+</Grid>
+    </Card>
+
+    <Card sx={{ mt: 2, mr: 1, mb:5,p:1.5}}>
+        <CustomTable
+          TableName={"USER DETAILS"}
+          headCells={FinoLabel.userDetailsTableHead}
+          rows={[]}
+        />
+      </Card>
+    </>   
   )
 }
 

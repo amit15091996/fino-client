@@ -24,7 +24,8 @@ export const FinoTheme = (mode) => {
       v1: { fontFamily: font, fontWeight: 800, fontSize: 20, letterSpacing: 2 },
       v2: { fontFamily: font, fontWeight: 800, fontSize: 13, letterSpacing: 1 },
       v3: { fontFamily: font, fontWeight: 800, fontSize: 18 },
-      v4: { fontFamily: font, fontWeight: 900, fontSize: 23 }
+      v4: { fontFamily: font, fontWeight: 900, fontSize: 23 },
+      v5: { fontFamily: font, fontWeight: 800, fontSize: 17, letterSpacing: 1.5 },
     },
 
   });

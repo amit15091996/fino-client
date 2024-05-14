@@ -106,49 +106,15 @@ const HomePage = ({ }) => {
 
 
 
-      <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={signUpDrawer} onClose={() => { setSignUpDrawer(false) }}>
+      {/* <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={signUpDrawer} onClose={() => { setSignUpDrawer(false) }}>
         <FinoSignup/>
-      </CustomDrawer>
+      </CustomDrawer> */}
 
 
       <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={forgotPasswordDrawer} onClose={() => { setforgotPasswordDrawer(false) }}>
         <ForgotPassword/>
       </CustomDrawer>
 
-
-
-      {/* borderBottom:`1px solid ${theme?.palette?.p3?.main} ` */}
-
-      {/* 
-    <Box sx={{height:"8dvh",width:"100%",display:"flex",justifyContent:"space-between"}}>
-   
-   
-        <Box sx={{display:"flex",mt:0.5,ml:1}}>
-          <SiContactlesspayment fontSize={30} color={theme?.palette?.p3?.main} />
-          <Box sx={{ml:1,mt:0.4}}>
-          <Typography color={theme?.palette?.p3?.main} variant='v1'>FINO</Typography>
-          </Box>
-         </Box>
-       
-<Box  sx={{display:"flex"}}>
-<Box sx={{mt:0.5,mr:2}}>
-<CustomButton onClick={onLoginButtonClick} startIcon={<IoMdLogIn/>} variant={"outlined"}  color={"p3"} title={"Login"}/>
-</Box>
-
-<Box sx={{mt:0.5,mr:1}}>
-<CustomButton startIcon={<FaArrowUpRightFromSquare/>} variant={"outlined"}  color={"p3"} title={"signup"}/>
-</Box>
-       </Box>
-
-
-    </Box>   */}
-
-
-
-
-      {/* <CustomDialog open={loginDialog} anchor={"bottom"}  onClose={()=>{setLoginDialog(false)}}>
-    <FinoLogin/>
-</CustomDialog> */}
 
 
 

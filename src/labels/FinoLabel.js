@@ -6,6 +6,7 @@ export const FinoLabel={
     forgotPasswordDesc:"Enter Your User Name We will send you a new Password To your Registered Email Id",
     loginTitle:"WELCOME",
     signUp:"SIGNUP",
+    registerAUser:"REGISTER",
     forgotPassword:"Forgot Password?",
     forgotPasswordLabel:"FORGOT PASSWORD",
     dontHaveAnAccount:"Don't Have An Account?",
@@ -17,8 +18,6 @@ export const FinoLabel={
         {id:"receiveFrom",label:"Received From"},
         {id:"collectedBy",label:"Collected By"},
         {id:"amount",label:"Amount"},
-
-
     ],
     firstName:"FIRST NAME",
     surname:"LAST NAME",
@@ -26,6 +25,16 @@ export const FinoLabel={
     mobileNumber:"MOBILE NUMBER",
     emailID:"EMAIL ID",
     confirmPassword:"CONFIRM PASSWORD",
+    finoUserRoles:["USER","ADMIN","MANAGER","CLIENT"],
+    userRole:"USER ROLE",
+    userDetailsTableHead:[
+        {id:"userName",label:"Name Of User"},
+        {id:"dateOfBirth",label:"Date Of Birth"},
+        {id:"mobileNumber",label:"Mobile Number"},
+        {id:"emailId",label:"Email Id"},
+        {id:"userRoles",label:"Roles"},
+        {id:"isActive",label:"Status"},
+    ],
 
 
 

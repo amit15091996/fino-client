@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MdPayments } from "react-icons/md";
 import { TbLayoutGridAdd, TbReport } from "react-icons/tb";
 import { RxActivityLog } from "react-icons/rx";
@@ -30,10 +30,20 @@ const SideNavbar = ({}) => {
       navigate("/Layout/Dashboard");
     } else if (index === 1) {
       navigate("/Layout/Payments");
-    }else if(index === 4){
+    }
+    else if (index === 2) {
+      navigate("/Layout/reports");
+    }
+    else if (index === 3) {
+      navigate("/Layout/activities");
+    }
+    else if(index === 4){
       navigate("/Layout/add-user");
     }
   };
+
+  useEffect(()=>{setSelectedIndex(0); navigate("/Layout/Dashboard");},[])
+
 
   return (
     <Card
