@@ -10,6 +10,8 @@ import Payments from "./pages/Payments/Payments";
 import HomePage from "./pages/HomeComponent/HomePage";
 import "./App.css"
 import AddUser from "./pages/AddUser/AddUser";
+import Activities from "./pages/Activities/Activities";
+import Reports from "./pages/Reports/Reports";
 
 const App = () => {
 
@@ -34,6 +36,8 @@ const themecolor=useTheme()
             <Route path="Dashboard" element={<Dashboard />}></Route>
             <Route path="Payments" element={<Payments />}></Route>
             <Route path="add-user" element={<AddUser />}></Route>
+            <Route path="activities" element={<Activities />}></Route>
+            <Route path="reports" element={<Reports />}></Route>
           </Route>
         </Routes>
       </Card>
