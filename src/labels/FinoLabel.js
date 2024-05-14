@@ -21,7 +21,7 @@ export const FinoLabel={
 
     ],
     firstName:"FIRST NAME",
-    surname:"SURNAME",
+    surname:"LAST NAME",
     dateOfBirth:"DATE OF BIRTH",
     mobileNumber:"MOBILE NUMBER",
     emailID:"EMAIL ID",

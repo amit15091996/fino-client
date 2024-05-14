@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Payments from "./pages/Payments/Payments";
 import HomePage from "./pages/HomeComponent/HomePage";
 import "./App.css"
+import AddUser from "./pages/AddUser/AddUser";
 
 const App = () => {
 
@@ -32,6 +33,7 @@ const themecolor=useTheme()
           <Route path="/Layout" element={<Layout />}>
             <Route path="Dashboard" element={<Dashboard />}></Route>
             <Route path="Payments" element={<Payments />}></Route>
+            <Route path="add-user" element={<AddUser />}></Route>
           </Route>
         </Routes>
       </Card>

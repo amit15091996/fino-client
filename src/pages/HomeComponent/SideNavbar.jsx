@@ -1,66 +1,171 @@
-import { Button, Card, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import React, { useState } from 'react'
+import {
+  Button,
+  Card,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import React, { useState } from "react";
 import { MdPayments } from "react-icons/md";
-import { TbReport } from "react-icons/tb";
+import { TbLayoutGridAdd, TbReport } from "react-icons/tb";
 import { RxActivityLog } from "react-icons/rx";
 import { BiSolidDashboard } from "react-icons/bi";
-import { SideNavbarStyles } from '../../styles/SideNavbarStyles';
-import { useTheme } from '@emotion/react';
-import { useNavigate } from 'react-router-dom';
-
+import { SideNavbarStyles } from "../../styles/SideNavbarStyles";
+import { useTheme } from "@emotion/react";
+import { useNavigate } from "react-router-dom";
 
 const SideNavbar = ({}) => {
-  const theme=useTheme()
-const navigate=useNavigate()
-const [open, setOpen] = useState(true);
-const [selectedIndex, setSelectedIndex] = useState(0);
-const handleClick = (e) => {setOpen(!open); };
-const handleSelectedIndex=(e,index)=>{
-  setSelectedIndex(index)
+  const theme = useTheme();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(true);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const handleClick = (e) => {
+    setOpen(!open);
+  };
+  const handleSelectedIndex = (e, index) => {
+    setSelectedIndex(index);
 
-  if(index===0){
-    navigate("/Layout/Dashboard")
-  }
-  else if(index===1){
-    navigate("/Layout/Payments")
-  }
-}
-
-
-
+    if (index === 0) {
+      navigate("/Layout/Dashboard");
+    } else if (index === 1) {
+      navigate("/Layout/Payments");
+    }else if(index === 4){
+      navigate("/Layout/add-user");
+    }
+  };
 
   return (
-    <Card elevation={1} sx={{height:"100%",borderRadius:0,width:"100%",opacity:1}}>
+    <Card
+      elevation={1}
+      sx={{ height: "100%", borderRadius: 0, width: "100%", opacity: 1 }}
+    >
+      <List sx={{ width: "100%" }} aria-labelledby="fino-multiple-list-item">
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 0}
+          onClick={(e) => handleSelectedIndex(e, 0)}
+        >
+          <ListItemIcon>
+            <BiSolidDashboard
+              style={
+                selectedIndex === 0
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+              color={theme}
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 0 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Dashboard"
+          />
+        </ListItemButton>
 
-    <List sx={{ width: '100%',  }} aria-labelledby="fino-multiple-list-item" >  
-      <ListItemButton sx={{"&.Mui-selected":SideNavbarStyles.listItemButtonSelectedStyle(theme)}}  selected={selectedIndex===0}  onClick={(e) => handleSelectedIndex(e,0)}  >
-        <ListItemIcon>
-        <BiSolidDashboard style={selectedIndex===0?SideNavbarStyles.ListIconStyleIfSelected(theme):SideNavbarStyles.listItemIconStyle(theme)} color={theme}  />
-        </ListItemIcon>
-        <ListItemText sx={selectedIndex !==0 && SideNavbarStyles.listItemTextstyle(theme)}  primary="Dashboard" />
-      </ListItemButton>
-      
-      <ListItemButton sx={{"&.Mui-selected":SideNavbarStyles.listItemButtonSelectedStyle(theme)}} selected={selectedIndex===1}  onClick={(e) => handleSelectedIndex(e,1)} >
-        <ListItemIcon >
-        <MdPayments style={selectedIndex ===1?SideNavbarStyles.ListIconStyleIfSelected(theme):SideNavbarStyles.listItemIconStyle(theme)} />
-        </ListItemIcon>
-        <ListItemText sx={selectedIndex !==1 &&  SideNavbarStyles.listItemTextstyle(theme)}   primary="Payments" />
-      </ListItemButton>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 1}
+          onClick={(e) => handleSelectedIndex(e, 1)}
+        >
+          <ListItemIcon>
+            <MdPayments
+              style={
+                selectedIndex === 1
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Payments"
+          />
+        </ListItemButton>
 
-      <ListItemButton sx={{"&.Mui-selected":SideNavbarStyles.listItemButtonSelectedStyle(theme)}} selected={selectedIndex===2}  onClick={(e) => handleSelectedIndex(e,2)} >
-        <ListItemIcon>
-        <TbReport  style={ selectedIndex ===2?SideNavbarStyles.ListIconStyleIfSelected(theme):SideNavbarStyles.listItemIconStyle(theme)} />
-        </ListItemIcon>
-        <ListItemText  sx={ selectedIndex !==2 &&  SideNavbarStyles.listItemTextstyle(theme)}  primary="Reports" />
-      </ListItemButton>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 2}
+          onClick={(e) => handleSelectedIndex(e, 2)}
+        >
+          <ListItemIcon>
+            <TbReport
+              style={
+                selectedIndex === 2
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Reports"
+          />
+        </ListItemButton>
 
-      <ListItemButton sx={{"&.Mui-selected":SideNavbarStyles.listItemButtonSelectedStyle(theme)}} selected={selectedIndex===3}  onClick={(e) => handleSelectedIndex(e,3)} >
-        <ListItemIcon>
-        <RxActivityLog  style={selectedIndex ===3?SideNavbarStyles.ListIconStyleIfSelected(theme):SideNavbarStyles.listItemIconStyle(theme)} />
-        </ListItemIcon>
-        <ListItemText  sx={selectedIndex !==3 && SideNavbarStyles.listItemTextstyle(theme)} primary="Activities" />
-      </ListItemButton>
-      {/* <ListItemButton   onClick={(e)=>{handleClick(e)}}>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 3}
+          onClick={(e) => handleSelectedIndex(e, 3)}
+        >
+          <ListItemIcon>
+            <RxActivityLog
+              style={
+                selectedIndex === 3
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 3 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Activities"
+          />
+        </ListItemButton>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 4}
+          onClick={(e) => handleSelectedIndex(e, 4)}
+        >
+          <ListItemIcon>
+            <TbLayoutGridAdd
+              style={
+                selectedIndex === 4
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 4 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Add User"
+          />
+        </ListItemButton>
+        {/* <ListItemButton   onClick={(e)=>{handleClick(e)}}>
         <ListItemIcon>
           <IoBowlingBallOutline/>
         </ListItemIcon>
@@ -77,11 +182,9 @@ const handleSelectedIndex=(e,index)=>{
           </ListItemButton>
         </List>
       </Collapse> */}
-    </List>
-       
-
+      </List>
     </Card>
-  )
-}
+  );
+};
 
-export default SideNavbar
+export default SideNavbar;
