@@ -75,12 +75,14 @@ const AddUser = ({}) => {
         </Box>
       </Grid>
       <Grid item xs={12} md={3}>
-      <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
-          <CustomTextField
-            label={FinoLabel.userName}
-            placeholder={FinoLabel.userName}
-            isFullwidth={true}
-          />
+      <Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
+         <CustomDropDown isFullwidth={true}
+         label={FinoLabel.userRole}
+         placeholder={FinoLabel.userRole}
+         children={FinoLabel.finoUserRoles?.map((item)=>{
+          return(<MenuItem sx={menuItemStyle} key={item} value={item} id={item}>{item}</MenuItem>)
+         })}
+         />
         </Box>
 
 </Grid>
@@ -106,29 +108,14 @@ const AddUser = ({}) => {
      </Grid>
 
        
-<Grid container>
-  <Grid item xs={12} md={3}>
-  <Box sx={{ p: 1,...GlobalStyles.alignmentStyles }}>
-         <CustomDropDown isFullwidth={true}
-         label={FinoLabel.userRole}
-         placeholder={FinoLabel.userRole}
-         children={FinoLabel.finoUserRoles?.map((item)=>{
-          return(<MenuItem sx={menuItemStyle} key={item} value={item} id={item}>{item}</MenuItem>)
-         })}
-         />
-        </Box>
-  </Grid>
-<Grid item xs={12} md={3}>
-<Box sx={{ p: 1,width:"50%", ...GlobalStyles.alignmentStyles_1 }}>
+     <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
           <CustomButton
             endIcon={<FaArrowUpRightFromSquare />}
-            color={"p1"}
-            isFullwidth={true}
+            color={"primary"}
+            // variant={"outlined"}
             title={FinoLabel.registerAUser}
           />
         </Box>
-  </Grid>
-</Grid>
     </Card>
 
     <Card sx={{ mt: 2, mr: 1, mb:5,p:1.5}}>
