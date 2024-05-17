@@ -1,16 +1,32 @@
-import { Box } from "@mui/material";
+import { Box, Card, Grid, Typography } from "@mui/material";
 import React from "react";
 import CustomDatePicker from "../../../components/CustomDatePicker/CustomDatePicker";
 import CustomTextField from "../../../components/CustomTextField/CustomTextField";
 import CustomButton from "../../../components/CustomButton/CustomButton";
 import { useTheme } from "@emotion/react";
+import { GlobalStyles } from "../../../styles/GlobalStyles";
+import UnderLine from "../../../components/UnderLine/UnderLine";
 
-const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
+const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
   const { depositFields, setDepositFields } = fields;
+  const theme = useTheme();
+
+
   return (
-    <Box >
+    <Card sx={{p:2,mr:1}} >
+
+        <Box sx={{ml:1,mb:1}}>
+          <Typography variant="v5">
+        {title}
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21}/>
+          </Box>    
+
       <form onSubmit={onSubmit}>
-        <Box sx={{ p: 1, mt: 1}}>
+    
+    <Grid container>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1}}>
           <CustomDatePicker
             isFullWidth={true}
             value={depositFields.date}
@@ -20,18 +36,22 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
             label={"Transaction Date"}
           />
         </Box>
-        <Box sx={{ p: 1, mt: 1 }}>
+      </Grid>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
-            label={"Amount"}
-            placeholder={"Amount"}
+            label={"Total Amount"}
+            placeholder={"Total Amount"}
             value={depositFields.amount}
             onChange={(e) => {
               setDepositFields({ ...depositFields, amount: e.target.value });
             }}
           />
         </Box>
-        <Box sx={{ p: 1, mt: 1 }}>
+      </Grid>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
             label={"Received From"}
@@ -42,7 +62,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
             }}
           />
         </Box>
-        <Box sx={{ p: 1, mt: 1 }}>
+      </Grid>
+      <Grid item xs={12} md={3}>
+
+      <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
             label={"Collected By"}
@@ -54,14 +77,80 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate }) => {
           />
         </Box>
 
-        <Box sx={{ p: 1, mt: 2 }}>
-          <CustomButton
-            title={isUpdate ? "UPDATE" : "ADD"}
+      </Grid>
+
+    </Grid>
+      
+    <Grid container>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1}}>
+      <CustomTextField
             isFullwidth={true}
+            label={"Online Amount"}
+            placeholder={"Online Amount"}
+            value={depositFields.amount}
+            onChange={(e) => {
+              setDepositFields({ ...depositFields, amount: e.target.value });
+            }}
+          />
+        
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1 }}>
+          <CustomTextField
+            isFullwidth={true}
+            label={"Cash Amount"}
+            placeholder={"Cash Amount"}
+            value={depositFields.amount}
+            onChange={(e) => {
+              setDepositFields({ ...depositFields, amount: e.target.value });
+            }}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+      <Box sx={{ p: 1 }}>
+          <CustomTextField
+            isFullwidth={true}
+            label={"Balance Amount"}
+            placeholder={"Balance Amount"}
+            value={depositFields?.receiveFrom}
+            onChange={(e) => {
+              setDepositFields({ ...depositFields, receiveFrom: e.target.value });
+            }}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={12} md={3}>
+
+      <Box sx={{ p: 1 }}>
+          <CustomTextField
+            isFullwidth={true}
+            label={"Remarks"}
+            placeholder={"Remarks"}
+            value={depositFields?.collectedBy}
+            onChange={(e) => {
+              setDepositFields({ ...depositFields, collectedBy: e.target.value });
+            }}
+          />
+        </Box>
+
+      </Grid>
+
+    </Grid>
+       
+      
+     
+        <Box sx={{ p: 1,...GlobalStyles.alignmentStyles_2}}>
+          <CustomButton
+           width={100}
+            title={isUpdate ? "UPDATE" : "ADD"}
+            
           />
         </Box>
       </form>
-    </Box>
+    </Card>
   );
 };
 

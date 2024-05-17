@@ -65,16 +65,24 @@ const CmsTransaction = () => {
 
   return (
     <Box sx={{ mt: 1 }}>
-      <Box sx={{ mr: 1, ...GlobalStyles.alignmentStyles_2 }}>
+      
+
+           <DepositAndCmsForm
+           title={"CMS TRANSACTION"}
+            fields={{ depositFields, setDepositFields }}
+            onSubmit={onDepositDataAdd}
+          />
+
+      {/* <Box sx={{ mr: 1, ...GlobalStyles.alignmentStyles_2 }}>
         <CustomButton
           variant={"contained"}
           onClick={depositOnclick}
           color={"secondary"}
           title={"ADD"}
         />
-      </Box>
+      </Box> */}
 
-      <Box sx={{ mt: 1, mr: 1 }}>
+      {/* <Box sx={{ mt: 1, mr: 1 }}>
         <CustomTable
           TableName={"CMS TRANSACTION"}
           onEditClick={onUpdateClick}
@@ -83,9 +91,9 @@ const CmsTransaction = () => {
           rows={bankDepositData}
           isActionRequired={true}
         />
-      </Box>
+      </Box> */}
 
-      <CustomDialog
+      {/* <CustomDialog
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
@@ -118,14 +126,11 @@ const CmsTransaction = () => {
             </Box>
           </Box>
 
-          <DepositAndCmsForm
-            fields={{ depositFields, setDepositFields }}
-            onSubmit={onDepositDataAdd}
-          />
+        
         </Card>
-      </CustomDialog>
+      </CustomDialog> */}
 
-      <CustomDialog
+      {/* <CustomDialog
         open={updateModal}
         onClose={() => {
           setupdateModal(false);
@@ -163,7 +168,7 @@ const CmsTransaction = () => {
             isUpdate={true}
           />
         </Card>
-      </CustomDialog>
+      </CustomDialog> */}
     </Box>
   );
 };

@@ -35,7 +35,24 @@ export const FinoLabel={
         {id:"userRoles",label:"Roles"},
         {id:"isActive",label:"Status"},
     ],
-
+    MonthList:[
+        {id:1,month:"JAN",value:"01"},
+        {id:2,month:"FEB",value:"02"},
+        {id:3,month:"MAR",value:"03"},
+        {id:4,month:"APR",value:"04"},
+        {id:5,month:"MAY",value:"05"},
+        {id:6,month:"JUNE",value:"06"},
+        {id:7,month:"JULY",value:"07"},
+        {id:8,month:"AUG",value:"08"},
+        {id:9,month:"SEPT",value:"09"},
+        {id:10,month:"OCT",value:"10"},
+        {id:11,month:"NOV",value:"11"},
+        {id:12,month:"DEC",value:"12"},
+      
+      ],
+      month:"Month",
+      fromDate:"From Date",
+      toDate:"To Date",
 
 
 
