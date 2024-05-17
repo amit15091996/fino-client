@@ -77,7 +77,7 @@ const SideNavbar = ({}) => {
           />
         </ListItemButton>
 
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             "&.Mui-selected":
               SideNavbarStyles.listItemButtonSelectedStyle(theme),
@@ -100,7 +100,7 @@ const SideNavbar = ({}) => {
             }
             primary="Payments"
           />
-        </ListItemButton>
+        </ListItemButton> */}
 
         <ListItemButton
           sx={{
@@ -127,7 +127,7 @@ const SideNavbar = ({}) => {
           />
         </ListItemButton>
 
-        <ListItemButton
+        {/* <ListItemButton
           sx={{
             "&.Mui-selected":
               SideNavbarStyles.listItemButtonSelectedStyle(theme),
@@ -150,7 +150,7 @@ const SideNavbar = ({}) => {
             }
             primary="Activities"
           />
-        </ListItemButton>
+        </ListItemButton> */}
         <ListItemButton
           sx={{
             "&.Mui-selected":
