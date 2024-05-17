@@ -94,16 +94,24 @@ const BankDeposit = () => {
 
   return (
     <Box sx={{ mt: 1 }}>
-      <Box sx={{ mr: 1, ...GlobalStyles.alignmentStyles_2 }}>
+       
+
+      <DepositAndCmsForm
+      title={"BANK DEPOSIT"}
+            fields={{ depositFields, setDepositFields }}
+            onSubmit={onDepositDataAdd}
+          />
+
+      {/* <Box sx={{ mr: 1, ...GlobalStyles.alignmentStyles_2 }}>
         <CustomButton
           onClick={depositOnclick}
           variant={"contained"}
           color={"secondary"}
           title={"ADD"}
         />
-      </Box>
+      </Box> */}
 
-      <Box sx={{ mt: 1, mr: 1, mb: 5 }}>
+      {/* <Box sx={{ mt: 1, mr: 1, mb: 5 }}>
         <CustomTable
           TableName={"BANK DEPOSIT"}
           onEditClick={onUpdateClick}
@@ -112,9 +120,9 @@ const BankDeposit = () => {
           rows={bankDepositData}
           isActionRequired={true}
         />
-      </Box>
+      </Box> */}
 
-      <CustomDialog
+      {/* <CustomDialog
         open={modalOpen}
         onClose={() => {
           setModalOpen(false);
@@ -147,14 +155,11 @@ const BankDeposit = () => {
             </Box>
           </Box>
 
-          <DepositAndCmsForm
-            fields={{ depositFields, setDepositFields }}
-            onSubmit={onDepositDataAdd}
-          />
+       
         </Card>
-      </CustomDialog>
+      </CustomDialog> */}
 
-      <CustomDialog
+      {/* <CustomDialog
         open={updateModal}
         onClose={() => {
           setupdateModal(false);
@@ -192,7 +197,7 @@ const BankDeposit = () => {
             isUpdate={true}
           />
         </Card>
-      </CustomDialog>
+      </CustomDialog> */}
     </Box>
   );
 };
