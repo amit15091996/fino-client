@@ -22,7 +22,6 @@ const themecolor=useTheme()
   return (
     <ThemeProvider theme={FinoTheme()}>
      <Card
-        elevation={0}
         sx={{
           backgroundColor:"#F1F3F8",
           borderRadius: 0,

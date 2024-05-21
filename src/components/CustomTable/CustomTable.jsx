@@ -161,7 +161,7 @@ const CustomTable = ({
         Exceldownload={Exceldownload}
       />
 
-      <Paper elevation={0} sx={{ width: "100%" }}>
+      <Paper  sx={{ width: "100%" }}>
         <TableContainer sx={{ overflow: "auto" }}>
           <Table
             stickyHeader

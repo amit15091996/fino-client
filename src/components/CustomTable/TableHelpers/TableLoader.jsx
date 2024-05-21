@@ -7,7 +7,7 @@ const loadingArray = [1, 2, 3, 4, 5, 6]
 const TableLoader = () => {
 
     return (
-        <Card elevation={0} >
+        <Card  >
             <Table>
                 <TableHead>
                     <TableRow>
