@@ -10,16 +10,12 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 import { IoMdLogIn } from "react-icons/io";
 import { IoIosCreate } from "react-icons/io";
+import Loading from "../../components/Loading/Loading";
 
-const FinoLogin = ({onCreateAccount,onForgotPassword}) => {
+const FinoLogin = ({onForgotPassword,onLogin,loginDetailsFields}) => {
   const theme = useTheme();
-  const navigate = useNavigate();
-
-  const onLogin = (e) => {
-    e.preventDefault();
-    navigate("/Layout/Dashboard");
-  };
-
+  const{loginDetails,setLoginDetails}=loginDetailsFields
+  
   return (
     <Card sx={{ height: "100%", width: "100%"}}>
 
@@ -57,6 +53,9 @@ const FinoLogin = ({onCreateAccount,onForgotPassword}) => {
 
             <Box sx={{ p: 1, mt: 3, ...GlobalStyles.alignmentStyles }}>
               <CustomTextField
+              value={loginDetails?.mobileNumber}
+              onChange={(e)=>{setLoginDetails({...loginDetails,mobileNumber:e.target.value})}}
+              isRequired={true}
                 label={FinoLabel.userName}
                 placeholder={FinoLabel.userName}
                 endIcon={
@@ -71,7 +70,10 @@ const FinoLogin = ({onCreateAccount,onForgotPassword}) => {
 
             <Box sx={{ p: 1, mt: 2, ...GlobalStyles.alignmentStyles }}>
               <CustomTextField
+              value={loginDetails?.password}
+              onChange={(e)=>{setLoginDetails({...loginDetails,password:e.target.value})}}
                 type={"password"}
+                isRequired={true}
                 label={FinoLabel.password}
                 placeholder={FinoLabel.password}
                 endIcon={
@@ -101,26 +103,12 @@ const FinoLogin = ({onCreateAccount,onForgotPassword}) => {
        </Box>
        </form>
    
-       <Box sx={{ mt: 3, ...GlobalStyles.alignmentStyles }}>
-            <Typography color="primary" variant="v2">
-              {FinoLabel.dontHaveAnAccount}
-            </Typography>
-          </Box>
-          <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
-           
-              <CustomButton
-              endIcon={<IoIosCreate />}
-                
-                onClick={onCreateAccount}
-                color={"success"}
-                isFullwidth={true}
-                title={FinoLabel.createAnAccount}
-              />
-          
-          </Box>
 
         </Box>
       </Box>
+
+   
+
     </Card>
   );
 };
