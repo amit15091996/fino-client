@@ -22,7 +22,7 @@ const ReportsSerching = ({handleDateSearch}) => {
         
         <CustomTextField
         // value={category}
-        isFullWidth={true}
+        isFullwidth={true}
         // onChange={handleCategoryChange}
         label={"Year"}
         // options={categoryData?.data?["ALL"].concat(categoryData?.data?.response?.map((item)=>item?.categoryName)):[]}
