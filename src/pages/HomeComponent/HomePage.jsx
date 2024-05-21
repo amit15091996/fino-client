@@ -21,6 +21,13 @@ import Carousel from 'react-material-ui-carousel'
 import CarouselSlide from 'react-material-ui-carousel';
 import FinoSignup from './FinoSignup'
 import ForgotPassword from './ForgotPassword'
+import Loading from '../../components/Loading/Loading'
+import { useNavigate } from 'react-router-dom'
+import { loginService } from '../../redux/slice/userslice/LoginSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar'
+import { useCookies } from 'react-cookie'
+import Encodr from 'encodr'
 
 const businessImage = [
   { imageName: "Businessmanamico", url: Businessmanamico },
@@ -34,34 +41,44 @@ const businessImage = [
 
 const HomePage = ({ }) => {
   const theme = useTheme()
-
-  const [loginDialog, setLoginDialog] = useState(false)
-  const onLoginButtonClick = () => {
-    setLoginDialog(true)
-  }
-
-  const [signUpDrawer, setSignUpDrawer] = useState(false)
+  const navigate = useNavigate();
+  const dispatch=useDispatch()
+  const LOGIN_SLICE_REDUCER=useSelector((state)=>state?.LOGIN_SLICE_REDUCER)
+  const[loginDetails,setLoginDetails]=useState({mobileNumber:"",password:""})
   const [forgotPasswordDrawer, setforgotPasswordDrawer] = useState(false)
+  const[loginSnackbarOpen,setLoginSnackbarOpen]=useState(false)
+  const [cookies, setCookie, removeCookie] = useCookies(['FINO_LOGIN_COOKIE']);
+  const MSGPACK = new Encodr("msgpack")
 
-  const onCreateAccount = (e) => {
-    setSignUpDrawer(true)
 
+
+
+  const onForgotPassword = (e) => {setforgotPasswordDrawer(true)}
+
+  const onLogin = async (e) => {
+    e.preventDefault();
+  const {payload}=await dispatch(loginService(loginDetails))
+  console.log(payload);
+  if(payload?.statusCode===200){
+    setCookie("FINO_LOGIN_COOKIE",MSGPACK.encode(
+      {userRoles:payload?.userRoles,
+        userName:payload?.userName,
+        jwtToken:payload?.jwtToken}), 
+      {expires:new Date(payload?.tokenExpirationInMilis)}
+    )
+
+    navigate("/Layout/Dashboard");
+    setLoginSnackbarOpen(true)
+  }
+  else{
+    setLoginSnackbarOpen(true)
   }
 
-  const onForgotPassword = (e) => {
-    setforgotPasswordDrawer(true)
-
-  }
+  };
 
 
   return (
-    <Box sx={{
-      height: "100%", width: "100%", overflow: "auto", display: "flex"
-      // background:`linear-gradient(90deg, rgba(2,0,36,1), rgba(7,87,022,0.7529061624649859)),url(${homepage}) no-repeat `,
-      // backgroundSize:"100% 100%",
-      // backgroundRepeat:"no-repeat"
-
-    }}>
+    <Box sx={{height: "100%", width: "100%", overflow: "auto", display: "flex"}}>
 
       <DynamicHead title={FinoLabel.homePage} key={FinoLabel.homePage} />
 
@@ -99,24 +116,20 @@ const HomePage = ({ }) => {
         </Grid>
         <Grid item xs={12} md={2.5}>
           <Box sx={{ height: "100%" }}>
-            <FinoLogin onForgotPassword={onForgotPassword} onCreateAccount={onCreateAccount} />
+            {
+              LOGIN_SLICE_REDUCER?.isLoading?<Loading/>:
+              <FinoLogin loginDetailsFields={{loginDetails,setLoginDetails}} onLogin={onLogin} onForgotPassword={onForgotPassword}  />
+            }
           </Box>
         </Grid>
       </Grid>
 
 
-
-      {/* <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={signUpDrawer} onClose={() => { setSignUpDrawer(false) }}>
-        <FinoSignup/>
-      </CustomDrawer> */}
-
-
+<CustomSnackbar open={loginSnackbarOpen} onClose={()=>{setLoginSnackbarOpen(false)}} message={LOGIN_SLICE_REDUCER?.data?.statusMessage} severity={LOGIN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+    
       <CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={forgotPasswordDrawer} onClose={() => { setforgotPasswordDrawer(false) }}>
         <ForgotPassword/>
       </CustomDrawer>
-
-
-
 
     </Box>
   )

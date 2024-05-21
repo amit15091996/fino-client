@@ -9,16 +9,14 @@ import CmsTransaction from './TxnAndDeposit/CmsTransaction';
 import { BsBank } from "react-icons/bs";
 import { TbTransactionRupee } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
-
+import AuthHook from '../../hooks/AuthHook';
 const Dashboard = ({}) => {
-
-  const navigate = useNavigate();
-
+const navigate = useNavigate();
 
 
 const[tabValue,setTabValue]=useState(0)
 const handleTabChange=(e,value)=>{setTabValue(value)}
-  const theme=useTheme()
+const theme=useTheme()
 
 const tabs=[
   {label:"Bank Deposit ",minWidth:140,component:<BankDeposit/>,icon:<BsBank fontSize={18}/>},

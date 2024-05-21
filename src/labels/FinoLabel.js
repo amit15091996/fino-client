@@ -11,7 +11,7 @@ export const FinoLabel={
     forgotPasswordLabel:"FORGOT PASSWORD",
     dontHaveAnAccount:"Don't Have An Account?",
     createAnAccount:"Create Account",
-    userName:"USERNAME",
+    userName:"MOBILE NUMBER",
     password:"PASSWORD",
     bankDepositTableHead:[
         {id:"date",label:"Transaction Date"},
