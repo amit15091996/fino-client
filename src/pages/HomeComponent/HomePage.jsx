@@ -58,11 +58,11 @@ const HomePage = ({ }) => {
   const onLogin = async (e) => {
     e.preventDefault();
   const {payload}=await dispatch(loginService(loginDetails))
-  console.log(payload);
   if(payload?.statusCode===200){
     setCookie("FINO_LOGIN_COOKIE",MSGPACK.encode(
       {userRoles:payload?.userRoles,
         userName:payload?.userName,
+        fullName:payload?.fullName,
         jwtToken:payload?.jwtToken}), 
       {expires:new Date(payload?.tokenExpirationInMilis)}
     )

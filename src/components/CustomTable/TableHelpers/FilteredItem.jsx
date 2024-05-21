@@ -25,7 +25,7 @@ const{filterItem,setFilterItem}=customFilter
 
 
   return (
-    <Card elevation={0} sx={{maxWidth:400,borderRadius:0,margin:"5px"}}>
+    <Card  sx={{maxWidth:400,borderRadius:0,margin:"5px"}}>
     <Box sx={{justifyContent:"space-between",display:"flex",alignItems:"center"}}>
       <Typography variant='v2'>Filter Panel <span><UnderLine width={"25px"}/></span></Typography>
       <CustomTooltips  title="Reset Filters">

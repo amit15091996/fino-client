@@ -17,7 +17,7 @@ const TopNavbar = () => {
 
 
   return (
-    <Card elevation={1} sx={{height:"8dvh",display:"flex",borderRadius:0,width:"100%",borderBottom:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Card  sx={{height:"8dvh",display:"flex",borderRadius:0,width:"100%",borderBottom:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
         
          <Box onClick={()=>{navigate("/")}} sx={{cursor:"pointer",height:"100%",width:"50%",display:"flex",justifyContent:"flex-start",alignItems:"center",ml:2}}>
           <SiContactlesspayment fontSize={30} color={theme?.palette?.primary?.main} />

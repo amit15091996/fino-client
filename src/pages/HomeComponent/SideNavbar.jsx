@@ -47,7 +47,6 @@ const SideNavbar = ({}) => {
 
   return (
     <Card
-      elevation={1}
       sx={{ height: "100%", borderRadius: 0, width: "100%", opacity: 1 }}
     >
       <List sx={{ width: "100%" }} aria-labelledby="fino-multiple-list-item">

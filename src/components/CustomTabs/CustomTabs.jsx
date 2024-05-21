@@ -14,7 +14,7 @@ const tabPositionStyle=(tabposition)=>tabposition?tabposition:{display:"flex",ju
     return (
         <>
         <Box sx={cardPosition?cardPosition:{display:"flex",justifyContent:"center",alignItems:"center"}}>
-        <Card elevation={0} position="static"
+        <Card  
          sx={{".MuiTabs-root":{padding:0,margin:0,top:0,bottom:0, left:0,right:0,minHeight:tabsMinHeight?tabsMinHeight:"35px"},borderRadius:1,...tabPositionStyle(tabPosition),".MuiSvgIcon-root":{mb:0.25},width:tabCardWidth}} >
           <Tabs  value={value} onChange={onChange} indicatorColor={tabIndicatorColor} TabIndicatorProps={{style:{borderRadius:2,height:2}}} textColor={textColor}
             variant={variant?variant:"scrollable"} scrollButtons="auto" aria-label="fino customized tabs"

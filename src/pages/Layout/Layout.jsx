@@ -9,12 +9,12 @@ import AuthHook from '../../hooks/AuthHook'
 
 const Layout = ({ }) => {
 const theme=useTheme()
-const auth=AuthHook()
+const{jwtToken,userName,error,userRoles,fullName}=AuthHook()
 
     return (
         <>
         {
-            (auth?.jwtToken !==undefined &&  auth?.jwtToken !==null &&  auth?.jwtToken !=="" &&  auth?.jwtToken !=="") ? <Box>
+            (jwtToken !==undefined &&  jwtToken !==null && jwtToken !=="" &&  jwtToken !=="") ? <Box>
             <TopNavbar/>
                 <Grid container>
                     <Grid item md={1.8}>

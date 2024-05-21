@@ -12,7 +12,7 @@ export function tabPanelProps(index) {
 const Tabpanel = ({ children, value, index, ...other }) => {
 
     return (
-        <Box elevation={0} role="tabpanel" hidden={value !== index} id={`fino-tabpanel-${index}`} aria-labelledby={`fino-tab-${index}`} {...other} >
+        <Box  role="tabpanel" hidden={value !== index} id={`fino-tabpanel-${index}`} aria-labelledby={`fino-tab-${index}`} {...other} >
             {value === index && (<Box>{children} </Box>)}
         </Box>
     )
