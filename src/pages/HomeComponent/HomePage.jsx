@@ -116,10 +116,9 @@ const HomePage = ({ }) => {
         </Grid>
         <Grid item xs={12} md={2.5}>
           <Box sx={{ height: "100%" }}>
-            {
-              LOGIN_SLICE_REDUCER?.isLoading?<Loading/>:
-              <FinoLogin loginDetailsFields={{loginDetails,setLoginDetails}} onLogin={onLogin} onForgotPassword={onForgotPassword}  />
-            }
+            
+              <FinoLogin loginSlice={LOGIN_SLICE_REDUCER} loginDetailsFields={{loginDetails,setLoginDetails}} onLogin={onLogin} onForgotPassword={onForgotPassword}  />
+            
           </Box>
         </Grid>
       </Grid>
