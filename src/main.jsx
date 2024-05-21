@@ -5,7 +5,7 @@ import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { CookiesProvider } from 'react-cookie'
-import  FinoStore from "./redux/store/FinoStore.js"
+import  FinoStore from "./redux/Store/FinoStore.js"
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
