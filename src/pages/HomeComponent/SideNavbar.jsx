@@ -15,17 +15,14 @@ import { SideNavbarStyles } from "../../styles/SideNavbarStyles";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
-const SideNavbar = ({ }) => {
+const SideNavbar = ({drawerClose}) => {
+
   const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleClick = (e) => {
-    setOpen(!open);
-  };
   const handleSelectedIndex = (e, index) => {
     setSelectedIndex(index);
-
     if (index === 0) {
       navigate("/Layout/Dashboard");
     } else if (index === 1) {
@@ -40,6 +37,8 @@ const SideNavbar = ({ }) => {
     else if (index === 4) {
       navigate("/Layout/add-user");
     }
+    drawerClose()
+
   };
 
   useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])

@@ -1,4 +1,4 @@
-import { Box, Card, Grid, MenuItem, Typography } from "@mui/material"
+import { Box, Card, Chip, Grid, MenuItem, Typography } from "@mui/material"
 import FinoSignup from "../HomeComponent/FinoSignup"
 import CustomTextField from "../../components/CustomTextField/CustomTextField"
 import { GlobalStyles } from "../../styles/GlobalStyles"
@@ -15,7 +15,7 @@ import { getAllUsersService } from "../../redux/slice/userslice/AllUserSlice"
 import { useEffect, useMemo, useState } from "react"
 import ProtectedInterceptors from "../../hooks/ProtectedInterceptors"
 import { registerService } from "../../redux/slice/userslice/RegisterSlice"
-import { dateToJavaUtilDate } from "../../utils/DateTimeFormatter"
+import { dateFormater, dateToJavaUtilDate } from "../../utils/DateTimeFormatter"
 import CustomSnackbar from "../../components/Customsnackbar/CustomSnackbar"
 import Loading from "../../components/Loading/Loading"
 import TableLoader from "../../components/CustomTable/TableHelpers/TableLoader"
@@ -33,7 +33,9 @@ const REGISTER_SLICE_REDUCER=useSelector((state)=>state.REGISTER_SLICE_REDUCER)
 
 useEffect(()=>{getAllUsers()},[registeredUserSnackBar?.refresh])
 const usersDetails=useMemo(()=>{
-return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response:[]
+return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item=>{
+  return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip size="small" color="p2" label={k}></Chip></Box>})}
+})):[]
 },[GET_ALL_USERS_SLICE_REDUCER])
 
 
