@@ -11,6 +11,7 @@ export const FinoTheme = (mode) => {
     palette: {
       primary: { main: "#0a2472" },
       secondary: { main: '#00509d' },
+      info:{main:"#ff99c8"},
       white: { main: '#FFF' },
       p1:{ main: '#1976d2',contrastText: "#FFF" }, //blue
       p2:{ main: '#ff6700',contrastText: "#FFF" }, //orange
