@@ -10,10 +10,22 @@ import CustomButton from "../../components/CustomButton/CustomButton";
 import UnderLine from "../../components/UnderLine/UnderLine"
 import CustomDropDown, { menuItemStyle } from "../../components/CustomDropDown/CustomDropDown"
 import CustomTable from "../../components/CustomTable/CustomTable"
+import { useDispatch, useSelector } from "react-redux"
+import { getAllUsersService } from "../../redux/slice/userslice/AllUserSlice"
+import { useEffect, useMemo } from "react"
+import ProtectedInterceptors from "../../hooks/ProtectedInterceptors"
 
 const AddUser = ({}) => {
+ const theme = useTheme();
+const dispatch=useDispatch()
+const protectedInterceptors=ProtectedInterceptors()
+const getAllUsers=()=>{dispatch(getAllUsersService(protectedInterceptors))}
+const GET_ALL_USERS_SLICE_REDUCER=useSelector((state)=>state.GET_ALL_USERS_SLICE_REDUCER)
+useEffect(()=>{getAllUsers()},[])
+const usersDetails=useMemo(()=>{
+return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response:[]
+},[GET_ALL_USERS_SLICE_REDUCER])
 
-  const theme = useTheme();
 
   return (
   <>
@@ -122,7 +134,7 @@ const AddUser = ({}) => {
         <CustomTable
           TableName={"USER DETAILS"}
           headCells={FinoLabel.userDetailsTableHead}
-          rows={[]}
+          rows={usersDetails}
         />
       </Card>
     </>   

@@ -21,7 +21,6 @@ const loginSlice = createSlice({
             state.error=action.error
         });
         builder.addCase(loginService.fulfilled, (state, action) => {
-            console.log(action);
             state.isLoading = false
             state.data = action.payload, 
             state.error=action.error

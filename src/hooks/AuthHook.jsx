@@ -7,12 +7,13 @@ const [cookies, setCookie, removeCookie] = useCookies(['FINO_LOGIN_COOKIE']);
 const MSGPACK = new Encodr("msgpack")
 
 const userDetails= useCallback(()=>{
-  let session={userRoles:[],userName:"",jwtToken:"",error:""}
+  let session={userRoles:[],userName:"",jwtToken:"",error:"",fullName:""}
     try{
       if(cookies){ const decodedSession=MSGPACK.decode(cookies?.FINO_LOGIN_COOKIE?.data)
         session.jwtToken=decodedSession?.jwtToken,
         session.userName=decodedSession?.userName,
         session.userRoles=decodedSession?.userRoles
+        session.fullName=decodedSession?.fullName
         return session
        }
       else{

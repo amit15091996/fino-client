@@ -58,11 +58,11 @@ const HomePage = ({ }) => {
   const onLogin = async (e) => {
     e.preventDefault();
   const {payload}=await dispatch(loginService(loginDetails))
-  console.log(payload);
   if(payload?.statusCode===200){
     setCookie("FINO_LOGIN_COOKIE",MSGPACK.encode(
       {userRoles:payload?.userRoles,
         userName:payload?.userName,
+        fullName:payload?.fullName,
         jwtToken:payload?.jwtToken}), 
       {expires:new Date(payload?.tokenExpirationInMilis)}
     )
@@ -116,10 +116,9 @@ const HomePage = ({ }) => {
         </Grid>
         <Grid item xs={12} md={2.5}>
           <Box sx={{ height: "100%" }}>
-            {
-              LOGIN_SLICE_REDUCER?.isLoading?<Loading/>:
-              <FinoLogin loginDetailsFields={{loginDetails,setLoginDetails}} onLogin={onLogin} onForgotPassword={onForgotPassword}  />
-            }
+            
+              <FinoLogin loginSlice={LOGIN_SLICE_REDUCER} loginDetailsFields={{loginDetails,setLoginDetails}} onLogin={onLogin} onForgotPassword={onForgotPassword}  />
+            
           </Box>
         </Grid>
       </Grid>
