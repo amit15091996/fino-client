@@ -4,6 +4,8 @@ sideTopNavborderColor:"#d8e2dc",
 alignmentStyles:{display:"flex",justifyContent:"center",alignItems:"center"},
 alignmentStyles_1:{display:"flex",justifyContent:"flex-start",alignItems:"center"},
 alignmentStyles_2:{display:"flex",justifyContent:"flex-end",alignItems:"center"},
+alignmentStyles_3:{display:"flex",justifyContent:"space-between",alignItems:"center"},
+
 outLetFirstElementStyle:{height:"100%",width:"100%",overflow:"auto"},
 tableColor:"#ff6700",
 

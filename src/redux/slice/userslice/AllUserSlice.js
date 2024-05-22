@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import ProtectedInterceptors from "../../../hooks/ProtectedInterceptors";
 
 export const getAllUsersService = createAsyncThunk("getAllUsersService", async(protectedInterceptors) => {
 

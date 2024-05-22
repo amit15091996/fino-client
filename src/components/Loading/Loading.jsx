@@ -1,9 +1,9 @@
-import { Box, CircularProgress } from '@mui/material'
+import { Box, Card, CircularProgress } from '@mui/material'
 import React from 'react'
 
 const Loading = ({}) => {
   return (
-    <Box sx={{height:"100%",width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+    <Card sx={{minHeight:200,height:"100%",width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
       
       <svg width={0} height={0}>
         <defs>
@@ -14,7 +14,7 @@ const Loading = ({}) => {
         </defs>
       </svg>
       <CircularProgress sx={{ 'svg circle': { stroke: 'url(#my_gradient)' } }} />
-    </Box>
+    </Card>
   )
 }
 

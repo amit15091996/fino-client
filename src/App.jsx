@@ -6,12 +6,12 @@ import { Card } from "@mui/material";
 import TopNavbar from "./pages/HomeComponent/TopNavbar";
 import Layout from "./pages/Layout/Layout";
 import Dashboard from "./pages/Dashboard/Dashboard";
-import Payments from "./pages/Payments/Payments";
 import HomePage from "./pages/HomeComponent/HomePage";
 import "./App.css"
 import AddUser from "./pages/AddUser/AddUser";
 import Activities from "./pages/Activities/Activities";
 import Reports from "./pages/Reports/Reports";
+import FuelReports from "./pages/FuelReports/Payments";
 
 const App = () => {
 
@@ -33,7 +33,7 @@ const themecolor=useTheme()
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/Layout" element={<Layout />}>
             <Route path="Dashboard" element={<Dashboard />}></Route>
-            <Route path="Payments" element={<Payments />}></Route>
+            <Route path="Payments" element={<FuelReports />}></Route>
             <Route path="add-user" element={<AddUser />}></Route>
             <Route path="activities" element={<Activities />}></Route>
             <Route path="reports" element={<Reports />}></Route>
