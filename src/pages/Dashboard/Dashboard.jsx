@@ -1,5 +1,5 @@
 import { Box, Card, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GlobalStyles } from '../../styles/GlobalStyles'
 import { MdAccountBalanceWallet } from "react-icons/md";
 import { useTheme } from '@emotion/react';
@@ -10,23 +10,101 @@ import { BsBank } from "react-icons/bs";
 import { TbTransactionRupee } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';
 import AuthHook from '../../hooks/AuthHook';
-
-
+import DepositAndCmsForm from './TxnAndDeposit/DepositAndCmsForm';
+import { bankDepositService } from '../../redux/slice/bankslice/BankDepositSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import ProtectedInterceptors from '../../hooks/ProtectedInterceptors';
+import { dateToJavaUtilDate } from '../../utils/DateTimeFormatter';
+import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
+import Loading from '../../components/Loading/Loading';
+import { cmsTransactionService } from '../../redux/slice/cmsslice/CmsTransactionSlice';
 
 const Dashboard = ({}) => {
 const navigate = useNavigate();
-
-// const{jwtToken}=AuthHook()
-
-
+const theme=useTheme()
+const dispatch=useDispatch()
+const protectedInterceptors=ProtectedInterceptors()
+const{jwtToken,userName,error,userRoles,fullName}=AuthHook()
 
 const[tabValue,setTabValue]=useState(0)
-const handleTabChange=(e,value)=>{setTabValue(value)}
-const theme=useTheme()
+const[bankAndCmsDepositfields,setBankAndCmsDepositfields]=useState({
+  recievedFrom:"",collectedBy:fullName,collectionAmount:"",TransactionDate:null,onlineAmount:"",cashAmount:"",balanceAmount:"",
+  remarks:""
+})
+const[bankDepositSnackBarOpen,setBankDepositSnackBarOpen]=useState(false)
+const[cmsTransactionSnackBarOpen,setCmsTransactionSnackBarOpen]=useState(false)
+
+const BANK_DEPOSIT_SLICE_REDUCER=useSelector((state)=>state.BANK_DEPOSIT_SLICE_REDUCER)
+const CMS_TRANSACTION_SLICE_REDUCER=useSelector((state)=>state.CMS_TRANSACTION_SLICE_REDUCER)
+
+const onBankDepositSave= async (e)=>{
+  e.preventDefault()
+   let bankPayload=(bankDeposit)=>{return{...bankDeposit,TransactionDate:dateToJavaUtilDate(bankDeposit?.TransactionDate),collectedBy:userName}};
+  const {payload}=await dispatch(bankDepositService({protectedInterceptors:protectedInterceptors,payload:bankPayload(bankAndCmsDepositfields)}))
+  if(payload?.statusCode===200){
+    setBankDepositSnackBarOpen(true)
+    setBankAndCmsDepositfields({
+      recievedFrom:"",collectedBy:fullName,collectionAmount:"",TransactionDate:null,onlineAmount:"",cashAmount:"",balanceAmount:"",
+      remarks:""
+    })
+  }
+  else{
+    setBankDepositSnackBarOpen(true)
+  }
+  
+
+}
+
+const onCmsTransactionSave= async (e)=>{
+  e.preventDefault()
+   let cmsPayload=(cmsT)=>{return{...cmsT,TransactionDate:dateToJavaUtilDate(cmsT?.TransactionDate),collectedBy:userName}};
+  const {payload}=await dispatch(cmsTransactionService({protectedInterceptors:protectedInterceptors,payload:cmsPayload(bankAndCmsDepositfields)}))
+  if(payload?.statusCode===200){
+    setCmsTransactionSnackBarOpen(true)
+    setBankAndCmsDepositfields({
+      recievedFrom:"",collectedBy:fullName,collectionAmount:"",TransactionDate:null,onlineAmount:"",cashAmount:"",balanceAmount:"",
+      remarks:""
+    })
+  }
+  else{
+    setCmsTransactionSnackBarOpen(true)
+  }
+  
+
+}
+
+
+useEffect(()=>{
+  setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:(prev.collectionAmount)-((+prev.cashAmount)+ (+prev.onlineAmount))}})
+},[bankAndCmsDepositfields?.onlineAmount,bankAndCmsDepositfields?.cashAmount,bankAndCmsDepositfields.collectionAmount])
+
+
+const handleTabChange=(e,value)=>{
+  setTabValue(value)
+  setBankAndCmsDepositfields({
+    recievedFrom:"",collectedBy:fullName,collectionAmount:"",TransactionDate:null,onlineAmount:"",cashAmount:"",balanceAmount:"",
+    remarks:""
+  })
+
+}
+
+
+
+
 
 const tabs=[
-  {label:"Bank Deposit ",minWidth:140,component:<BankDeposit/>,icon:<BsBank fontSize={18}/>},
-  {label:"Cms Transaction",minWidth:150,component:<CmsTransaction/>,icon:<TbTransactionRupee fontSize={18}/>},
+  {
+  label:"Bank Deposit ",
+  minWidth:140,
+  component:<>{BANK_DEPOSIT_SLICE_REDUCER?.isLoading?<Loading/>:<Box sx={{ mt: 1 }}><DepositAndCmsForm onSubmit={onBankDepositSave} title={"BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</> ,
+  icon:<BsBank fontSize={18}/>
+},
+  {
+    label:"Cms Transaction",
+    minWidth:150,
+    component:<>{CMS_TRANSACTION_SLICE_REDUCER?.isLoading?<Loading/>: <Box sx={{ mt: 1 }}><DepositAndCmsForm onSubmit={onCmsTransactionSave} title={"CMS TRANSACTION"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</>,
+    icon:<TbTransactionRupee fontSize={18}/>
+  },
 
 ]
 
@@ -55,6 +133,7 @@ const tabs=[
 
       </Box>
 
+      <CustomSnackbar open={bankDepositSnackBarOpen} onClose={()=>{setBankDepositSnackBarOpen(false)}} message={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusMessage} severity={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
     </Box>
   )

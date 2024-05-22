@@ -1,0 +1,1 @@
+export const TwoDecimalPlaceAdd=(inputValue)=>{ return inputValue?inputValue?.toFixed(2):0?.toFixed(2)}

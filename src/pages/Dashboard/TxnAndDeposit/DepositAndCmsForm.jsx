@@ -8,9 +8,8 @@ import { GlobalStyles } from "../../../styles/GlobalStyles";
 import UnderLine from "../../../components/UnderLine/UnderLine";
 
 const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
-  const { depositFields, setDepositFields } = fields;
   const theme = useTheme();
-
+const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
 
   return (
     <Card sx={{p:2,mr:1}} >
@@ -29,9 +28,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
       <Box sx={{ p: 1}}>
           <CustomDatePicker
             isFullWidth={true}
-            value={depositFields.date}
+            isRequired={true}
+            value={bankAndCmsDepositfields?.TransactionDate}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, date: e });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, TransactionDate: e });
             }}
             label={"Transaction Date"}
           />
@@ -43,9 +43,11 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Total Amount"}
             placeholder={"Total Amount"}
-            value={depositFields.amount}
+            type={"number"}
+            isRequired={true}
+            value={bankAndCmsDepositfields?.collectionAmount}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, amount: e.target.value });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, collectionAmount: e.target.value });
             }}
           />
         </Box>
@@ -56,9 +58,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Received From"}
             placeholder={"Received From"}
-            value={depositFields?.receiveFrom}
+            isRequired={true}
+            value={bankAndCmsDepositfields?.recievedFrom}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, receiveFrom: e.target.value });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, recievedFrom: e.target.value });
             }}
           />
         </Box>
@@ -70,10 +73,8 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Collected By"}
             placeholder={"Collected By"}
-            value={depositFields?.collectedBy}
-            onChange={(e) => {
-              setDepositFields({ ...depositFields, collectedBy: e.target.value });
-            }}
+            value={bankAndCmsDepositfields?.collectedBy}
+            isdisable={true}
           />
         </Box>
 
@@ -88,9 +89,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Online Amount"}
             placeholder={"Online Amount"}
-            value={depositFields.amount}
+            type={"number"}
+            value={bankAndCmsDepositfields?.onlineAmount}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, amount: e.target.value });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, onlineAmount: e.target.value });
             }}
           />
         
@@ -102,9 +104,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Cash Amount"}
             placeholder={"Cash Amount"}
-            value={depositFields.amount}
+            type={"number"}
+            value={bankAndCmsDepositfields?.cashAmount}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, amount: e.target.value });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, cashAmount: e.target.value });
             }}
           />
         </Box>
@@ -115,10 +118,8 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Balance Amount"}
             placeholder={"Balance Amount"}
-            value={depositFields?.receiveFrom}
-            onChange={(e) => {
-              setDepositFields({ ...depositFields, receiveFrom: e.target.value });
-            }}
+            value={bankAndCmsDepositfields?.balanceAmount}
+            isdisable={true}
           />
         </Box>
       </Grid>
@@ -129,9 +130,10 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
             isFullwidth={true}
             label={"Remarks"}
             placeholder={"Remarks"}
-            value={depositFields?.collectedBy}
+            isRequired={true}
+            value={bankAndCmsDepositfields?.remarks}
             onChange={(e) => {
-              setDepositFields({ ...depositFields, collectedBy: e.target.value });
+              setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, remarks: e.target.value });
             }}
           />
         </Box>

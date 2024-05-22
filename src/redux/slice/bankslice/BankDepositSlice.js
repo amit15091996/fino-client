@@ -1,31 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-export const registerService = createAsyncThunk("registerService", async(signUp) => {
+export const bankDepositService = createAsyncThunk("bankDepositService", async(bankDeposit) => {
 
-
-    return (await signUp?.protectedInterceptors.post(`user/sign-up`,signUp?.payload))?.data
+    return (await bankDeposit?.protectedInterceptors.post(`operation/insert-bank-transaction`,bankDeposit?.payload))?.data
 })
 
-const registerSlice = createSlice({
+const bankDepositSlice = createSlice({
 
-    name: "registerSlice",
+    name: "bankDepositSlice",
     initialState: {
         isLoading: false,
         data: null,
         error:null
     },
     extraReducers: (builder) => {
-        builder.addCase(registerService.pending, (state, action) => {
+        builder.addCase(bankDepositService.pending, (state, action) => {
             state.isLoading = true
             state.data = action.payload,
             state.error=action.error
         });
-        builder.addCase(registerService.fulfilled, (state, action) => {
+        builder.addCase(bankDepositService.fulfilled, (state, action) => {
             state.isLoading = false
             state.data = action.payload, 
             state.error=action.error
         });
-        builder.addCase(registerService.rejected, (state, action) => {
+        builder.addCase(bankDepositService.rejected, (state, action) => {
             state.isLoading = false
             state.data = action.payload
             state.error=action.error
@@ -35,4 +34,4 @@ const registerSlice = createSlice({
 }
 
 )
-export const REGISTER_SLICE_REDUCER = registerSlice.reducer
+export const BANK_DEPOSIT_SLICE_REDUCER = bankDepositSlice.reducer

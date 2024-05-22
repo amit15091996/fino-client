@@ -15,7 +15,7 @@ import { SideNavbarStyles } from "../../styles/SideNavbarStyles";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
 
-const SideNavbar = ({}) => {
+const SideNavbar = ({ }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
@@ -37,12 +37,12 @@ const SideNavbar = ({}) => {
     else if (index === 3) {
       navigate("/Layout/activities");
     }
-    else if(index === 4){
+    else if (index === 4) {
       navigate("/Layout/add-user");
     }
   };
 
-  useEffect(()=>{setSelectedIndex(0); navigate("/Layout/Dashboard");},[])
+  useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
 
 
   return (
@@ -75,32 +75,6 @@ const SideNavbar = ({}) => {
             primary="Dashboard"
           />
         </ListItemButton>
-
-        {/* <ListItemButton
-          sx={{
-            "&.Mui-selected":
-              SideNavbarStyles.listItemButtonSelectedStyle(theme),
-          }}
-          selected={selectedIndex === 1}
-          onClick={(e) => handleSelectedIndex(e, 1)}
-        >
-          <ListItemIcon>
-            <MdPayments
-              style={
-                selectedIndex === 1
-                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-                  : SideNavbarStyles.listItemIconStyle(theme)
-              }
-            />
-          </ListItemIcon>
-          <ListItemText
-            sx={
-              selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
-            }
-            primary="Payments"
-          />
-        </ListItemButton> */}
-
         <ListItemButton
           sx={{
             "&.Mui-selected":
@@ -122,9 +96,35 @@ const SideNavbar = ({}) => {
             sx={
               selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
             }
-            primary="Reports"
+            primary="Txn Reports"
           />
         </ListItemButton>
+        <ListItemButton
+          sx={{
+            "&.Mui-selected":
+              SideNavbarStyles.listItemButtonSelectedStyle(theme),
+          }}
+          selected={selectedIndex === 1}
+          onClick={(e) => handleSelectedIndex(e, 1)}
+        >
+          <ListItemIcon>
+            <MdPayments
+              style={
+                selectedIndex === 1
+                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                  : SideNavbarStyles.listItemIconStyle(theme)
+              }
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={
+              selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
+            }
+            primary="Fuel Reports"
+          />
+        </ListItemButton>
+
+
 
         {/* <ListItemButton
           sx={{
