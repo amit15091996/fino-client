@@ -5,8 +5,9 @@ import { FinoLabel } from '../../../labels/FinoLabel'
 import CustomDatePicker from '../../../components/CustomDatePicker/CustomDatePicker'
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CustomTextField from '../../../components/CustomTextField/CustomTextField'
+import CustomAutoComplete from '../../../components/CustomAutoComplete/CustomAutoComplete'
 
-const ReportsSerching = ({handleDateSearch}) => {
+const ReportsSerching = ({handleDateSearch,isAdmin,autoCompleteOptions}) => {
 
 
 
@@ -90,7 +91,26 @@ const ReportsSerching = ({handleDateSearch}) => {
 
 
       </Grid>
-   
+     
+{
+  isAdmin &&  <Grid container>
+  <Grid xs={12} md={2.7}>
+
+  <Card variant="outlined" sx={{m:0.6}}>
+  <Box sx={{p:1}}>
+  <CustomAutoComplete options={autoCompleteOptions && autoCompleteOptions} label={"Collected By"} isFullWidth={true}/>
+
+   </Box>
+   </Card>
+   </Grid>
+   </Grid>
+}
+
+     
+
+
+
+
       </Box>
 
     

@@ -11,7 +11,7 @@ import "./App.css"
 import AddUser from "./pages/AddUser/AddUser";
 import Activities from "./pages/Activities/Activities";
 import Reports from "./pages/Reports/Reports";
-import FuelReports from "./pages/FuelReports/Payments";
+import FuelReports from "./pages/FuelReports/FuelReports";
 
 const App = () => {
 

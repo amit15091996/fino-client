@@ -67,6 +67,27 @@ export const FinoLabel={
       month:"Month",
       fromDate:"From Date",
       toDate:"To Date",
+      date:"Date",
+      openingStock:"Opening Stock",
+      inwards:"Inwards",
+      totalStock:"Total Stock",
+      totalSales:"Total Sales",
+      closingStock:"Closing Stock",
+      dipStock:"Dip Stock",
+      variation:"Variation",
+      dipStockInCms:"Dip Stock(CM's)",
+      dipStockLtrs:"Dip Stock(LTR's)",
+      testing:"Testing",
+      density:"Density",
+      waterDip:"Water Dip",
+      remarks:"Remarks",
+      openingMeter:"Opening Meter",
+      sales:"Sales(Ltr's)",
+      totalMeterSales:"Total Meter Sales(LTR's)"
+
+
+
+
 
 
 

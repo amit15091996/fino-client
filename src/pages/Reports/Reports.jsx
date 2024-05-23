@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CustomTabs from '../../components/CustomTabs/CustomTabs'
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { PiBankBold } from "react-icons/pi";
@@ -17,6 +17,7 @@ import TableLoader from '../../components/CustomTable/TableHelpers/TableLoader';
 import { IsArray } from '../../utils/IsArray';
 import { dateFormater } from '../../utils/DateTimeFormatter';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
+import { getAllUsersService } from '../../redux/slice/userslice/AllUserSlice';
 
 
 const Reports = ({ }) => {
@@ -29,14 +30,26 @@ const Reports = ({ }) => {
   const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
   const getAllBankTransaction = (bank) => { dispatch(allBankDepositByUserNameService(bank)) }
   const getAllCmsTransaction = (cms) => { dispatch(allCmsTxnByUserNameService(cms)) }
-
+  const getAllUsers=()=>{dispatch(getAllUsersService(protectedInterceptors))}
+  const GET_ALL_USERS_SLICE_REDUCER=useSelector((state)=>state.GET_ALL_USERS_SLICE_REDUCER)
   const GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER)
   const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
+
+ const collectedBy=useMemo(()=>{
+return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)?
+GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.userName}(${item?.mobileNumber})`)
+:[]
+
+},[GET_ALL_USERS_SLICE_REDUCER])
 
   useEffect(() => {
     getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
     getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
   }, [])
+
+useEffect(()=>{
+if(isAdmin){getAllUsers()}
+},[])  
 
   const handleReportTabChanges = (e, value) => { setReportsTab(value) }
 
@@ -52,7 +65,7 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box>
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching />
+            <ReportsSerching autoCompleteOptions={collectedBy}  isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
@@ -92,7 +105,7 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box >
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching />
+            <ReportsSerching autoCompleteOptions={collectedBy} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {

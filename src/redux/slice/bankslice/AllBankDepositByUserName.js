@@ -2,7 +2,9 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const allBankDepositByUserNameService = createAsyncThunk("allBankDepositByUserNameService", async(deposit) => {
 
-    return (await deposit?.protectedInterceptors.get(`operation/get-all-bank-transaction/${deposit?.mobileNumber}`))?.data
+       const ifMobilePresent=deposit?.mobileNumber?`?mobileNumber=${deposit?.mobileNumber}`:""
+       const ifAllTxn=deposit?.transactionType? `?transactionType=${deposit?.transactionType}`:""
+    return (await deposit?.protectedInterceptors.get(`operation/get-all-bank-transaction${ifMobilePresent}${ifAllTxn}`))?.data
 })
 
 const allBankDepositByUserNameSlice = createSlice({
