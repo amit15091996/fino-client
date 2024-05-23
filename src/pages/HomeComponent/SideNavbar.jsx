@@ -41,7 +41,7 @@ const SideNavbar = ({drawerClose}) => {
 
   };
 
-  useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
+ useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
 
 
   return (

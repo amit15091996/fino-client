@@ -4,8 +4,6 @@ import { GlobalStyles } from '../../styles/GlobalStyles'
 import { MdAccountBalanceWallet } from "react-icons/md";
 import { useTheme } from '@emotion/react';
 import CustomTabs from '../../components/CustomTabs/CustomTabs';
-import BankDeposit from './TxnAndDeposit/BankDeposit';
-import CmsTransaction from './TxnAndDeposit/CmsTransaction';
 import { BsBank } from "react-icons/bs";
 import { TbTransactionRupee } from "react-icons/tb";
 import { useNavigate } from 'react-router-dom';

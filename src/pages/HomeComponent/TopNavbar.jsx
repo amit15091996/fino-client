@@ -40,12 +40,12 @@ const handleDrawerOpen=()=>{setOpenSideNavBarDrawer(true)}
       <Box sx={{ width: "100%" }}>
         <Grid container sx={{ height: "100%", width: "100%" }}>
           <Grid item xs={11} >
-            <Box sx={{ height: "100%", width: "100%", ml: 2, ...GlobalStyles.alignmentStyles_1, display: { xs: "none", xs: "none", md: "flex", lg: "flex", xl: "flex" } }}>
+            <Box sx={{ height: "100%", width: "100%", ml: 2, ...GlobalStyles.alignmentStyles_1, display: { xs: "none", sm: "none", md: "flex", lg: "flex", xl: "flex" } }}>
               <SiContactlesspayment fontSize={30} color={theme?.palette?.primary?.main} />
               <Typography color={"secondary"} variant='v1'>FINO</Typography>
             </Box>
 
-            <Box sx={{ width: "100%", height: "100%", display: { xs: "flex", xs: "flex", md: "none", lg: "none", xl: "none" } }}>
+            <Box sx={{ width: "100%", height: "100%", display: { xs: "flex", sm: "flex", md: "none", lg: "none", xl: "none" } }}>
               <Grid container sx={{ height: "100%", width: "100%" }}>
                 <Grid item xs={5} >
                 <Box  sx={{ cursor:"pointer",ml:2,height: "100%", width: "100%", ...GlobalStyles.alignmentStyles_1}}>

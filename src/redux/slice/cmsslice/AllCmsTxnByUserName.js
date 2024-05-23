@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const allCmsTxnByUserNameService = createAsyncThunk("allCmsTxnByUserNameService", async(cms) => {
 
-    return (await cms?.protectedInterceptors.get(`operation/get-all-cms-transaction/${cms?.mobileNumber}`))?.data
+    const ifMobilePresent=cms?.mobileNumber?`?mobileNumber=${cms?.mobileNumber}`:""
+    const ifAllTxn=cms?.transactionType? `?transactionType=${cms?.transactionType}`:""
+
+    return (await cms?.protectedInterceptors.get(`operation/get-all-cms-transaction${ifMobilePresent}${ifAllTxn}`))?.data
 })
 
 const allCmsTxnByUserNameSlice = createSlice({
