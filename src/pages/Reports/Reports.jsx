@@ -35,24 +35,37 @@ const Reports = ({ }) => {
   const GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER)
   const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
 
- const collectedBy=useMemo(()=>{
+const collectedBy=useMemo(()=>{
 return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)?
 GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.userName}(${item?.mobileNumber})`)
-:[]
+:[]},[GET_ALL_USERS_SLICE_REDUCER])
 
-},[GET_ALL_USERS_SLICE_REDUCER])
+const yearOptinsForBankTxn=useMemo(()=>{
+  let year=[]
+if(Array.isArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response)){
+  new Set( GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.bankTransactionDate?.split("-")[0]}`)).forEach((i)=>{
+    year.push(i)});return year}
+else{return []}
+
+},[GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
+
+const yearOptinsForCmsTxn=useMemo(()=>{
+  let year=[]
+if(Array.isArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response)){
+  new Set( GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.cmsTransactionDate?.split("-")[0]}`)).forEach((i)=>{
+    year.push(i)});return year}
+else{return []}
+
+},[GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
 
   useEffect(() => {
     getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
     getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
   }, [])
 
-useEffect(()=>{
-if(isAdmin){getAllUsers()}
-},[])  
+useEffect(()=>{if(isAdmin){getAllUsers()}},[])  
 
   const handleReportTabChanges = (e, value) => { setReportsTab(value) }
-
   const onBankTxnEditClick=(row)=>{}
   const onBankTxnDeleteClick=(row)=>{}
   const onCmsTxnEditClick=(row)=>{}
@@ -65,7 +78,7 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box>
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching autoCompleteOptions={collectedBy}  isAdmin={isAdmin} />
+            <ReportsSerching autoCompleteOptions={collectedBy} yearOptions={yearOptinsForBankTxn}  isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
@@ -105,7 +118,7 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box >
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching autoCompleteOptions={collectedBy} isAdmin={isAdmin} />
+            <ReportsSerching autoCompleteOptions={collectedBy} yearOptions={yearOptinsForCmsTxn} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
