@@ -3,7 +3,7 @@ export const FinoLabel={
     homePage:"HOME PAGE",
     submit:"SUBMIT",
     loginPageTitle_1:"Sign in to your account",
-    forgotPasswordDesc:"Enter Your User Name We will send you a new Password To your Registered Email Id",
+    forgotPasswordDesc:"Enter Your User Name and Date of Birth, We will send a new Password To your Registered Email Id",
     loginTitle:"WELCOME",
     signUp:"SIGNUP",
     registerAUser:"REGISTER",
