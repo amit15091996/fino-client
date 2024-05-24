@@ -5,7 +5,7 @@ import FuelReportsForm from './FuelReportsForm'
 const FuelReports = () => {
   return (
     <Box>
-<Box sx={{mt:2}}>
+<Box sx={{mt:1}}>
   <FuelReportsForm title={"MS SALE"}/>
 
 </Box>
