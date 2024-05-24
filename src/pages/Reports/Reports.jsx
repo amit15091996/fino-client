@@ -18,6 +18,7 @@ import { IsArray } from '../../utils/IsArray';
 import { dateFormater } from '../../utils/DateTimeFormatter';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
 import { getAllUsersService } from '../../redux/slice/userslice/AllUserSlice';
+import DynamicHead from '../../components/DynamicHead/DynamicHead';
 
 
 const Reports = ({ }) => {
@@ -157,6 +158,9 @@ const onCmsTxnDeleteClick=(row)=>{}
 
   return (
     <Box>
+
+<DynamicHead title={`${fullName?.toLocaleUpperCase()}'S TXN REPORTS`}/>
+
 
       <Box sx={{ mt: 2 }}>
         <CustomTabs tabDetails={reportTabs} value={reportsTab} onChange={handleReportTabChanges} cardPosition={{ display: "flex", justifyContent: "flex-start" }} tabPosition={{ justifyContent: "flex-start" }} />

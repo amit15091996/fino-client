@@ -188,7 +188,7 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
 
    <Grid container sx={{mt:2,ml:1,width:"100%"}}>
 
-    <Grid item xs={5.8}>
+    <Grid item xs={11.75} md={5.85}>
     <Card variant='outlined' sx={{width:"100%"}} >
       <Box sx={{width:"100%",p:1,borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`,...GlobalStyles.alignmentStyles}}>
         <Typography variant='v5' color={theme?.palette?.p1?.main}>MPD-02</Typography>
@@ -249,7 +249,7 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
         </Box>
       </Box>
        
-       <Box sx={{width:"93%",...GlobalStyles.alignmentStyles_2,p:1}}>
+       <Box sx={{width:"96%",...GlobalStyles.alignmentStyles_2,p:1}}>
        <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
        <span style={{fontSize:15}}>=&nbsp;1000</span>
        </Typography>

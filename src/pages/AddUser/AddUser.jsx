@@ -19,10 +19,14 @@ import { dateFormater, dateToJavaUtilDate } from "../../utils/DateTimeFormatter"
 import CustomSnackbar from "../../components/Customsnackbar/CustomSnackbar"
 import Loading from "../../components/Loading/Loading"
 import TableLoader from "../../components/CustomTable/TableHelpers/TableLoader"
+import DynamicHead from "../../components/DynamicHead/DynamicHead"
+import AuthHook from "../../hooks/AuthHook"
 
 const AddUser = ({}) => {
  const theme = useTheme();
 const dispatch=useDispatch()
+const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
+
 const protectedInterceptors=ProtectedInterceptors()
 const[userRegisterFields,setUserRegisterFields]=useState({"firstName":"","lastName":"","dateOfBirth":null,"password":"", "mobileNumber":"","emailId":"","userRole":"","confirmPassword":""})
 const [registeredUserSnackBar,setRegisteredUserSnackBar]=useState({open:false,message:"",refresh:false,error:false})
@@ -66,6 +70,10 @@ const onUserRegister= async(e)=>{
 
   return (
   <>
+
+<DynamicHead title={`${fullName?.toLocaleUpperCase()}'S USER'S REPORTS`}/>
+
+
 
 {
   REGISTER_SLICE_REDUCER?.isLoading? <Card sx={{p:2,mr:1}}><Loading/></Card>:

@@ -16,6 +16,7 @@ import { dateToJavaUtilDate } from '../../utils/DateTimeFormatter';
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
 import Loading from '../../components/Loading/Loading';
 import { cmsTransactionService } from '../../redux/slice/cmsslice/CmsTransactionSlice';
+import DynamicHead from '../../components/DynamicHead/DynamicHead';
 
 const Dashboard = ({}) => {
 const navigate = useNavigate();
@@ -109,6 +110,8 @@ const tabs=[
 
   return (
     <Box sx={GlobalStyles.outLetFirstElementStyle}>
+
+      <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S DASHBOARD`}/>
 
       <Box sx={{...GlobalStyles.alignmentStyles_2}}>
         <Card sx={{height:80,width:140,mr:1}}>
