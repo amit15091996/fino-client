@@ -132,6 +132,7 @@ const tabs=[
       </Box>
 
       <CustomSnackbar open={bankDepositSnackBarOpen} onClose={()=>{setBankDepositSnackBarOpen(false)}} message={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusMessage} severity={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+      <CustomSnackbar open={cmsTransactionSnackBarOpen} onClose={()=>{setCmsTransactionSnackBarOpen(false)}} message={CMS_TRANSACTION_SLICE_REDUCER?.data?.statusMessage} severity={CMS_TRANSACTION_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
     </Box>
   )
