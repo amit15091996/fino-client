@@ -38,7 +38,7 @@ const REGISTER_SLICE_REDUCER=useSelector((state)=>state.REGISTER_SLICE_REDUCER)
 useEffect(()=>{getAllUsers()},[registeredUserSnackBar?.refresh])
 const usersDetails=useMemo(()=>{
 return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item=>{
-  return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip variant="outlined" size="small" color="p2" label={k}></Chip></Box>})}
+  return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip variant="outlined" size="small" color="p2" label={k?.roleName}></Chip></Box>})}
 })):[]
 },[GET_ALL_USERS_SLICE_REDUCER])
 
