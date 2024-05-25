@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const bankTxnSearchService = createAsyncThunk("bankTxnSearchService", async(deposit) => {
 
        const ifYearPresent=deposit?.year?`&year=${deposit?.year}`:""
@@ -8,14 +7,13 @@ export const bankTxnSearchService = createAsyncThunk("bankTxnSearchService", asy
     return (await deposit?.protectedInterceptors.get(`operation/get-bank-transaction-by-dates?mobileNumber=${deposit?.mobileNumber}${ifYearPresent}${ifMonthPresent}${ifDatesPresent}`))?.data
 })
 
+
+export const setBankSearchSliceToInitialState=createAction("RESET_BANK_SEARCH_SLICE")
+const bankSearchInitialState={isLoading: false,data: null,error:null}
 const bankTxnSearchSlice = createSlice({
 
     name: "bankTxnSearchSlice",
-    initialState: {
-        isLoading: false,
-        data: null,
-        error:null
-    },
+    initialState:bankSearchInitialState ,
     extraReducers: (builder) => {
         builder.addCase(bankTxnSearchService.pending, (state, action) => {
             state.isLoading = true
@@ -32,6 +30,8 @@ const bankTxnSearchSlice = createSlice({
             state.data = action.payload
             state.error=action.error
         });
+
+        builder.addCase(setBankSearchSliceToInitialState,()=>bankSearchInitialState)
     }
 
 }

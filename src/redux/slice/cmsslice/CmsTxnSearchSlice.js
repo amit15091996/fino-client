@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const cmsTxnSearchService = createAsyncThunk("cmsTxnSearchService", async(cms) => {
 
@@ -8,14 +8,15 @@ export const cmsTxnSearchService = createAsyncThunk("cmsTxnSearchService", async
     return (await cms?.protectedInterceptors.get(`operation/get-cms-transaction-by-dates?mobileNumber=${cms?.mobileNumber}${ifYearPresent}${ifMonthPresent}${ifDatesPresent}`))?.data
 })
 
+
+export const setCmsSearchSliceToInitialState=createAction("RESET_CMS_SEARCH_SLICE")
+const cmsSearchInitialState={isLoading: false,data: null,error:null}
+
+
 const cmsTxnSearchSlice = createSlice({
 
     name: "cmsTxnSearchSlice",
-    initialState: {
-        isLoading: false,
-        data: null,
-        error:null
-    },
+    initialState:cmsSearchInitialState,
     extraReducers: (builder) => {
         builder.addCase(cmsTxnSearchService.pending, (state, action) => {
             state.isLoading = true
@@ -32,6 +33,8 @@ const cmsTxnSearchSlice = createSlice({
             state.data = action.payload
             state.error=action.error
         });
+
+        builder.addCase(setCmsSearchSliceToInitialState,()=>cmsSearchInitialState)
     }
 
 }
