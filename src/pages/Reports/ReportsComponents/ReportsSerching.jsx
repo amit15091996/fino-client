@@ -6,7 +6,7 @@ import CustomDatePicker from '../../../components/CustomDatePicker/CustomDatePic
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CustomAutoComplete from '../../../components/CustomAutoComplete/CustomAutoComplete'
 
-const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearOptions, year, onYearChange, onMonthChange, month, dates }) => {
+const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearch, isAdmin, autoCompleteOptions, yearOptions, year, onYearChange, onMonthChange, month, dates }) => {
 
   const { serachDates, setSerachDates } = dates
 
@@ -89,7 +89,7 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
 
             <Card variant="outlined" sx={{ m: 0.6 }}>
               <Box sx={{ p: 1 }}>
-                <CustomAutoComplete options={autoCompleteOptions && ["ALL"].concat(autoCompleteOptions)} label={"Collected By"} isFullWidth={true} />
+                <CustomAutoComplete value={collectedBySearch} onChange={onCollectedByChange} options={autoCompleteOptions && ["ALL"].concat(autoCompleteOptions)} label={"Collected By"} isFullWidth={true} />
               </Box>
             </Card>
           </Grid>

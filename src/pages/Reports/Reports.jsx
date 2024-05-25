@@ -19,9 +19,9 @@ import { dateFormater, dateToJavaUtilDate } from '../../utils/DateTimeFormatter'
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
 import { getAllUsersService } from '../../redux/slice/userslice/AllUserSlice';
 import DynamicHead from '../../components/DynamicHead/DynamicHead';
-import { bankTxnSearchService } from '../../redux/slice/bankslice/BankTxnSearchSlice';
+import { bankTxnSearchService, setBankSearchSliceToInitialState } from '../../redux/slice/bankslice/BankTxnSearchSlice';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
-import { cmsTxnSearchService } from '../../redux/slice/cmsslice/CmsTxnSearchSlice';
+import { cmsTxnSearchService, setCmsSearchSliceToInitialState } from '../../redux/slice/cmsslice/CmsTxnSearchSlice';
 
 
 const Reports = ({ }) => {
@@ -65,7 +65,7 @@ const Reports = ({ }) => {
     }
     else { return [] }
 
-  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
+  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER,BANK_TXN_SEARCH_SLICE_REDUCER])
 
   const yearOptinsForCmsTxn = useMemo(() => {
     let year = []
@@ -76,7 +76,7 @@ const Reports = ({ }) => {
     }
     else { return [] }
 
-  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
+  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER,CMS_TXN_SEARCH_SLICE_REDUCER])
 
   useEffect(() => {
     getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
@@ -84,43 +84,69 @@ const Reports = ({ }) => {
   }, [])
 
   useEffect(() => { if (isAdmin) { getAllUsers() } }, [])
-  const handleReportTabChanges = (e, value) => { setYear(""); setMonth(""); setSerachDates({ fromDate: null, toDate: null }); setReportsTab(value) }
+  const handleReportTabChanges = (e, value) => { setYear(""); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;setReportsTab(value) }
   const onBankTxnEditClick = (row) => { }
   const onBankTxnDeleteClick = (row) => { }
   const onCmsTxnEditClick = (row) => { }
   const onCmsTxnDeleteClick = (row) => { }
 
   const onYearChange = async (e, value) => {
-    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null })
+    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("");
     dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, year: value }))
   }
   const onMonthChange = async (e) => {
-    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null })
+    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;
     dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, month: e.target.value }))
   }
 
   const onDatesSearchClick = async (e) => {
     e.preventDefault()
-    setYear(""); setMonth("");
+    setYear(""); setMonth("");setCollectedBySearch("") ;
     dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, fromDate: dateToJavaUtilDate(serachDates?.fromDate), toDate: dateToJavaUtilDate(serachDates?.toDate) }))
   }
 
   const onCmsYearChange = async (e, value) => {
 
-    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null })
+    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;
     dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, year: value }))
   }
 
   const onCmsMonthChange = async (e) => {
-    console.log("new month:  ",e.target.value);
-    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null })
+    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;
     dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, month: e.target.value }))
   }
 
   const onCmsDatesSearchClick = async (e) => {
     e.preventDefault()
-    setYear(""); setMonth("");
+    setYear(""); setMonth("");setCollectedBySearch("") ;
     dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, fromDate: dateToJavaUtilDate(serachDates?.fromDate), toDate: dateToJavaUtilDate(serachDates?.toDate) }))
+  }
+
+const onBankCollectedByChange=async (e,value)=>{
+ dispatch(setBankSearchSliceToInitialState()) 
+setCollectedBySearch(value)
+if(value==="ALL"){
+  dispatch(getAllBankTransaction({ protectedInterceptors: protectedInterceptors,transactionType:value }))
+}
+else{
+  const searchParams=typeof value==="string"?value.split("(")[1].match(/[0-9]+/):""
+  getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber:searchParams})
+}
+
+}
+
+
+const onCmsCollectedByChange=async (e,value)=>{
+  dispatch(setCmsSearchSliceToInitialState()) 
+  setCollectedBySearch(value)
+  if(value==="ALL"){
+    dispatch(getAllCmsTransaction({ protectedInterceptors: protectedInterceptors,transactionType:value }))
+  }
+  else{
+    const searchParams=typeof value==="string"?value.split("(")[1].match(/[0-9]+/):""
+    getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber:searchParams})
+  }
+  
   }
 
   const bankTxnArray = useMemo(() => {
@@ -196,7 +222,7 @@ const Reports = ({ }) => {
       component: <>
         <Box>
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching year={year} onYearChange={onYearChange} month={month} onMonthChange={onMonthChange} dates={{ serachDates, setSerachDates }} handleDateSearch={onDatesSearchClick} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForBankTxn} isAdmin={isAdmin} />
+            <ReportsSerching year={year} onCollectedByChange={onBankCollectedByChange} collectedBySearch={collectedBySearch} onYearChange={onYearChange} month={month} onMonthChange={onMonthChange} dates={{ serachDates, setSerachDates }} handleDateSearch={onDatesSearchClick} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForBankTxn} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
@@ -230,7 +256,7 @@ const Reports = ({ }) => {
       component: <>
         <Box >
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching handleDateSearch={onCmsDatesSearchClick} year={year} onYearChange={onCmsYearChange} month={month} onMonthChange={onCmsMonthChange} dates={{ serachDates, setSerachDates }} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForCmsTxn} isAdmin={isAdmin} />
+            <ReportsSerching onCollectedByChange={onCmsCollectedByChange} collectedBySearch={collectedBySearch} handleDateSearch={onCmsDatesSearchClick} year={year} onYearChange={onCmsYearChange} month={month} onMonthChange={onCmsMonthChange} dates={{ serachDates, setSerachDates }} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForCmsTxn} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
