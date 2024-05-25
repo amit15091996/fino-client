@@ -29,7 +29,7 @@ const bankDepositSlice = createSlice({
             state.data = action.payload
             state.error=action.error
         });
-    }
+    },
 
 }
 

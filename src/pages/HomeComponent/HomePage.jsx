@@ -72,9 +72,8 @@ const HomePage = ({ }) => {
         }),
         { expires: new Date(payload?.tokenExpirationInMilis) }
       )
-
-      navigate("/Layout/Dashboard");
       setLoginSnackbarOpen(true)
+      navigate("/Layout/Dashboard");
     }
     else {
       setLoginSnackbarOpen(true)
@@ -93,6 +92,9 @@ const HomePage = ({ }) => {
       setForgotPasswordFields((prev) => { return { ...prev, dateOfBirth: prev?.dateOfBirth, mobileNumber: prev?.mobileNumber, snackBar: true } })
     }
   }
+
+
+
 
   return (
     <Box sx={{ height: "100%", width: "100%", overflow: "auto", display: "flex" }}>

@@ -7,6 +7,9 @@ import { CMS_TRANSACTION_SLICE_REDUCER } from '../slice/cmsslice/CmsTransactionS
 import { GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER } from '../slice/bankslice/AllBankDepositByUserName'
 import { GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER } from '../slice/cmsslice/AllCmsTxnByUserName'
 import { FORGOT_PASSWORD_SLICE_REDUCER } from '../slice/userslice/ForgotPasswordSlice'
+import { RESET_PASSWORD_SLICE_REDUCER } from '../slice/userslice/ResetPasswordSlice'
+import { BANK_TXN_SEARCH_SLICE_REDUCER } from '../slice/bankslice/BankTxnSearchSlice'
+import { CMS_TXN_SEARCH_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnSearchSlice'
 
 const FinoStore = configureStore({
     reducer:{
@@ -17,7 +20,10 @@ const FinoStore = configureStore({
       CMS_TRANSACTION_SLICE_REDUCER:CMS_TRANSACTION_SLICE_REDUCER,
       GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER:GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER,
       GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER:GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER,
-      FORGOT_PASSWORD_SLICE_REDUCER:FORGOT_PASSWORD_SLICE_REDUCER  
+      FORGOT_PASSWORD_SLICE_REDUCER:FORGOT_PASSWORD_SLICE_REDUCER,
+      RESET_PASSWORD_SLICE_REDUCER:RESET_PASSWORD_SLICE_REDUCER,
+      BANK_TXN_SEARCH_SLICE_REDUCER:BANK_TXN_SEARCH_SLICE_REDUCER,
+      CMS_TXN_SEARCH_SLICE_REDUCER:CMS_TXN_SEARCH_SLICE_REDUCER,  
       
     },
     devTools:true

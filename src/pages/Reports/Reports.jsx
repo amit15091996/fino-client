@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import CustomTabs from '../../components/CustomTabs/CustomTabs'
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { PiBankBold } from "react-icons/pi";
-import { Box, Card } from '@mui/material';
+import { Box, Button, Card } from '@mui/material';
 import HasAuthority from "../../hooks/HasAuthority"
 import CustomTable from '../../components/CustomTable/CustomTable';
 import ReportsSerching from './ReportsComponents/ReportsSerching';
@@ -15,62 +15,179 @@ import { allBankDepositByUserNameService } from '../../redux/slice/bankslice/All
 import { allCmsTxnByUserNameService } from '../../redux/slice/cmsslice/AllCmsTxnByUserName';
 import TableLoader from '../../components/CustomTable/TableHelpers/TableLoader';
 import { IsArray } from '../../utils/IsArray';
-import { dateFormater } from '../../utils/DateTimeFormatter';
+import { dateFormater, dateToJavaUtilDate } from '../../utils/DateTimeFormatter';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
 import { getAllUsersService } from '../../redux/slice/userslice/AllUserSlice';
 import DynamicHead from '../../components/DynamicHead/DynamicHead';
+import { bankTxnSearchService } from '../../redux/slice/bankslice/BankTxnSearchSlice';
+import CustomAlert from '../../components/CustomAlert/CustomAlert';
+import { cmsTxnSearchService } from '../../redux/slice/cmsslice/CmsTxnSearchSlice';
 
 
 const Reports = ({ }) => {
 
   const theme = useTheme()
   const [reportsTab, setReportsTab] = useState(0)
+  const [year, setYear] = useState("")
+  const [month, setMonth] = useState("")
+  const [collectedBySearch, setCollectedBySearch] = useState("")
+  const [serachDates, setSerachDates] = useState({ fromDate: null, toDate: null })
+
+
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
   const dispatch = useDispatch()
   const protectedInterceptors = ProtectedInterceptors()
   const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
   const getAllBankTransaction = (bank) => { dispatch(allBankDepositByUserNameService(bank)) }
   const getAllCmsTransaction = (cms) => { dispatch(allCmsTxnByUserNameService(cms)) }
-  const getAllUsers=()=>{dispatch(getAllUsersService(protectedInterceptors))}
-  const GET_ALL_USERS_SLICE_REDUCER=useSelector((state)=>state.GET_ALL_USERS_SLICE_REDUCER)
-  const GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER)
-  const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
+  const getAllUsers = () => { dispatch(getAllUsersService(protectedInterceptors)) }
+  const GET_ALL_USERS_SLICE_REDUCER = useSelector((state) => state.GET_ALL_USERS_SLICE_REDUCER)
+  const GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER)
+  const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
+  const BANK_TXN_SEARCH_SLICE_REDUCER = useSelector((state) => state?.BANK_TXN_SEARCH_SLICE_REDUCER)
+  const CMS_TXN_SEARCH_SLICE_REDUCER = useSelector((state) => state?.CMS_TXN_SEARCH_SLICE_REDUCER)
 
-const collectedBy=useMemo(()=>{
-return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)?
-GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.userName}(${item?.mobileNumber})`)
-:[]},[GET_ALL_USERS_SLICE_REDUCER])
 
-const yearOptinsForBankTxn=useMemo(()=>{
-  let year=[]
-if(Array.isArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response)){
-  new Set( GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.bankTransactionDate?.split("-")[0]}`)).forEach((i)=>{
-    year.push(i)});return year}
-else{return []}
 
-},[GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
 
-const yearOptinsForCmsTxn=useMemo(()=>{
-  let year=[]
-if(Array.isArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response)){
-  new Set( GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>`${item?.cmsTransactionDate?.split("-")[0]}`)).forEach((i)=>{
-    year.push(i)});return year}
-else{return []}
+  const collectedBy = useMemo(() => {
+    return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response) ?
+      GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item) => `${item?.userName}(${item?.mobileNumber})`)
+      : []
+  }, [GET_ALL_USERS_SLICE_REDUCER])
 
-},[GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
+  const yearOptinsForBankTxn = useMemo(() => {
+    let year = []
+    if (Array.isArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response)) {
+      new Set(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => `${item?.bankTransactionDate?.split("-")[0]}`)).forEach((i) => {
+        year.push(i)
+      }); return year
+    }
+    else { return [] }
+
+  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
+
+  const yearOptinsForCmsTxn = useMemo(() => {
+    let year = []
+    if (Array.isArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response)) {
+      new Set(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => `${item?.cmsTransactionDate?.split("-")[0]}`)).forEach((i) => {
+        year.push(i)
+      }); return year
+    }
+    else { return [] }
+
+  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
 
   useEffect(() => {
     getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
     getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
   }, [])
 
-useEffect(()=>{if(isAdmin){getAllUsers()}},[])  
+  useEffect(() => { if (isAdmin) { getAllUsers() } }, [])
+  const handleReportTabChanges = (e, value) => { setYear(""); setMonth(""); setSerachDates({ fromDate: null, toDate: null }); setReportsTab(value) }
+  const onBankTxnEditClick = (row) => { }
+  const onBankTxnDeleteClick = (row) => { }
+  const onCmsTxnEditClick = (row) => { }
+  const onCmsTxnDeleteClick = (row) => { }
 
-  const handleReportTabChanges = (e, value) => { setReportsTab(value) }
-  const onBankTxnEditClick=(row)=>{}
-  const onBankTxnDeleteClick=(row)=>{}
-  const onCmsTxnEditClick=(row)=>{}
-const onCmsTxnDeleteClick=(row)=>{}
+  const onYearChange = async (e, value) => {
+    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null })
+    dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, year: value }))
+  }
+  const onMonthChange = async (e) => {
+    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null })
+    dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, month: e.target.value }))
+  }
+
+  const onDatesSearchClick = async (e) => {
+    e.preventDefault()
+    setYear(""); setMonth("");
+    dispatch(bankTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, fromDate: dateToJavaUtilDate(serachDates?.fromDate), toDate: dateToJavaUtilDate(serachDates?.toDate) }))
+  }
+
+  const onCmsYearChange = async (e, value) => {
+
+    setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null })
+    dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, year: value }))
+  }
+
+  const onCmsMonthChange = async (e) => {
+    console.log("new month:  ",e.target.value);
+    setYear(""); setMonth(e.target.value); setSerachDates({ fromDate: null, toDate: null })
+    dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, month: e.target.value }))
+  }
+
+  const onCmsDatesSearchClick = async (e) => {
+    e.preventDefault()
+    setYear(""); setMonth("");
+    dispatch(cmsTxnSearchService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, fromDate: dateToJavaUtilDate(serachDates?.fromDate), toDate: dateToJavaUtilDate(serachDates?.toDate) }))
+  }
+
+  const bankTxnArray = useMemo(() => {
+
+    if (BANK_TXN_SEARCH_SLICE_REDUCER?.data !== null && BANK_TXN_SEARCH_SLICE_REDUCER?.data !== undefined) {
+      return IsArray(BANK_TXN_SEARCH_SLICE_REDUCER?.data?.response) ?
+        BANK_TXN_SEARCH_SLICE_REDUCER?.data?.response?.map((item) => {
+          return {
+            ...item, bankTransactionDate: dateFormater(item?.bankTransactionDate),
+            collectionAmount: TwoDecimalPlaceAdd(item?.collectionAmount),
+            onlineAmount: TwoDecimalPlaceAdd(item?.onlineAmount),
+            cashAmount: TwoDecimalPlaceAdd(item?.cashAmount),
+            balanceAmount: TwoDecimalPlaceAdd(item?.balanceAmount),
+          }
+        }) : []
+    }
+
+    else {
+      return IsArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response) ?
+        GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => {
+          return {
+            ...item, bankTransactionDate: dateFormater(item?.bankTransactionDate),
+            collectionAmount: TwoDecimalPlaceAdd(item?.collectionAmount),
+            onlineAmount: TwoDecimalPlaceAdd(item?.onlineAmount),
+            cashAmount: TwoDecimalPlaceAdd(item?.cashAmount),
+            balanceAmount: TwoDecimalPlaceAdd(item?.balanceAmount),
+          }
+        }) : []
+    }
+  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER, BANK_TXN_SEARCH_SLICE_REDUCER])
+
+
+  const cmsTxnArray = useMemo(() => {
+
+    if (CMS_TXN_SEARCH_SLICE_REDUCER?.data !== null && CMS_TXN_SEARCH_SLICE_REDUCER?.data !== undefined) {
+      return IsArray(CMS_TXN_SEARCH_SLICE_REDUCER?.data?.response) ?
+        CMS_TXN_SEARCH_SLICE_REDUCER?.data?.response?.map((item) => {
+          return {
+            ...item, cmsTransactionDate: dateFormater(item?.cmsTransactionDate),
+            collectionAmount: TwoDecimalPlaceAdd(item?.collectionAmount),
+            onlineAmount: TwoDecimalPlaceAdd(item?.onlineAmount),
+            cashAmount: TwoDecimalPlaceAdd(item?.cashAmount),
+            balanceAmount: TwoDecimalPlaceAdd(item?.balanceAmount),
+          }
+        })
+        : []
+    }
+
+    else {
+      return IsArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response) ?
+        GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => {
+          return {
+            ...item, cmsTransactionDate: dateFormater(item?.cmsTransactionDate),
+            collectionAmount: TwoDecimalPlaceAdd(item?.collectionAmount),
+            onlineAmount: TwoDecimalPlaceAdd(item?.onlineAmount),
+            cashAmount: TwoDecimalPlaceAdd(item?.cashAmount),
+            balanceAmount: TwoDecimalPlaceAdd(item?.balanceAmount),
+          }
+        })
+        : []
+
+    }
+  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER, CMS_TXN_SEARCH_SLICE_REDUCER])
+
+
+
+
 
   const reportTabs = [
     {
@@ -79,29 +196,23 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box>
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching autoCompleteOptions={collectedBy} yearOptions={yearOptinsForBankTxn}  isAdmin={isAdmin} />
+            <ReportsSerching year={year} onYearChange={onYearChange} month={month} onMonthChange={onMonthChange} dates={{ serachDates, setSerachDates }} handleDateSearch={onDatesSearchClick} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForBankTxn} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
-              GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.isLoading ? <TableLoader /> :
-                <CustomTable TableName={"BANK REPORTS"}
-                 onEditClick={onBankTxnEditClick}
-                  headCells={FinoLabel.bankDepositTableHead}
-                 onDeleteClick={onBankTxnDeleteClick}
-                  rows={
-                    IsArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response)?
-                    GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>{
-                      return {...item,bankTransactionDate:dateFormater(item?.bankTransactionDate),
-                        collectionAmount:TwoDecimalPlaceAdd(item?.collectionAmount),
-                        onlineAmount:TwoDecimalPlaceAdd(item?.onlineAmount),
-                        cashAmount:TwoDecimalPlaceAdd(item?.cashAmount),
-                        balanceAmount:TwoDecimalPlaceAdd(item?.balanceAmount),
-                      }
-                    })
-                    :[]
+              GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.isLoading || BANK_TXN_SEARCH_SLICE_REDUCER?.isLoading ? <TableLoader /> :
+                <>
+                  {
+                    IsArray(bankTxnArray) && bankTxnArray.length > 0 ? <CustomTable TableName={"BANK REPORTS"}
+                      onEditClick={onBankTxnEditClick}
+                      headCells={FinoLabel.bankDepositTableHead}
+                      onDeleteClick={onBankTxnDeleteClick}
+                      rows={bankTxnArray}
+                      isActionRequired={isAdmin}
+                    /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
                   }
-                  isActionRequired={isAdmin}
-                />
+                </>
+
             }
 
 
@@ -119,30 +230,28 @@ const onCmsTxnDeleteClick=(row)=>{}
       component: <>
         <Box >
           <Box sx={{ mt: 2 }}>
-            <ReportsSerching autoCompleteOptions={collectedBy} yearOptions={yearOptinsForCmsTxn} isAdmin={isAdmin} />
+            <ReportsSerching handleDateSearch={onCmsDatesSearchClick} year={year} onYearChange={onCmsYearChange} month={month} onMonthChange={onCmsMonthChange} dates={{ serachDates, setSerachDates }} autoCompleteOptions={collectedBy} yearOptions={yearOptinsForCmsTxn} isAdmin={isAdmin} />
           </Box>
           <Card sx={{ p: 1, mt: 2, mr: 1, mb: 5 }}>
             {
-              GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.isLoading ? <TableLoader /> :
-                <CustomTable
-                  TableName={"CMS REPORTS"}
-                  onEditClick={onCmsTxnEditClick}
-                  headCells={FinoLabel.cmsTransactionTableHead}
-                  onDeleteClick={onCmsTxnDeleteClick}
-                  rows={
-                    IsArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response)?
-                    GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item)=>{
-                      return {...item,cmsTransactionDate:dateFormater(item?.cmsTransactionDate),
-                        collectionAmount:TwoDecimalPlaceAdd(item?.collectionAmount),
-                        onlineAmount:TwoDecimalPlaceAdd(item?.onlineAmount),
-                        cashAmount:TwoDecimalPlaceAdd(item?.cashAmount),
-                        balanceAmount:TwoDecimalPlaceAdd(item?.balanceAmount),
-                      }
-                    })
-                    :[]
+              GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.isLoading || CMS_TXN_SEARCH_SLICE_REDUCER?.isLoading ? <TableLoader /> :
+
+                <>
+
+                  {
+                    IsArray(cmsTxnArray) && cmsTxnArray.length > 0 ? <CustomTable
+                      TableName={"CMS REPORTS"}
+                      onEditClick={onCmsTxnEditClick}
+                      headCells={FinoLabel.cmsTransactionTableHead}
+                      onDeleteClick={onCmsTxnDeleteClick}
+                      rows={cmsTxnArray}
+                      isActionRequired={isAdmin}
+                    /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
                   }
-                  isActionRequired={isAdmin}
-                />
+
+                </>
+
+
             }
 
 
@@ -156,16 +265,21 @@ const onCmsTxnDeleteClick=(row)=>{}
   ]
 
 
+
+
+
+
   return (
     <Box>
 
-<DynamicHead title={`${fullName?.toLocaleUpperCase()}'S TXN REPORTS`}/>
+      <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S TXN REPORTS`} />
 
 
       <Box sx={{ mt: 2 }}>
         <CustomTabs tabDetails={reportTabs} value={reportsTab} onChange={handleReportTabChanges} cardPosition={{ display: "flex", justifyContent: "flex-start" }} tabPosition={{ justifyContent: "flex-start" }} />
 
       </Box>
+
 
     </Box>
   )
