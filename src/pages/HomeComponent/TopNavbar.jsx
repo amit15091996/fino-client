@@ -264,8 +264,6 @@ const resetPayload={protectedInterceptors:protectedInterceptors, mobileNumber:re
 
            
 
-
-
 </Box>
 </Box>
       </CustomDialog>

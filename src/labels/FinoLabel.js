@@ -5,6 +5,7 @@ export const FinoLabel={
     loginPageTitle_1:"Sign in to your account",
     forgotPasswordDesc:"Enter Your User Name and Date of Birth, We will send a new Password To your Registered Email Id.",
     resetPasswordDesc:"Please enter your old password and new password to reset your current password.",
+    updateUserDesc:"Please enter Below Details to update user.....",
     loginTitle:"WELCOME",
     signUp:"SIGNUP",
     registerAUser:"REGISTER",
