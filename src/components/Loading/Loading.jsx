@@ -3,7 +3,7 @@ import React from 'react'
 
 const Loading = ({}) => {
   return (
-    <Card sx={{minHeight:200,height:"100%",width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
+    <Card sx={{minHeight:200,height:"100%",width:"100%",minWidth:300,display:"flex",justifyContent:"center",alignItems:"center"}}>
       
       <svg width={0} height={0}>
         <defs>
