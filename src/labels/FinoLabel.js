@@ -3,7 +3,9 @@ export const FinoLabel={
     homePage:"HOME PAGE",
     submit:"SUBMIT",
     loginPageTitle_1:"Sign in to your account",
-    forgotPasswordDesc:"Enter Your User Name We will send you a new Password To your Registered Email Id",
+    forgotPasswordDesc:"Enter Your User Name and Date of Birth, We will send a new Password To your Registered Email Id.",
+    resetPasswordDesc:"Please enter your old password and new password to reset your current password.",
+    updateUserDesc:"Please enter Below Details to update user.....",
     loginTitle:"WELCOME",
     signUp:"SIGNUP",
     registerAUser:"REGISTER",
@@ -39,6 +41,8 @@ export const FinoLabel={
     mobileNumber:"MOBILE NUMBER",
     emailID:"EMAIL ID",
     confirmPassword:"CONFIRM PASSWORD",
+    oldPassword:"OLD PASSWORD",
+    newPassword:"NEW PASSWORD",
     finoUserRoles:["USER","ADMIN","MANAGER","CLIENT"],
     userRole:"USER ROLE",
     userDetailsTableHead:[
@@ -83,7 +87,13 @@ export const FinoLabel={
       remarks:"Remarks",
       openingMeter:"Opening Meter",
       sales:"Sales(Ltr's)",
-      totalMeterSales:"Total Meter Sales(LTR's)"
+      totalMeterSales:"Total Meter Sales(LTR's)",
+noRecordFound:"NO RECORD FOUND FOR :- ",
+alertDescription:"No information is available for the given  field's in our database.....",
+tableAlertDescriptionForReciept:"No Reciept information is available for the given sales in our database.....",
+tableNoRecordFound:"NO RECORD FOUND.... !! ",
+noRecordFoundAlert:"NO RECORD FOUND.......",
+noRecordFoundDesc:"No information is available  in our database at the moment.....",
 
 
 

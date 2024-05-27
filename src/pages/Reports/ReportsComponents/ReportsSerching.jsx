@@ -6,9 +6,9 @@ import CustomDatePicker from '../../../components/CustomDatePicker/CustomDatePic
 import CustomButton from '../../../components/CustomButton/CustomButton'
 import CustomAutoComplete from '../../../components/CustomAutoComplete/CustomAutoComplete'
 
-const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearOptions }) => {
+const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearch, isAdmin, autoCompleteOptions, yearOptions, year, onYearChange, onMonthChange, month, dates }) => {
 
-
+  const { serachDates, setSerachDates } = dates
 
   return (
     <Box>
@@ -18,7 +18,7 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
 
           <Card variant="outlined" sx={{ m: 0.6 }}>
             <Box sx={{ p: 1 }}>
-              <CustomAutoComplete options={yearOptions && yearOptions} label={"Year"} isFullWidth={true} />
+              <CustomAutoComplete value={year} onChange={onYearChange} options={yearOptions && yearOptions} label={"Year"} isFullWidth={true} />
 
             </Box>
           </Card>
@@ -28,8 +28,8 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
           <Card variant="outlined" sx={{ m: 0.6 }} >
             <Box sx={{ p: 1 }}>
               <CustomDropDown
-                //   value={month}
-                //   onChange={handleMonthChange}
+                value={month}
+                onChange={onMonthChange}
                 label={FinoLabel.month}
                 placeholder={FinoLabel.month}
                 isFullwidth={true}
@@ -41,15 +41,14 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
 
         <Grid xs={12} md={6.6}>
 
-
           <form onSubmit={handleDateSearch}>
 
             <Card variant="outlined" sx={{ display: "flex", m: 0.6 }}>
               <Box sx={{ p: 1, width: "33.33%" }}>
                 <CustomDatePicker
                   isRequired={true}
-                  //    value={dates?.fromDate}
-                  //    onChange={(e)=>{setDates({...dates,fromDate:e})}}
+                  value={serachDates?.fromDate}
+                  onChange={(e) => { setSerachDates({ ...serachDates,fromDate: e }) }}
                   isFullWidth={true}
                   label={FinoLabel.fromDate}
                 />
@@ -58,8 +57,8 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
               <Box sx={{ p: 1, width: "33.33%" }}>
                 <CustomDatePicker
                   isRequired={true}
-                  //    value={dates?.toDate}
-                  //    onChange={(e)=>{setDates({...dates,toDate:e})}}
+                  value={serachDates?.toDate}
+                  onChange={(e) => { setSerachDates({ ...serachDates, toDate: e }) }}
                   isFullWidth={true}
                   label={FinoLabel.toDate}
                 />
@@ -70,8 +69,8 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
                   <CustomButton color={"secondary"} width={"75px"} title={"Search"} />
                 </Box>
                 <Box sx={{ ml: 2 }}>
-                  <CustomButton color={"error"} type={"button"} width={"75px"} title={"Clear"} />
-                  {/* onClick={()=>{setDates({fromDate:null,toDate:null})}} */}
+                  <CustomButton  onClick={() => { setSerachDates({ fromDate: null, toDate: null }) }} color={"error"} type={"button"} width={"75px"} title={"Clear"} />
+                 
                 </Box>
               </Box>
 
@@ -90,7 +89,7 @@ const ReportsSerching = ({ handleDateSearch, isAdmin, autoCompleteOptions, yearO
 
             <Card variant="outlined" sx={{ m: 0.6 }}>
               <Box sx={{ p: 1 }}>
-                <CustomAutoComplete options={autoCompleteOptions && ["ALL"].concat(autoCompleteOptions)} label={"Collected By"} isFullWidth={true} />
+                <CustomAutoComplete value={collectedBySearch} onChange={onCollectedByChange} options={autoCompleteOptions && ["ALL"].concat(autoCompleteOptions)} label={"Collected By"} isFullWidth={true} />
               </Box>
             </Card>
           </Grid>

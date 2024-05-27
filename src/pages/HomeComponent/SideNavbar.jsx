@@ -14,8 +14,13 @@ import { BiSolidDashboard } from "react-icons/bi";
 import { SideNavbarStyles } from "../../styles/SideNavbarStyles";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
+import { BsFillFuelPumpDieselFill } from "react-icons/bs";
+import { RiUserAddFill } from "react-icons/ri";
+import HasAuthority from "../../hooks/HasAuthority";
+
 
 const SideNavbar = ({drawerClose}) => {
+  const { isAdmin, isClient, isManager, isUser } = HasAuthority()
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -107,7 +112,7 @@ const SideNavbar = ({drawerClose}) => {
           onClick={(e) => handleSelectedIndex(e, 1)}
         >
           <ListItemIcon>
-            <MdPayments
+            <BsFillFuelPumpDieselFill
               style={
                 selectedIndex === 1
                   ? SideNavbarStyles.ListIconStyleIfSelected(theme)
@@ -149,30 +154,36 @@ const SideNavbar = ({drawerClose}) => {
             primary="Activities"
           />
         </ListItemButton> */}
-        <ListItemButton
-          sx={{
-            "&.Mui-selected":
-              SideNavbarStyles.listItemButtonSelectedStyle(theme),
-          }}
-          selected={selectedIndex === 4}
-          onClick={(e) => handleSelectedIndex(e, 4)}
-        >
-          <ListItemIcon>
-            <TbLayoutGridAdd
-              style={
-                selectedIndex === 4
-                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-                  : SideNavbarStyles.listItemIconStyle(theme)
-              }
-            />
-          </ListItemIcon>
-          <ListItemText
-            sx={
-              selectedIndex !== 4 && SideNavbarStyles.listItemTextstyle(theme)
-            }
-            primary="Add User"
-          />
-        </ListItemButton>
+
+{
+  isAdmin && <ListItemButton
+  sx={{
+    "&.Mui-selected":
+      SideNavbarStyles.listItemButtonSelectedStyle(theme),
+  }}
+  selected={selectedIndex === 4}
+  onClick={(e) => handleSelectedIndex(e, 4)}
+>
+  <ListItemIcon>
+    <RiUserAddFill
+      style={
+        selectedIndex === 4
+          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+          : SideNavbarStyles.listItemIconStyle(theme)
+      }
+    />
+  </ListItemIcon>
+  <ListItemText
+    sx={
+      selectedIndex !== 4 && SideNavbarStyles.listItemTextstyle(theme)
+    }
+    primary="Add User"
+  />
+</ListItemButton>
+}
+
+
+        
         {/* <ListItemButton   onClick={(e)=>{handleClick(e)}}>
         <ListItemIcon>
           <IoBowlingBallOutline/>
