@@ -8,7 +8,7 @@ export const deleteAnRoleService = createAsyncThunk("deleteAnRoleService", async
 
 const deleteAnRoleSlice = createSlice({
 
-    name: "assignAnRoleSlice",
+    name: "deleteAnRoleSlice",
     initialState: {
         isLoading: false,
         data: null,

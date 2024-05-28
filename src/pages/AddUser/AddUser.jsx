@@ -31,6 +31,9 @@ import { GrUpdate } from "react-icons/gr"
 import CustomDrawer from "../../components/CustomDrawer/CustomDrawer"
 import { IsArray } from "../../utils/IsArray"
 import { MdDeleteForever } from "react-icons/md"
+import { deleteAnRoleService } from "../../redux/slice/userslice/DeleteAnRole"
+import { assignAnRoleService } from "../../redux/slice/userslice/AssignAnRoleSlice"
+import { updateUserService } from "../../redux/slice/userslice/UpdateUserSlice"
 
 
 
@@ -47,9 +50,9 @@ const protectedInterceptors=ProtectedInterceptors()
 const[userRegisterFields,setUserRegisterFields]=useState({"firstName":"","lastName":"","dateOfBirth":null,"password":"", "mobileNumber":"","emailId":"","userRole":"","confirmPassword":""})
 const [registeredUserSnackBar,setRegisteredUserSnackBar]=useState({open:false,message:"",refresh:false,error:false})
 const[userDeleteOperation,setUserDeleteOperation]=useState({dialog:false,snackbar:false,row:{}})
-const[userUpdateOperation,setUserUpdateOperation]=useState({dialog:false,snackbar:false,row:{},firstName:"",lastName:"",dateOfBirth:null,emailId:""})
-
-const[assignNewRole,setAssignNewRole]=useState("")
+const[userUpdateOperation,setUserUpdateOperation]=useState({dialog:false,snackbar:false,row:{},firstName:"",lastName:"",dateOfBirth:null,emailId:"",refresh:false})
+const[assignNewRole,setAssignNewRole]=useState({snackbar:false,role:"",refresh:false})
+const[deleteRole,setDeleteRole]=useState({dialog:false,snack:false,row:{},message:"",refresh:false})
 
 const getAllUsers=()=>{dispatch(getAllUsersService(protectedInterceptors))}
 const GET_ALL_USERS_SLICE_REDUCER=useSelector((state)=>state?.GET_ALL_USERS_SLICE_REDUCER)
@@ -61,17 +64,40 @@ const DELETE_ROLE_SLICE_REDUCER=useSelector((state)=>state?.DELETE_ROLE_SLICE_RE
 
 
 
-useEffect(()=>{getAllUsers()},[registeredUserSnackBar?.refresh,DISABLE_USER_SLICE_REDUCER])
+useEffect(()=>{getAllUsers()},[registeredUserSnackBar?.refresh,DISABLE_USER_SLICE_REDUCER,deleteRole?.refresh,assignNewRole?.refresh,userUpdateOperation?.refresh])
 
-const removeRole=(k)=>{
-  console.log(k);
+const removeRole=(k)=>{setDeleteRole((prev)=>{return{...prev,dialog:true,row:k}})}
+
+const onRoleDeleteConfirm= async(e)=>{
+  
+  const {payload}=await dispatch(deleteAnRoleService({protectedInterceptors:protectedInterceptors,roleId:deleteRole?.row?.finoUserRolesId}))
+  if(payload?.statusCode===200){
+    setDeleteRole((prev)=>{return{...prev,dialog:false,message:payload?.statusMessage,snack:true,refresh:!prev.refresh}})
+  }
+  else{
+    setDeleteRole((prev)=>{return{...prev,message:payload?.statusMessage,snack:true}})
+  }
+
 }
+
+const onANewRoleAdd= async( e)=>{
+e.preventDefault()
+const {payload}=await dispatch(assignAnRoleService({protectedInterceptors:protectedInterceptors,userRole:assignNewRole?.role,mobileNumber:userUpdateOperation?.row?.mobileNumber}))
+  if(payload?.statusCode===200){
+    setAssignNewRole((prev)=>{return{...prev,snackbar:true,refresh:!prev.refresh}})
+  }
+  else{
+    setAssignNewRole((prev)=>{return{...prev,snackbar:true}})
+  }
+
+}
+
 
 const usersDetails=useMemo(()=>{
 return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item=>{
   return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip variant="outlined" size="small" color="p2" clickable onDelete={()=>removeRole(k)} label={k?.roleName}></Chip></Box>})}
 })):[]
-},[GET_ALL_USERS_SLICE_REDUCER])
+},[GET_ALL_USERS_SLICE_REDUCER,DELETE_ROLE_SLICE_REDUCER])
 
 const onUserRegister= async(e)=>{
   e.preventDefault()
@@ -104,7 +130,22 @@ const{payload}=await dispatch(disableUserService({protectedInterceptors:protecte
 if(payload?.statusCode===200){setUserDeleteOperation((prev)=>{return{...prev,dialog:false,row:{},snackbar:true}})}
 else{ setUserDeleteOperation((prev)=>{return{...prev,snackbar:true}})}}
 
-const onUserUpdateConfirmation=async(e)=>{e.preventDefault();}
+const onUserUpdateConfirmation=async(e)=>{
+  e.preventDefault();
+  let updateUserData=userUpdateOperation
+  let{row,snackbar,dialog,refresh,...newUser}=updateUserData
+  const updateUserPayload=(user)=>({...user,dateOfBirth:dateToJavaUtilDate(user?.dateOfBirth)})
+  
+const {payload}=await dispatch(updateUserService({protectedInterceptors:protectedInterceptors,mobileNumber:userUpdateOperation?.row?.mobileNumber,payload:updateUserPayload(newUser)}))
+ if(payload?.statusCode===200){
+setUserUpdateOperation((prev)=>({...prev,refresh:!prev?.refresh,snackbar:true}))
+ }
+ else{
+   setUserUpdateOperation((prev)=>({...prev,snackbar:true}))
+ }
+}
+
+
 
 
   return (
@@ -363,7 +404,7 @@ const onUserUpdateConfirmation=async(e)=>{e.preventDefault();}
         </Typography>
     </Box>
 
- <form>   
+ <form onSubmit={onANewRoleAdd}>   
     <Box sx={{width:"100%",...GlobalStyles.alignmentStyles}}>
     <Box sx={{width:"50%", p: 1,...GlobalStyles.alignmentStyles }}>
     <CustomTextField
@@ -377,8 +418,8 @@ const onUserUpdateConfirmation=async(e)=>{e.preventDefault();}
     <Box sx={{width:"50%", p: 1,...GlobalStyles.alignmentStyles }}>
   <CustomDropDown isFullwidth={true}
    isRequired={true}
-   value={assignNewRole}
-   onChange={(e)=>{setAssignNewRole(e.target.value)}}
+   value={assignNewRole?.role}
+   onChange={(e)=>{setAssignNewRole({...assignNewRole,role:e.target.value})}}
   label={FinoLabel.userRole}
   placeholder={FinoLabel.userRole}
   children={FinoLabel.finoUserRoles?.map((item)=>{
@@ -404,11 +445,34 @@ const onUserUpdateConfirmation=async(e)=>{e.preventDefault();}
       </CustomDrawer>
 
 
+      <CustomDialog open={deleteRole?.dialog} onClose={() => setDeleteRole((prev)=>{return{...prev,dialog:false}})}>
+       
+       {
+        DELETE_ROLE_SLICE_REDUCER?.isLoading?<Loading/>:
+        <Box sx={{ p: 1 }}>
+        <Box sx={{ ...GlobalStyles.alignmentStyles_2 }} ><CustomTooltips title={"CLOSE"}> <IconButton aria-label="close" onClick={() =>setDeleteRole((prev)=>{return{...prev,dialog:false}})} sx={{ color: (theme) => theme?.palette?.p1?.main }} >
+          <IoClose /></IconButton> </CustomTooltips></Box>
+
+        <Box sx={{ p: 2, flexWrap: "wrap" }}>
+          <Typography color={"info"} variant='v2' >Do you really wish to Remove this  &nbsp;<span><Chip size="small" variant="outlined" color="p1" label={`${deleteRole?.row?.roleName} `} /></span>&nbsp; role......?</Typography>
+        </Box>
+        <Box sx={{ p: 1, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
+          <CustomButton title={"DELETE"} onClick={onRoleDeleteConfirm} variant={"outlined"} color={"p1"} endIcon={<FcDeleteRow/>} />
+        </Box>
+
+      </Box>
+       }
+       
+      
+      </CustomDialog>
 
 <CustomSnackbar open={registeredUserSnackBar?.open} onClose={()=>{setRegisteredUserSnackBar((prev)=>{return{...prev,open:false,message:"",error:false,refresh:false}})}} message={registeredUserSnackBar?.message} severity={registeredUserSnackBar.error?"error":"success"} />
 
 <CustomSnackbar open={userDeleteOperation?.snackbar} onClose={()=>{setUserDeleteOperation((prev)=>{return{...prev,snackbar:false}})}} message={DISABLE_USER_SLICE_REDUCER?.data?.statusMessage} severity={DISABLE_USER_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
+<CustomSnackbar open={deleteRole?.snack} onClose={()=>{setDeleteRole((prev)=>{return{...prev,snack:false}})}} message={DELETE_ROLE_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_ROLE_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+<CustomSnackbar open={assignNewRole?.snackbar} onClose={()=>{setAssignNewRole((prev)=>{return{...prev,snackbar:false}})}} message={ASSIGN_ROLE_SLICE_REDUCER?.data?.statusMessage} severity={ASSIGN_ROLE_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+<CustomSnackbar open={userUpdateOperation?.snackbar} onClose={()=>{setUserUpdateOperation((prev)=>{return{...prev,snackbar:false}})}} message={UPDATE_USER_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_USER_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
     </>   
   )

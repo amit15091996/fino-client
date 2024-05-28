@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import CustomTabs from '../../components/CustomTabs/CustomTabs'
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { PiBankBold } from "react-icons/pi";
-import { Box, Button, Card } from '@mui/material';
+import { Box, Button, Card, Chip, IconButton, Typography } from '@mui/material';
 import HasAuthority from "../../hooks/HasAuthority"
 import CustomTable from '../../components/CustomTable/CustomTable';
 import ReportsSerching from './ReportsComponents/ReportsSerching';
@@ -22,7 +22,16 @@ import DynamicHead from '../../components/DynamicHead/DynamicHead';
 import { bankTxnSearchService, setBankSearchSliceToInitialState } from '../../redux/slice/bankslice/BankTxnSearchSlice';
 import CustomAlert from '../../components/CustomAlert/CustomAlert';
 import { cmsTxnSearchService, setCmsSearchSliceToInitialState } from '../../redux/slice/cmsslice/CmsTxnSearchSlice';
-
+import CustomDialog from '../../components/CustomDialog/CustomDialog';
+import CustomTooltips from '../../components/CustomTooltips/CustomTooltips';
+import { IoClose } from "react-icons/io5";
+import { GlobalStyles } from '../../styles/GlobalStyles';
+import { FcDeleteRow } from 'react-icons/fc';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import { deleteBankTxnService } from '../../redux/slice/bankslice/BankTxnDeleteSlice';
+import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
+import Loading from '../../components/Loading/Loading';
+import { deleteCmsTxnService } from '../../redux/slice/cmsslice/CmsTxnDeleteSlice';
 
 const Reports = ({ }) => {
 
@@ -32,7 +41,8 @@ const Reports = ({ }) => {
   const [month, setMonth] = useState("")
   const [collectedBySearch, setCollectedBySearch] = useState("")
   const [serachDates, setSerachDates] = useState({ fromDate: null, toDate: null })
-
+  const[bankTxnDelete,setBankTxnDelete]=useState({dialog:false,row:{},snack:false,refresh:false})
+  const[cmsTxnDelete,setCmsTxnDelete]=useState({dialog:false,row:{},snack:false,refresh:false})
 
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
   const dispatch = useDispatch()
@@ -46,9 +56,12 @@ const Reports = ({ }) => {
   const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
   const BANK_TXN_SEARCH_SLICE_REDUCER = useSelector((state) => state?.BANK_TXN_SEARCH_SLICE_REDUCER)
   const CMS_TXN_SEARCH_SLICE_REDUCER = useSelector((state) => state?.CMS_TXN_SEARCH_SLICE_REDUCER)
+  const DELETE_BANK_TXN_SLICE_REDUCER = useSelector((state) => state?.DELETE_BANK_TXN_SLICE_REDUCER)
+  const DELETE_CMS_TXN_SLICE_REDUCER = useSelector((state) => state?.DELETE_CMS_TXN_SLICE_REDUCER)
 
+  
 
-
+  
 
   const collectedBy = useMemo(() => {
     return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response) ?
@@ -78,17 +91,29 @@ const Reports = ({ }) => {
 
   }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER,CMS_TXN_SEARCH_SLICE_REDUCER])
 
-  useEffect(() => {
-    getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
-    getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })
-  }, [])
+  useEffect(() => {getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })}, [bankTxnDelete?.refresh])
+  useEffect(()=>{ getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })},[cmsTxnDelete?.refresh])
 
   useEffect(() => { if (isAdmin) { getAllUsers() } }, [])
   const handleReportTabChanges = (e, value) => { setYear(""); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;setReportsTab(value) }
   const onBankTxnEditClick = (row) => { }
-  const onBankTxnDeleteClick = (row) => { }
+  const onBankTxnDeleteClick = (row) => { setBankTxnDelete((prev)=>({...prev,dialog:true,row:row}))}
   const onCmsTxnEditClick = (row) => { }
-  const onCmsTxnDeleteClick = (row) => { }
+  const onCmsTxnDeleteClick = (row) => { setCmsTxnDelete((prev)=>({...prev,dialog:true,row:row})) }
+
+const onBankTxnDeleteConfirmation=async(e)=>{
+e.preventDefault()
+const{payload}=await dispatch(deleteBankTxnService({protectedInterceptors:protectedInterceptors,bankTxnId:bankTxnDelete?.row?.bankTransactionId}))
+if(payload?.statusCode===200){setBankTxnDelete((prev)=>{return{...prev,dialog:false,row:{},snack:true,refresh:!prev?.refresh}})}
+else{ setBankTxnDelete((prev)=>{return{...prev,snack:true}})}
+}
+
+const onCmsTxnDeleteConfirmation=async(e)=>{
+  e.preventDefault()
+  const{payload}=await dispatch(deleteCmsTxnService({protectedInterceptors:protectedInterceptors,cmsTxnId:cmsTxnDelete?.row?.cmsTransactionId}))
+  if(payload?.statusCode===200){setCmsTxnDelete((prev)=>{return{...prev,dialog:false,row:{},snack:true,refresh:!prev?.refresh}})}
+  else{ setCmsTxnDelete((prev)=>{return{...prev,snack:true}})}
+  }
 
   const onYearChange = async (e, value) => {
     setYear(value); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("");
@@ -213,8 +238,6 @@ const onCmsCollectedByChange=async (e,value)=>{
 
 
 
-
-
   const reportTabs = [
     {
       label: "Bank  Reports ",
@@ -305,6 +328,52 @@ const onCmsCollectedByChange=async (e,value)=>{
         <CustomTabs tabDetails={reportTabs} value={reportsTab} onChange={handleReportTabChanges} cardPosition={{ display: "flex", justifyContent: "flex-start" }} tabPosition={{ justifyContent: "flex-start" }} />
 
       </Box>
+
+
+      <CustomDialog open={bankTxnDelete?.dialog} onClose={() => setBankTxnDelete((prev)=>{return{...prev,dialog:false}})}>
+       
+       {
+        DELETE_BANK_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
+        <Box sx={{ p: 1 }}>
+        <Box sx={{ ...GlobalStyles.alignmentStyles_2 }} ><CustomTooltips title={"CLOSE"}> <IconButton aria-label="close" onClick={() =>setBankTxnDelete((prev)=>{return{...prev,dialog:false}})} sx={{ color: (theme) => theme?.palette?.p1?.main }} >
+          <IoClose /></IconButton> </CustomTooltips></Box>
+
+        <Box sx={{ p: 2, flexWrap: "wrap" }}>
+          <Typography color={"info"} variant='v2' >Do you really wish to Remove this Transaction with Id  &nbsp;<span><Chip size="small" variant="outlined" color="p1" label={`${bankTxnDelete?.row?.bankTransactionId} `} /></span></Typography>
+        </Box>
+        <Box sx={{ p: 1, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
+          <CustomButton title={"DELETE"} onClick={onBankTxnDeleteConfirmation} variant={"outlined"} color={"p1"} endIcon={<FcDeleteRow/>} />
+        </Box>
+
+      </Box>
+       }
+       
+      
+      </CustomDialog>
+
+      <CustomDialog open={cmsTxnDelete?.dialog} onClose={() => setCmsTxnDelete((prev)=>{return{...prev,dialog:false}})}>
+       
+       {
+        DELETE_CMS_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
+        <Box sx={{ p: 1 }}>
+        <Box sx={{ ...GlobalStyles.alignmentStyles_2 }} ><CustomTooltips title={"CLOSE"}> <IconButton aria-label="close" onClick={() =>setCmsTxnDelete((prev)=>{return{...prev,dialog:false}})} sx={{ color: (theme) => theme?.palette?.p1?.main }} >
+          <IoClose /></IconButton> </CustomTooltips></Box>
+
+        <Box sx={{ p: 2, flexWrap: "wrap" }}>
+          <Typography color={"info"} variant='v2' >Do you really wish to Remove this Transaction with Id  &nbsp;<span><Chip size="small" variant="outlined" color="p1" label={`${cmsTxnDelete?.row?.cmsTransactionId} `} /></span></Typography>
+        </Box>
+        <Box sx={{ p: 1, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
+          <CustomButton title={"DELETE"} onClick={onCmsTxnDeleteConfirmation} variant={"outlined"} color={"p1"} endIcon={<FcDeleteRow/>} />
+        </Box>
+
+      </Box>
+       }
+       
+      
+      </CustomDialog>
+
+<CustomSnackbar open={bankTxnDelete?.snack} onClose={()=>{setBankTxnDelete((prev)=>{return{...prev,snack:false}})}} message={DELETE_BANK_TXN_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_BANK_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+<CustomSnackbar open={cmsTxnDelete?.snack} onClose={()=>{setCmsTxnDelete((prev)=>{return{...prev,snack:false}})}} message={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
 
     </Box>

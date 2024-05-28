@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 export const updateUserService = createAsyncThunk("updateUserService", async(updateUser) => {
 
 
-    return (await updateUser?.protectedInterceptors.put(`user/update-fino-user`,updateUser?.payload))?.data
+    return (await updateUser?.protectedInterceptors.put(`user/update-fino-user?mobileNumber=${updateUser?.mobileNumber}`,updateUser?.payload))?.data
 })
 
 const updateUserSlice = createSlice({
