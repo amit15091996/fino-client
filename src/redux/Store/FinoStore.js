@@ -14,6 +14,10 @@ import { DISABLE_USER_SLICE_REDUCER } from '../slice/userslice/DisableUserSlice'
 import { UPDATE_USER_SLICE_REDUCER } from '../slice/userslice/UpdateUserSlice'
 import { ASSIGN_ROLE_SLICE_REDUCER } from '../slice/userslice/AssignAnRoleSlice'
 import { DELETE_ROLE_SLICE_REDUCER } from '../slice/userslice/DeleteAnRole'
+import { UPDATE_BANK_TXN_SLICE_REDUCER } from '../slice/bankslice/BankTxnUpdateSlice'
+import { DELETE_BANK_TXN_SLICE_REDUCER } from '../slice/bankslice/BankTxnDeleteSlice'
+import { UPDATE_CMS_TXN_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnUpdateSlice'
+import { DELETE_CMS_TXN_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnDeleteSlice'
 
 const FinoStore = configureStore({
     reducer:{
@@ -31,7 +35,11 @@ const FinoStore = configureStore({
       DISABLE_USER_SLICE_REDUCER:DISABLE_USER_SLICE_REDUCER,
       UPDATE_USER_SLICE_REDUCER:UPDATE_USER_SLICE_REDUCER,
       ASSIGN_ROLE_SLICE_REDUCER:ASSIGN_ROLE_SLICE_REDUCER,
-      DELETE_ROLE_SLICE_REDUCER:DELETE_ROLE_SLICE_REDUCER  
+      DELETE_ROLE_SLICE_REDUCER:DELETE_ROLE_SLICE_REDUCER,
+      UPDATE_BANK_TXN_SLICE_REDUCER:UPDATE_BANK_TXN_SLICE_REDUCER,
+      DELETE_BANK_TXN_SLICE_REDUCER:DELETE_BANK_TXN_SLICE_REDUCER,
+      UPDATE_CMS_TXN_SLICE_REDUCER:UPDATE_CMS_TXN_SLICE_REDUCER,
+      DELETE_CMS_TXN_SLICE_REDUCER:DELETE_CMS_TXN_SLICE_REDUCER  
       
     },
     devTools:true
