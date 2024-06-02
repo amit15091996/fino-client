@@ -15,7 +15,7 @@ import { allBankDepositByUserNameService } from '../../redux/slice/bankslice/All
 import { allCmsTxnByUserNameService } from '../../redux/slice/cmsslice/AllCmsTxnByUserName';
 import TableLoader from '../../components/CustomTable/TableHelpers/TableLoader';
 import { IsArray } from '../../utils/IsArray';
-import { dateFormater, dateToJavaUtilDate } from '../../utils/DateTimeFormatter';
+import { dateFormater, dateToJavaUtilDate, stringToDateConverter } from '../../utils/DateTimeFormatter';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
 import { getAllUsersService } from '../../redux/slice/userslice/AllUserSlice';
 import DynamicHead from '../../components/DynamicHead/DynamicHead';
@@ -32,6 +32,12 @@ import { deleteBankTxnService } from '../../redux/slice/bankslice/BankTxnDeleteS
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
 import Loading from '../../components/Loading/Loading';
 import { deleteCmsTxnService } from '../../redux/slice/cmsslice/CmsTxnDeleteSlice';
+import CustomDrawer from '../../components/CustomDrawer/CustomDrawer';
+import DepositAndCmsForm from '../Dashboard/TxnAndDeposit/DepositAndCmsForm';
+import { updateBankTxnService } from '../../redux/slice/bankslice/BankTxnUpdateSlice';
+import { updateCmsTxnService } from '../../redux/slice/cmsslice/CmsTxnUpdateSlice';
+
+
 
 const Reports = ({ }) => {
 
@@ -43,6 +49,14 @@ const Reports = ({ }) => {
   const [serachDates, setSerachDates] = useState({ fromDate: null, toDate: null })
   const[bankTxnDelete,setBankTxnDelete]=useState({dialog:false,row:{},snack:false,refresh:false})
   const[cmsTxnDelete,setCmsTxnDelete]=useState({dialog:false,row:{},snack:false,refresh:false})
+  const[bankAndCmsDepositfields,setBankAndCmsDepositfields]=useState({
+    recievedFrom:"",collectedBy:"",collectionAmount:"",TransactionDate:null,onlineAmount:"",cashAmount:"",balanceAmount:"",
+    remarks:""
+  })
+
+  const[updatedBankTxn,setUpdatedBankTxn]=useState({open:false,snack:false,row:{},refresh:false})
+  const[updatedCmsTxn,setUpdatedCmsTxn]=useState({open:false,snack:false,row:{},refresh:false})
+
 
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
   const dispatch = useDispatch()
@@ -58,9 +72,14 @@ const Reports = ({ }) => {
   const CMS_TXN_SEARCH_SLICE_REDUCER = useSelector((state) => state?.CMS_TXN_SEARCH_SLICE_REDUCER)
   const DELETE_BANK_TXN_SLICE_REDUCER = useSelector((state) => state?.DELETE_BANK_TXN_SLICE_REDUCER)
   const DELETE_CMS_TXN_SLICE_REDUCER = useSelector((state) => state?.DELETE_CMS_TXN_SLICE_REDUCER)
+  const UPDATE_BANK_TXN_SLICE_REDUCER = useSelector((state) => state?.UPDATE_BANK_TXN_SLICE_REDUCER)
+  const UPDATE_CMS_TXN_SLICE_REDUCER = useSelector((state) => state?.UPDATE_CMS_TXN_SLICE_REDUCER)
 
   
-
+  useEffect(()=>{
+    setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:(prev.collectionAmount)-((+prev.cashAmount)+ (+prev.onlineAmount))}})
+  },[bankAndCmsDepositfields?.onlineAmount,bankAndCmsDepositfields?.cashAmount,bankAndCmsDepositfields.collectionAmount])
+  
   
 
   const collectedBy = useMemo(() => {
@@ -91,14 +110,26 @@ const Reports = ({ }) => {
 
   }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER,CMS_TXN_SEARCH_SLICE_REDUCER])
 
-  useEffect(() => {getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })}, [bankTxnDelete?.refresh])
-  useEffect(()=>{ getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })},[cmsTxnDelete?.refresh])
+  useEffect(() => {getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })}, [bankTxnDelete?.refresh,updatedBankTxn?.refresh])
+  useEffect(()=>{ getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })},[cmsTxnDelete?.refresh,updatedCmsTxn?.refresh])
 
   useEffect(() => { if (isAdmin) { getAllUsers() } }, [])
   const handleReportTabChanges = (e, value) => { setYear(""); setMonth(""); setSerachDates({ fromDate: null, toDate: null });setCollectedBySearch("") ;setReportsTab(value) }
-  const onBankTxnEditClick = (row) => { }
+  const onBankTxnEditClick = (row) => { 
+    setUpdatedBankTxn((prev)=>{return{...prev,open:true,row:row}});
+    setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:row?.balanceAmount,cashAmount:row?.cashAmount,
+      collectedBy:row?.collectedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.recievedFrom,
+      remarks:row?.remarks,TransactionDate:stringToDateConverter(row?.bankTransactionDate)
+    }})
+  }
   const onBankTxnDeleteClick = (row) => { setBankTxnDelete((prev)=>({...prev,dialog:true,row:row}))}
-  const onCmsTxnEditClick = (row) => { }
+  const onCmsTxnEditClick = (row) => {
+    setUpdatedCmsTxn((prev)=>{return{...prev,open:true,row:row}});
+    setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:row?.balanceAmount,cashAmount:row?.cashAmount,
+      collectedBy:row?.collectedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.recievedFrom,
+      remarks:row?.remarks,TransactionDate:stringToDateConverter(row?.cmsTransactionDate)
+    }})
+   }
   const onCmsTxnDeleteClick = (row) => { setCmsTxnDelete((prev)=>({...prev,dialog:true,row:row})) }
 
 const onBankTxnDeleteConfirmation=async(e)=>{
@@ -238,6 +269,31 @@ const onCmsCollectedByChange=async (e,value)=>{
 
 
 
+const onBankTxnUpdateSubmit= async(e)=>{
+  e.preventDefault()
+  const{payload}=await dispatch(updateBankTxnService({protectedInterceptors:protectedInterceptors,bankTxnId:updatedBankTxn?.row?.bankTransactionId,payload:{...bankAndCmsDepositfields,TransactionDate:dateToJavaUtilDate(bankAndCmsDepositfields?.TransactionDate)}}))
+if(payload?.statusCode===200){
+  setUpdatedBankTxn((prev)=>{return{...prev,open:false,refresh:!prev.refresh,row:{},snack:true}})
+}
+else{   setUpdatedBankTxn((prev)=>{return{...prev,snack:true}})
+}
+
+
+}
+
+const onCmsTxnUpdateSubmit=async(e)=>{
+  e.preventDefault()
+  const{payload}=await dispatch(updateCmsTxnService({protectedInterceptors:protectedInterceptors,cmsTxnId:updatedCmsTxn?.row?.cmsTransactionId,payload:{...bankAndCmsDepositfields,TransactionDate:dateToJavaUtilDate(bankAndCmsDepositfields?.TransactionDate)}}))
+if(payload?.statusCode===200){
+  setUpdatedCmsTxn((prev)=>{return{...prev,open:false,refresh:!prev.refresh,row:{},snack:true}})
+}
+else{   setUpdatedCmsTxn((prev)=>{return{...prev,snack:true}})
+}
+
+
+}
+
+
   const reportTabs = [
     {
       label: "Bank  Reports ",
@@ -372,8 +428,29 @@ const onCmsCollectedByChange=async (e,value)=>{
       
       </CustomDialog>
 
+
+<CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={updatedBankTxn?.open} onClose={()=>{setUpdatedBankTxn((prev)=>{return{...prev,open:false,row:{}}})}}>
+  <Box sx={{maxWidth:400}}>
+    {
+      UPDATE_BANK_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
+      <DepositAndCmsForm onSubmit={onBankTxnUpdateSubmit} title={"UPDATE BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
+    }
+ </Box>
+</CustomDrawer>
+
+<CustomDrawer isCloseButtonRequired={true} anchor={"right"} open={updatedCmsTxn?.open} onClose={()=>{setUpdatedCmsTxn((prev)=>{return{...prev,open:false,row:{}}})}}>
+  <Box sx={{maxWidth:400}}>
+    {
+      UPDATE_CMS_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
+      <DepositAndCmsForm onSubmit={onCmsTxnUpdateSubmit} title={"UPDATE CMS DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
+    }
+ </Box>
+</CustomDrawer>
+
 <CustomSnackbar open={bankTxnDelete?.snack} onClose={()=>{setBankTxnDelete((prev)=>{return{...prev,snack:false}})}} message={DELETE_BANK_TXN_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_BANK_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 <CustomSnackbar open={cmsTxnDelete?.snack} onClose={()=>{setCmsTxnDelete((prev)=>{return{...prev,snack:false}})}} message={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+<CustomSnackbar open={updatedBankTxn?.snack} onClose={()=>{setUpdatedBankTxn((prev)=>{return{...prev,snack:false}})}} message={UPDATE_BANK_TXN_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_BANK_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+<CustomSnackbar open={updatedCmsTxn?.snack} onClose={()=>{setUpdatedCmsTxn((prev)=>{return{...prev,snack:false}})}} message={UPDATE_CMS_TXN_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_CMS_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 
 
     </Box>

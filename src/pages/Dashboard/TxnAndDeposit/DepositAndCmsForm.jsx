@@ -12,7 +12,7 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
 const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
 
   return (
-    <Card sx={{p:2,mr:1}} >
+    <Card sx={{p:2}} >
 
         <Box sx={{ml:1,mb:1}}>
           <Typography variant="v5">
@@ -24,7 +24,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
       <form onSubmit={onSubmit}>
     
     <Grid container>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={isUpdate?12:3}>
       <Box sx={{ p: 1}}>
           <CustomDatePicker
             isFullWidth={true}
@@ -37,7 +37,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
       <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
@@ -52,7 +52,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
       <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
@@ -66,7 +66,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
 
       <Box sx={{ p: 1 }}>
           <CustomTextField
@@ -83,7 +83,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
     </Grid>
       
     <Grid container>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
       <Box sx={{ p: 1}}>
       <CustomTextField
             isFullwidth={true}
@@ -98,7 +98,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
         
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12} md={isUpdate?12:3}>
       <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
@@ -112,7 +112,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
       <Box sx={{ p: 1 }}>
           <CustomTextField
             isFullwidth={true}
@@ -123,7 +123,7 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={3}>
+      <Grid item xs={12}  md={isUpdate?12:3}>
 
       <Box sx={{ p: 1 }}>
           <CustomTextField
@@ -144,9 +144,9 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
        
       
      
-        <Box sx={{ p: 1,...GlobalStyles.alignmentStyles_2}}>
+        <Box sx={{ p: 1, display:"flex",justifyContent:isUpdate?"center":"flex-end",alignItems:"center"}}>
           <CustomButton
-           width={100}
+           width={isUpdate?"100%":100}
             title={isUpdate ? "UPDATE" : "ADD"}
             
           />

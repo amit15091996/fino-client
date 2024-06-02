@@ -95,7 +95,7 @@ const {payload}=await dispatch(assignAnRoleService({protectedInterceptors:protec
 
 const usersDetails=useMemo(()=>{
 return Array.isArray(GET_ALL_USERS_SLICE_REDUCER?.data?.response)? GET_ALL_USERS_SLICE_REDUCER?.data?.response?.map((item=>{
-  return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip variant="outlined" size="small" color="p2" clickable onDelete={()=>removeRole(k)} label={k?.roleName}></Chip></Box>})}
+  return{...item,dateOfBirth:dateFormater(item?.dateOfBirth),userRoles:item?.userRoles?.map((k)=>{return <Box sx={{p:0.2}}><Chip variant="outlined" size="small" color="p1" clickable onDelete={()=>removeRole(k)} label={k?.roleName}></Chip></Box>})}
 })):[]
 },[GET_ALL_USERS_SLICE_REDUCER,DELETE_ROLE_SLICE_REDUCER])
 
@@ -156,8 +156,8 @@ setUserUpdateOperation((prev)=>({...prev,refresh:!prev?.refresh,snackbar:true}))
 
 
 {
-  REGISTER_SLICE_REDUCER?.isLoading? <Card sx={{p:2,mr:1}}><Loading/></Card>:
-  <Card sx={{p:2,mr:1}}>
+  REGISTER_SLICE_REDUCER?.isLoading? <Card sx={{p:2}}><Loading/></Card>:
+  <Card sx={{p:2}}>
       
   <Box sx={{ml:1,mb:1.5}}>
    <Typography variant="v5">
@@ -283,9 +283,9 @@ setUserUpdateOperation((prev)=>({...prev,refresh:!prev?.refresh,snackbar:true}))
 </Card>
 }
 
-   
+  
 
-    <Card sx={{ mt: 2, mr: 1, mb:5,p:1.5}}>
+    <Card sx={{ mt: 2,mb:2,p:1.5}}>
       {
         GET_ALL_USERS_SLICE_REDUCER?.isLoading?<TableLoader/>:
         <CustomTable

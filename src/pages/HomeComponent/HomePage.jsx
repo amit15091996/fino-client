@@ -1,5 +1,5 @@
 import { Box, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import homepage from "../../assets/homepage.png"
 import { useTheme } from '@emotion/react'
 import { GlobalStyles } from '../../styles/GlobalStyles'
@@ -54,7 +54,7 @@ const HomePage = ({ }) => {
   const [cookies, setCookie, removeCookie] = useCookies(['FINO_LOGIN_COOKIE']);
   const MSGPACK = new Encodr("msgpack")
 
-
+useEffect(()=>{removeCookie('FINO_LOGIN_COOKIE',{path:"/Layout"})},[])
 
 
   const onForgotPassword = (e) => { setforgotPasswordDrawer(true) }

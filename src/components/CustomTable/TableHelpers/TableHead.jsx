@@ -32,7 +32,7 @@ export default function EnhancedTableHead({isCheckBoxRequird,isActionRequired,he
       <TableHead>
         <TableRow sx={{
           ".MuiTableCell-root":{
-            color:theme?.palette?.p2?.main,
+            color:theme?.palette?.p1?.main,
             padding:0.1,
             margin:0,
             // background:"#F5F6F9",

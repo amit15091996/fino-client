@@ -27,9 +27,9 @@ const{filterItem,setFilterItem}=customFilter
   return (
     <Card  sx={{maxWidth:400,borderRadius:0,margin:"5px"}}>
     <Box sx={{justifyContent:"space-between",display:"flex",alignItems:"center"}}>
-      <Typography variant='v2'>Filter Panel <span><UnderLine width={"25px"}/></span></Typography>
+      <Typography variant='v2'>Filter Panel <span><UnderLine color={theme?.palette?.p1?.main} width={"25px"}/></span></Typography>
       <CustomTooltips  title="Reset Filters">
-      <BiReset style={{cursor:"pointer",color:theme?.palette?.p2?.main}} onClick={()=>{ setFilterItem({columns:"", operators:"",filterValue:""})}} fontSize={20}/>
+      <BiReset style={{cursor:"pointer",color:theme?.palette?.p1?.main}} onClick={()=>{ setFilterItem({columns:"", operators:"",filterValue:""})}} fontSize={20}/>
       </CustomTooltips>
      </Box>
      

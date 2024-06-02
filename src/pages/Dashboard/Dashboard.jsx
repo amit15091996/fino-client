@@ -114,7 +114,7 @@ const tabs=[
       <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S DASHBOARD`}/>
 
       <Box sx={{...GlobalStyles.alignmentStyles_2}}>
-        <Card sx={{height:80,width:140,mr:1}}>
+        <Card sx={{height:80,width:140}}>
           <Box sx={{...GlobalStyles.alignmentStyles}}>
           <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main}  />
           </Box>

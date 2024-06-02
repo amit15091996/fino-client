@@ -102,7 +102,7 @@ const CustomTable = ({
     autoTable(doc, {
       theme: "grid",
       headStyles: {
-        fillColor: `${theme?.palette?.primary?.main}`,
+        fillColor: `${theme?.palette?.p1?.main}`,
         fontSize: 8,
       },
       margin: {
@@ -305,29 +305,29 @@ const CustomTable = ({
             ".MuiTablePagination-selectLabel": {
               fontSize: 14,
               fontWeight: "900!important",
-              color: theme?.palette?.p2?.main,
+              color: theme?.palette?.p1?.main,
             },
             ".MuiInputBase-root": {
               mt: 0.5,
               fontSize: 14,
               fontWeight: "900!important",
-              color: theme?.palette?.p2?.main,
+              color: theme?.palette?.p1?.main,
             },
             ".MuiTablePagination-displayedRows": {
               fontSize: 14,
               fontWeight: "900!important",
-              color: theme?.palette?.p2?.main,
+              color: theme?.palette?.p1?.main,
             },
             ".MuiTablePagination-select": {
               fontSize: 14,
               fontWeight: "900!important",
-              color: theme?.palette?.p2?.main,
+              color: theme?.palette?.p1?.main,
             },
             ".MuiTablePagination-selectIcon": { height: 11 },
             ".MuiSvgIcon-root": {
               fontSize: 14,
               fontWeight: "900!important",
-              color: theme?.palette?.p2?.main,
+              color: theme?.palette?.p1?.main,
             },
           }}
           rowsPerPageOptions={[10, 50, 100, 250, 500]}

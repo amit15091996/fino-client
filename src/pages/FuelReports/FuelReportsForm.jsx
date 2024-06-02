@@ -16,7 +16,7 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
 
 
   return (
-     <Card sx={{p:2,mr:1}} >
+     <Card sx={{p:2}} >
 
         <Box sx={{ml:1,mb:1}}>
           <Typography variant="v5">

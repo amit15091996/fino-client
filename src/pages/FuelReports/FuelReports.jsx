@@ -12,7 +12,7 @@ const FuelReports = () => {
 
   return (
     <Box>
-<Box sx={{mt:1}}>
+<Box>
 
 <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S FUEL REPORTS`}/>
 
