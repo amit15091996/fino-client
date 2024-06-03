@@ -20,7 +20,7 @@ EnhancedTableHead.propTypes = {
   };
 
 
-export default function EnhancedTableHead({isCheckBoxRequird,isActionRequired,headCells,onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {
+export default function EnhancedTableHead({isActionRequired,headCells, order, orderBy, onRequestSort }) {
  
     const createSortHandler = (property) => (event) => {
       onRequestSort(event, property);
@@ -54,20 +54,7 @@ export default function EnhancedTableHead({isCheckBoxRequird,isActionRequired,he
 
         }}>
 
-          {
-            isCheckBoxRequird? <TableCell  >
-            <Checkbox 
-            size='small'
-              color="primary"
-              indeterminate={numSelected > 0 && numSelected < rowCount}
-              checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-              inputProps={{
-                'aria-label': 'select all',
-              }}
-            />
-          </TableCell>:null
-          }
+         
          
           
           {headCells?.map((headCell) => (
