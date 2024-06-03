@@ -12,11 +12,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { downloadExcel } from "react-export-table-to-excel";
 import EnhancedTableHead from "./TableHelpers/TableHead";
-import {
-  filteredArray,
-  getComparator,
-  stableSort,
-} from "./TableHelpers/HelperFunctions";
+import {filteredArray,getComparator, stableSort} from "./TableHelpers/HelperFunctions";
 import CustomPopover from "../CustomPopover/CustomPopover";
 import FilteredItem from "./TableHelpers/FilteredItem";
 import { IconButton } from "@mui/material";
@@ -27,75 +23,30 @@ import { MdDeleteForever } from "react-icons/md";
 import CustomToolBar from "./TableHelpers/CustomToolBar";
 import { GlobalStyles } from "../../styles/GlobalStyles";
 
-const CustomTable = ({
-  sortBy,
-  onEditClick,
-  onDeleteClick,
-  isActionRequired,
-  isSelected,
-  handleClick,
-  handleSelectAllClick,
-  selected,
-  onRowClick,
-  headCells,
-  rows,
-  isCheckBoxRequird,
-  isSelectItemRequired,
-  TableName,
-}) => {
+const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick,headCells,rows,TableName,FilterdRow}) => {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [filterItem, setFilterItem] = React.useState({
-    columns: "",
-    operators: "",
-    filterValue: "",
-  });
+  const [filterItem, setFilterItem] = React.useState({columns: "",operators: "",filterValue: "",});
   const theme = useTheme();
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+  const handleRequestSort = (event, property) => { const isAsc = orderBy === property && order === "asc";setOrder(isAsc ? "desc" : "asc"); setOrderBy(property);};
+  const handleChangePage = (event, newPage) => { setPage(newPage); };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
 
-  const visibleRows = React.useMemo(
-    () =>
-      filteredArray(
-        stableSort(rows, getComparator(order, orderBy)),
-        filterItem.columns,
-        filterItem.operators,
-        filterItem.filterValue
-      )?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [
-      order,
-      orderBy,
-      page,
-      rowsPerPage,
-      filterItem.columns,
-      filterItem.filterValue,
-      rows,
-      filterItem.operators,
-    ]
+  const visibleRows = React.useMemo( () =>
+      filteredArray( stableSort(rows, getComparator(order, orderBy)), filterItem.columns,filterItem.operators,filterItem.filterValue)?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order,orderBy,page,rowsPerPage,filterItem?.columns,filterItem?.filterValue,rows,filterItem?.operators]
   );
 
   const [popoverOpen, setPopOverOpen] = React.useState(false);
   const [popoveranchorEl, setpopoveranchorEl] = React.useState(null);
-  const handleFilterClick = (e) => {
-    setPopOverOpen(!popoverOpen);
-    setpopoveranchorEl(e.currentTarget);
-  };
+  const handleFilterClick = (e) => {setPopOverOpen(!popoverOpen);setpopoveranchorEl(e.currentTarget); };
 
-  const emptyFunc = () => {};
 
   const doc = new jsPDF();
   const pdfDownload = () => {
@@ -155,7 +106,6 @@ const CustomTable = ({
     >
       <CustomToolBar
         TableName={TableName}
-        numSelected={selected ? selected?.length : 0}
         onFilterClick={handleFilterClick}
         pdfdownload={pdfDownload}
         Exceldownload={Exceldownload}
@@ -163,54 +113,16 @@ const CustomTable = ({
 
       <Paper  sx={{ width: "100%" }}>
         <TableContainer sx={{ overflow: "auto" }}>
-          <Table
-            stickyHeader
-            aria-labelledby="tableTitle"
-            sx={{
-              "&:last-child": {
-                borderRight: "1px solid rgb(213,218,222)",
-                borderBottom: "1px solid rgb(213,218,222)",
-              },
-            }}
+          <Table stickyHeader aria-labelledby="tableTitle"
+            sx={{"&:last-child": { borderRight: "1px solid rgb(213,218,222)",borderBottom: "1px solid rgb(213,218,222)",},}}
           >
-            <EnhancedTableHead
-              headCells={headCells}
-              isCheckBoxRequird={isCheckBoxRequird}
-              numSelected={selected ? selected?.length : 0}
-              order={order}
-              orderBy={orderBy}
-              onSelectAllClick={(e) => {
-                handleSelectAllClick
-                  ? handleSelectAllClick(e, rows)
-                  : emptyFunc();
-              }}
-              onRequestSort={handleRequestSort}
-              rowCount={rows?.length}
-              isActionRequired={isActionRequired}
-            />
+            <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows?.length} isActionRequired={isActionRequired}/>
             <TableBody>
               {visibleRows?.map((row, index) => {
-                const isItemSelected = isSelected
-                  ? isSelected(row)
-                  : emptyFunc();
-                const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
-                  <TableRow
-                    hover
-                    onClick={(event) => {
-                      {
-                        handleClick ? handleClick(event, row) : emptyFunc();
-                      }
-                      {
-                        onRowClick ? onRowClick(row) : emptyFunc();
-                      }
-                    }}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={index}
-                    selected={isItemSelected}
+                  <TableRow hover onClick={(event) => {onRowClick && onRowClick(row)}} tabIndex={-1}
+                
                     sx={{
                       ".MuiTableCell-root": {
                         padding: "0.15rem",
@@ -225,20 +137,9 @@ const CustomTable = ({
                       cursor: "pointer",
                     }}
                   >
-                    {isCheckBoxRequird ? (
-                      <TableCell>
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            "aria-labelledby": labelId,
-                          }}
-                        />
-                      </TableCell>
-                    ) : null}
                     {headCells?.map((itemCol, index) => {
                       return (
-                        <TableCell size="small" id={labelId}>
+                        <TableCell size="small">
                           <Box
                             sx={{
                               ml:
@@ -268,10 +169,7 @@ const CustomTable = ({
                           <IconButton
                             sx={{ p: 0 }}
                             color="primary"
-                            onClick={(e) =>
-                              onEditClick ? onEditClick(row) : emptyFunc()
-                            }
-                          >
+                            onClick={(e) => onEditClick && onEditClick(row)}>
                             <CiEdit fontSize={18} />
                           </IconButton>
                         </CustomTooltips>
@@ -279,9 +177,7 @@ const CustomTable = ({
                           <IconButton
                             sx={{ p: 0, ml: 0.5 }}
                             color="error"
-                            onClick={(e) =>
-                              onDeleteClick ? onDeleteClick(row) : emptyFunc()
-                            }
+                            onClick={(e) => onDeleteClick && onDeleteClick(row)}
                           >
                             <MdDeleteForever fontSize={18} />
                           </IconButton>
@@ -353,7 +249,7 @@ const CustomTable = ({
         key={"filterPopover"}
       >
         <FilteredItem
-          headCells={headCells}
+          headCells={FilterdRow?FilterdRow:headCells}
           key={"filteredItem"}
           customFilter={{ filterItem, setFilterItem }}
         />
@@ -362,4 +258,4 @@ const CustomTable = ({
   );
 };
 
-export default CustomTable;
+export default FuelTable;

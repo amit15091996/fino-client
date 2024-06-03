@@ -94,6 +94,23 @@ tableAlertDescriptionForReciept:"No Reciept information is available for the giv
 tableNoRecordFound:"NO RECORD FOUND.... !! ",
 noRecordFoundAlert:"NO RECORD FOUND.......",
 noRecordFoundDesc:"No information is available  in our database at the moment.....",
+msSaleFilteredRow:[
+    {id:"date",label:"Date"},
+    {id:"openingStock",label:"Opening Stock"},
+    {id:"inwards",label:"Inwards"},
+    {id:"totalStock",label:"Total Sales"},
+    {id:"totalSales",label:"Opening Stock"},
+    {id:"closingStock",label:"Closing Stock"},
+    {id:"dipStock",label:"Dip Stock"},
+    {id:"variation",label:"Variation"},
+    {id:"dipStockInCms",label:"Dip Stock(CM's)"},
+    {id:"dipStockLtrs",label:"Dip Stock(LTR's)"},
+    {id:"totalMeterSales",label:"Total Meter Sales(LTR's)"},
+    {id:"testing",label:"Testing"},
+    {id:"density",label:"Density"},
+    {id:"waterDip",label:"Water Dip"},
+    {id:"remarks",label:"remarks"},
+]
 
 
 

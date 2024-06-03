@@ -16,15 +16,15 @@ const{jwtToken,userName,error,userRoles,fullName}=AuthHook()
         {
             (jwtToken !==undefined &&  jwtToken !==null && jwtToken !=="" &&  jwtToken !=="") ? <Box>
             <TopNavbar/>
-                <Grid container>
+                <Grid container >
                     <Grid item md={1.8}>
                         <Box sx={{ height: "92dvh", width: "100%", overflow: "auto", display: {xs:"none", sm: "none", md: "flex" }, borderRight: `1px solid ${GlobalStyles.sideTopNavborderColor}` }}>
                             <SideNavbar />
                         </Box>
                     </Grid>
     
-                    <Grid item xs={12} sm={12} md={10.2}>
-                        <Box sx={{ p:1, height: "92dvh", width: "99.42%", overflow: "auto"}}>
+                    <Grid item xs={12} sm={12} md={10.2} sx={{height: "92dvh", width: "100%",p:1,overflow:"auto",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                        <Box sx={{height: "100%", width: "100%"}}>
                             <Outlet />
                         </Box>
                     </Grid>
