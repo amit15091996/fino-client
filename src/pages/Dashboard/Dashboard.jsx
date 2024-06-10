@@ -1,4 +1,4 @@
-import { Box, Card, Typography } from '@mui/material'
+import { Box, Card, Grid, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { GlobalStyles } from '../../styles/GlobalStyles'
 import { MdAccountBalanceWallet } from "react-icons/md";
@@ -17,6 +17,9 @@ import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
 import Loading from '../../components/Loading/Loading';
 import { cmsTransactionService } from '../../redux/slice/cmsslice/CmsTransactionSlice';
 import DynamicHead from '../../components/DynamicHead/DynamicHead';
+import BarCharts from '../../components/BarCharts/BarCharts';
+import UnderLine from '../../components/UnderLine/UnderLine';
+import PieCharts from '../../components/PieCharts/PieCharts';
 
 const Dashboard = ({}) => {
 const navigate = useNavigate();
@@ -109,7 +112,7 @@ const tabs=[
 
 
   return (
-    <Box sx={GlobalStyles.outLetFirstElementStyle}>
+    <Box >
 
       <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S DASHBOARD`}/>
 
@@ -128,6 +131,51 @@ const tabs=[
         </Card>
 
       </Box>
+
+<Box sx={{mt:2}}>
+<Grid container>
+        <Grid item xs={12} md={6}>
+        <Box sx={{mr:1,mb:1,mt:2}}>
+        <Card>
+        <Box sx={{ml:1,mb:1,mt:2}}>
+          <Typography variant="v5">
+          Yearly Sale's
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21}/>
+          </Box>
+          <Box sx={{p:2}}>
+          <BarCharts/>
+            </Box>
+        </Card>
+
+      </Box>
+        </Grid>
+        <Grid item xs={12} md={6}>
+        <Box sx={{ml:1,mb:1,mt:2}}>
+        <Card>
+        <Box sx={{ml:1,mb:1,mt:2}}>
+          <Typography variant="v5">
+          Quarterly Sale's
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21}/>
+          </Box>
+          <Box sx={{p:2,...GlobalStyles.alignmentStyles}}>
+          <PieCharts/>
+          </Box>
+        </Card>
+
+      </Box>
+      </Grid>
+
+      </Grid>
+</Box>
+      
+      
+      
+
+      
+
+     
 
       <Box sx={{mt:2}}>
         <CustomTabs tabDetails={tabs} value={tabValue} onChange={handleTabChange} cardPosition={{display:"flex",justifyContent:"flex-start"}} tabPosition={{justifyContent:"flex-start"}} />
