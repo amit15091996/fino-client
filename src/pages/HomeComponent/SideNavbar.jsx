@@ -17,6 +17,10 @@ import { useNavigate } from "react-router-dom";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { RiUserAddFill } from "react-icons/ri";
 import HasAuthority from "../../hooks/HasAuthority";
+import { VscPersonAdd } from "react-icons/vsc";
+
+
+
 
 
 const SideNavbar = ({drawerClose}) => {
@@ -41,6 +45,9 @@ const SideNavbar = ({drawerClose}) => {
     }
     else if (index === 4) {
       navigate("/Layout/add-user");
+    }
+    else if (index === 5) {
+      navigate("/Layout/clients");
     }
     drawerClose()
 
@@ -181,6 +188,36 @@ const SideNavbar = ({drawerClose}) => {
   />
 </ListItemButton>
 }
+
+
+{
+  isAdmin && <ListItemButton
+  sx={{
+    "&.Mui-selected":
+      SideNavbarStyles.listItemButtonSelectedStyle(theme),
+  }}
+  selected={selectedIndex === 5}
+  onClick={(e) => handleSelectedIndex(e, 5)}
+>
+  <ListItemIcon>
+    <VscPersonAdd
+      style={
+        selectedIndex === 5
+          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+          : SideNavbarStyles.listItemIconStyle(theme)
+      }
+    />
+  </ListItemIcon>
+  <ListItemText
+    sx={
+      selectedIndex !== 5 && SideNavbarStyles.listItemTextstyle(theme)
+    }
+    primary="Add Client's"
+  />
+</ListItemButton>
+}
+
+
 
 
         

@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from "@mui/material";
+import { Box, Card, Grid, MenuItem, Typography } from "@mui/material";
 import React from "react";
 import CustomDatePicker from "../../../components/CustomDatePicker/CustomDatePicker";
 import CustomTextField from "../../../components/CustomTextField/CustomTextField";
@@ -6,6 +6,10 @@ import CustomButton from "../../../components/CustomButton/CustomButton";
 import { useTheme } from "@emotion/react";
 import { GlobalStyles } from "../../../styles/GlobalStyles";
 import UnderLine from "../../../components/UnderLine/UnderLine";
+import CustomDropDown, { menuItemStyle } from "../../../components/CustomDropDown/CustomDropDown";
+
+
+
 
 const DepositAndCmsForm = ({ onSubmit, fields, isUpdate,title }) => {
   const theme = useTheme();
@@ -54,16 +58,19 @@ const{bankAndCmsDepositfields,setBankAndCmsDepositfields}=fields
       </Grid>
       <Grid item xs={12}  md={isUpdate?12:3}>
       <Box sx={{ p: 1 }}>
-          <CustomTextField
-            isFullwidth={true}
+       <CustomDropDown  isFullwidth={true}
             label={"Received From"}
             placeholder={"Received From"}
             isRequired={true}
             value={bankAndCmsDepositfields?.recievedFrom}
             onChange={(e) => {
               setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, recievedFrom: e.target.value });
-            }}
-          />
+            }}>
+             {["axis bank","icici bank","canara bank"].map((item,index)=>(
+               <MenuItem id={`${index}-${item}`} value={item} style={menuItemStyle}>{item}</MenuItem>
+             ))}
+
+       </CustomDropDown>
         </Box>
       </Grid>
       <Grid item xs={12}  md={isUpdate?12:3}>
