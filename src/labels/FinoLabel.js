@@ -110,7 +110,11 @@ msSaleFilteredRow:[
     {id:"density",label:"Density"},
     {id:"waterDip",label:"Water Dip"},
     {id:"remarks",label:"remarks"},
-]
+],
+clientTableHead:[
+    {id:"id",label:"Client Id"},
+    {id:"clientName",label:"Client Name"},
+  ],
 
 
 

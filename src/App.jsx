@@ -12,6 +12,7 @@ import AddUser from "./pages/AddUser/AddUser";
 import Activities from "./pages/Activities/Activities";
 import Reports from "./pages/Reports/Reports";
 import FuelReports from "./pages/FuelReports/FuelReports";
+import AddClients from "./pages/AddUser/AddClients";
 
 const App = () => {
 
@@ -37,6 +38,7 @@ const themecolor=useTheme()
             <Route path="add-user" element={<AddUser />}></Route>
             <Route path="activities" element={<Activities />}></Route>
             <Route path="reports" element={<Reports />}></Route>
+            <Route path="clients" element={<AddClients />}></Route>
           </Route>
         </Routes>
       </Card>
