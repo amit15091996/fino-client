@@ -86,6 +86,7 @@ export const FinoLabel={
       waterDip:"Water Dip",
       remarks:"Remarks",
       openingMeter:"Opening Meter",
+      closingMeter:"Closing Meter",
       sales:"Sales(Ltr's)",
       totalMeterSales:"Total Meter Sales(LTR's)",
 noRecordFound:"NO RECORD FOUND FOR :- ",
@@ -112,10 +113,14 @@ msSaleFilteredRow:[
     {id:"remarks",label:"remarks"},
 ],
 clientTableHead:[
-    {id:"id",label:"Client Id"},
+    {id:"clientId",label:"Client Id"},
     {id:"clientName",label:"Client Name"},
   ],
 
+  bankTableHead:[
+    {id:"clientId",label:"Bank Id"},
+    {id:"bankName",label:"BankName Name"},
+  ],
 
 
 

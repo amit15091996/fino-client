@@ -24,13 +24,13 @@ const MsSaleRow=[
   totalSales:100,closingStock:18910,dipStock:10,variation:-2,dipStockInCms:100,dipStockLtrs:200,
   totalMeterSales:200,testing:12,density:1,waterDip:10,remarks:"testing data",
   mpdtwo: <Box sx={{width:"100%",display:"flex"}}>
-  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
   <Typography variant='v6' >1000</Typography>
   </Box>
-  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
   <Typography variant='v6' >20</Typography>
   </Box>
-  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+  <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
   <Typography variant='v6' >2000</Typography>
   </Box>
   <Box sx={{width:"25%",...GlobalStyles.alignmentStyles}}>
@@ -42,13 +42,13 @@ const MsSaleRow=[
 totalSales:100,closingStock:18910,dipStock:10,variation:-2,dipStockInCms:100,dipStockLtrs:200,
 totalMeterSales:200,testing:12,density:1,waterDip:10,remarks:"testing data",
 mpdtwo: <Box sx={{height:"100%",width:"100%",display:"flex"}}>
-<Box sx={{height:"100%",width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{height:"100%",width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >1000</Typography>
 </Box>
-<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >20</Typography>
 </Box>
-<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >2000</Typography>
 </Box>
 <Box sx={{width:"25%",...GlobalStyles.alignmentStyles}}>
@@ -60,13 +60,13 @@ mpdtwo: <Box sx={{height:"100%",width:"100%",display:"flex"}}>
 totalSales:100,closingStock:18910,dipStock:10,variation:-2,dipStockInCms:100,dipStockLtrs:200,
 totalMeterSales:200,testing:12,density:1,waterDip:10,remarks:"testing data",
 mpdtwo: <Box sx={{width:"100%",display:"flex"}}>
-<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >1000</Typography>
 </Box>
-<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >20</Typography>
 </Box>
-<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+<Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
 <Typography variant='v6' >2000</Typography>
 </Box>
 <Box sx={{width:"25%",...GlobalStyles.alignmentStyles}}>

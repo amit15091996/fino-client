@@ -7,6 +7,9 @@ import CustomTextField from '../../CustomTextField/CustomTextField';
 import UnderLine from '../../UnderLine/UnderLine';
 import { GlobalStyles } from '../../../styles/GlobalStyles';
 import { useTheme } from '@emotion/react';
+import { IsArrayTable } from './HelperFunctions';
+
+
 
 export const Operators=[
     {id:1,value:"contains",input:"contains"},
@@ -37,7 +40,7 @@ const{filterItem,setFilterItem}=customFilter
           <Grid item xs={12} md={4}>
             <Box sx={{p:1}}>
           <CustomDropDown   isFullwidth={true} label={"Columns"} value={filterItem?.columns} onChange={(e)=>{setFilterItem({...filterItem,columns:e.target.value})}}
-          children={headCells?.map((item,index)=>{ return(<MenuItem sx={menuItemStyle} value={item?.id} id={item?.id} >{item?.label}</MenuItem>)})}/> </Box>
+          children={IsArrayTable(headCells) && headCells?.map((item,index)=>{ return(<MenuItem sx={menuItemStyle} value={item?.id} id={item?.id} >{item?.label}</MenuItem>)})}/> </Box>
           </Grid>
           <Grid item xs={12} md={4}>
             <Box sx={{p:1}}>

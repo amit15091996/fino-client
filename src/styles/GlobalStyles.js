@@ -8,6 +8,7 @@ alignmentStyles_3:{display:"flex",justifyContent:"space-between",alignItems:"cen
 
 outLetFirstElementStyle:{height:"100%",width:"100%",overflow:"auto"},
 tableColor:"#ff6700",
+borderStyle:"1px solid #d8e2dc"
 
 }
 

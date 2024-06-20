@@ -10,13 +10,8 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { downloadExcel } from "react-export-table-to-excel";
 import EnhancedTableHead from "./TableHelpers/TableHead";
-import {
-  filteredArray,
-  getComparator,
-  stableSort,
-} from "./TableHelpers/HelperFunctions";
+import { IsArrayTable, filteredArray, getComparator, stableSort, } from "./TableHelpers/HelperFunctions";
 import CustomPopover from "../CustomPopover/CustomPopover";
 import FilteredItem from "./TableHelpers/FilteredItem";
 import { IconButton } from "@mui/material";
@@ -25,33 +20,17 @@ import CustomTooltips from "../CustomTooltips/CustomTooltips";
 import { CiEdit } from "react-icons/ci";
 import { MdDeleteForever } from "react-icons/md";
 import CustomToolBar from "./TableHelpers/CustomToolBar";
-import { GlobalStyles } from "../../styles/GlobalStyles";
+import * as XLSX from "xlsx";
 
 const CustomTable = ({
-  sortBy,
-  onEditClick,
-  onDeleteClick,
-  isActionRequired,
-  isSelected,
-  handleClick,
-  handleSelectAllClick,
-  selected,
-  onRowClick,
-  headCells,
-  rows,
-  isCheckBoxRequird,
-  isSelectItemRequired,
-  TableName,
-}) => {
+  sortBy, onEditClick, onDeleteClick, isActionRequired, isCheckBoxSelected, onIndividualCheckBoxClick,
+  onSelectAllCheckbox, selectedCheckbox, onRowClick, headCells, rows, isCheckBoxRequird, TableName, isEditNotRequired,isPdfNotRequired}) => {
+
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [filterItem, setFilterItem] = React.useState({
-    columns: "",
-    operators: "",
-    filterValue: "",
-  });
+  const [filterItem, setFilterItem] = React.useState({ columns: "", operators: "", filterValue: "", });
   const theme = useTheme();
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -68,35 +47,13 @@ const CustomTable = ({
     setPage(0);
   };
 
-  const visibleRows = React.useMemo(
-    () =>
-      filteredArray(
-        stableSort(rows, getComparator(order, orderBy)),
-        filterItem.columns,
-        filterItem.operators,
-        filterItem.filterValue
-      )?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [
-      order,
-      orderBy,
-      page,
-      rowsPerPage,
-      filterItem.columns,
-      filterItem.filterValue,
-      rows,
-      filterItem.operators,
-    ]
-  );
+  const visibleRows = React.useMemo(() =>
+    filteredArray(stableSort(IsArrayTable(rows) ? rows : [], getComparator(order, orderBy)), filterItem.columns, filterItem.operators, filterItem.filterValue)?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    [order, orderBy, page, rowsPerPage, filterItem.columns, filterItem.filterValue, rows, filterItem.operators,]);
 
   const [popoverOpen, setPopOverOpen] = React.useState(false);
   const [popoveranchorEl, setpopoveranchorEl] = React.useState(null);
-  const handleFilterClick = (e) => {
-    setPopOverOpen(!popoverOpen);
-    setpopoveranchorEl(e.currentTarget);
-  };
-
-  const emptyFunc = () => {};
-
+  const handleFilterClick = (e) => { setPopOverOpen(!popoverOpen); setpopoveranchorEl(e.currentTarget); };
   const doc = new jsPDF();
   const pdfDownload = () => {
     autoTable(doc, {
@@ -113,7 +70,7 @@ const CustomTable = ({
         top: 5,
         vertical: 5,
       },
-      head: [headCells?.map((item) =>  typeof item==="string"?item?.label?.toUpperCase():item?.label)],
+      head: [headCells?.map((item) => item?.label?.toUpperCase())],
       body: rows?.map((row) => {
         let arr = [];
         headCells?.map((myrow) => arr?.push(row[myrow?.id]));
@@ -121,90 +78,63 @@ const CustomTable = ({
       }),
     });
 
-    doc.save(`${TableName}.pdf`);
+    doc.save(TableName?`${TableName}.pdf`:"Fino.pdf");
   };
 
   const Exceldownload = () => {
-    downloadExcel({
-      fileName: `${TableName}`,
-      sheet: "react-export-table-to-excel",
-      tablePayload: {
-        header: headCells?.map((item) => typeof item==="string"?item?.label?.toUpperCase():item?.label),
-        body: rows?.map((row) => {
-          let arr = [];
-          headCells?.map((myrow) => arr?.push(row[myrow?.id]));
-          return arr;
-        }),
-      },
-    });
+    const header = IsArrayTable(headCells) ? headCells?.map((item) => item?.label?.toUpperCase()) : [];
+    const body = IsArrayTable(rows) ? rows?.map((row) => { const alteredRows = {}; IsArrayTable(headCells) && headCells?.map((head, index) => (alteredRows[head?.id] = row[head?.id])); return alteredRows; }) : []
+    const workBook = XLSX.utils.book_new();
+    const workSheet = XLSX.utils.json_to_sheet([]);
+    XLSX.utils.sheet_add_aoa(workSheet, [header]);
+    XLSX.utils.sheet_add_json(workSheet, body, { skipHeader: true, origin: "A2" });
+    XLSX.utils.book_append_sheet(workBook, workSheet, TableName ? TableName : "Fino")
+    XLSX.writeFile(workBook, TableName ? `${TableName}.xlsx` : "Fino.xlsx")
   };
 
   return (
     <Box
       sx={{
-        width: "100%",
-        ".MuiTablePagination-root": {
-          height: 35,
-          overflow: "hidden",
-          display: "flex",
-          justifyContent: "flex-end",
-          alignItems: "center",
-          alignContent: "center",
+        width: "100%", ".MuiTablePagination-root": {
+          height: 35, overflow: "hidden", display: "flex",
+          justifyContent: "flex-end", alignItems: "center", alignContent: "center",
         },
-      }}
-    >
+      }}>
       <CustomToolBar
         TableName={TableName}
-        numSelected={selected ? selected?.length : 0}
+        numSelected={selectedCheckbox ? selectedCheckbox?.length : 0}
         onFilterClick={handleFilterClick}
         pdfdownload={pdfDownload}
         Exceldownload={Exceldownload}
+        isPdfNotRequired={isPdfNotRequired}
       />
 
-      <Paper  sx={{ width: "100%" }}>
+      <Paper sx={{ width: "100%" }}>
         <TableContainer sx={{ overflow: "auto" }}>
-          <Table
-            stickyHeader
-            aria-labelledby="tableTitle"
-            sx={{
-              "&:last-child": {
-                borderRight: "1px solid rgb(213,218,222)",
-                borderBottom: "1px solid rgb(213,218,222)",
-              },
-            }}
-          >
+          <Table stickyHeader aria-labelledby="tableTitle"
+            sx={{ "&:last-child": { borderRight: "1px solid rgb(213,218,222)", borderBottom: "1px solid rgb(213,218,222)", }, }}>
             <EnhancedTableHead
               headCells={headCells}
               isCheckBoxRequird={isCheckBoxRequird}
-              numSelected={selected ? selected?.length : 0}
+              numSelected={selectedCheckbox ? selectedCheckbox?.length : 0}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={(e) => {
-                handleSelectAllClick
-                  ? handleSelectAllClick(e, rows)
-                  : emptyFunc();
-              }}
               onRequestSort={handleRequestSort}
-              rowCount={rows?.length}
+              rowCount={rows && rows?.length}
               isActionRequired={isActionRequired}
+              onSelectAllCheckbox={(e) => { onSelectAllCheckbox && onSelectAllCheckbox(e, rows) }}
             />
             <TableBody>
-              {visibleRows?.map((row, index) => {
-                const isItemSelected = isSelected
-                  ? isSelected(row)
-                  : emptyFunc();
+              {IsArrayTable(visibleRows) && visibleRows?.map((row, index) => {
+                const isItemSelected = isCheckBoxSelected && isSelected(row);
                 const labelId = `enhanced-table-checkbox-${index}`;
 
                 return (
                   <TableRow
                     hover
                     onClick={(event) => {
-                      {
-                        handleClick ? handleClick(event, row) : emptyFunc();
-                      }
-                      {
-                        onRowClick ? onRowClick(row) : emptyFunc();
-                      }
+                      onIndividualCheckBoxClick && onIndividualCheckBoxClick(event, row);
+                      onRowClick && onRowClick(row);
                     }}
                     role="checkbox"
                     aria-checked={isItemSelected}
@@ -236,7 +166,7 @@ const CustomTable = ({
                         />
                       </TableCell>
                     ) : null}
-                    {headCells?.map((itemCol, index) => {
+                    {IsArrayTable(headCells) && headCells?.map((itemCol, index) => {
                       return (
                         <TableCell size="small" id={labelId}>
                           <Box
@@ -251,8 +181,8 @@ const CustomTable = ({
                                   ? "flex-end"
                                   : itemCol?.columnType === "string" ||
                                     itemCol?.columnType === "date"
-                                  ? "flex-start"
-                                  : "center",
+                                    ? "flex-start"
+                                    : "center",
                               alignItems: "center",
                             }}
                           >
@@ -264,24 +194,22 @@ const CustomTable = ({
 
                     {isActionRequired ? (
                       <TableCell sx={{ textAlign: "center" }} size="small">
-                        <CustomTooltips title="EDIT">
-                          <IconButton
-                            sx={{ p: 0 }}
-                            color="primary"
-                            onClick={(e) =>
-                              onEditClick ? onEditClick(row) : emptyFunc()
-                            }
-                          >
-                            <CiEdit fontSize={18} />
-                          </IconButton>
-                        </CustomTooltips>
+                        {
+                          isEditNotRequired ? null : <CustomTooltips title="EDIT">
+                            <IconButton
+                              sx={{ p: 0 }}
+                              color="primary"
+                              onClick={(e) => { onEditClick && onEditClick(row); }}
+                            >
+                              <CiEdit fontSize={18} />
+                            </IconButton>
+                          </CustomTooltips>
+                        }
                         <CustomTooltips title="DELETE">
                           <IconButton
                             sx={{ p: 0, ml: 0.5 }}
                             color="error"
-                            onClick={(e) =>
-                              onDeleteClick ? onDeleteClick(row) : emptyFunc()
-                            }
+                            onClick={(e) => { onDeleteClick && onDeleteClick(row); }}
                           >
                             <MdDeleteForever fontSize={18} />
                           </IconButton>
