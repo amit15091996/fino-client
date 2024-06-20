@@ -36,6 +36,8 @@ import CustomDrawer from '../../components/CustomDrawer/CustomDrawer';
 import DepositAndCmsForm from '../Dashboard/TxnAndDeposit/DepositAndCmsForm';
 import { updateBankTxnService } from '../../redux/slice/bankslice/BankTxnUpdateSlice';
 import { updateCmsTxnService } from '../../redux/slice/cmsslice/CmsTxnUpdateSlice';
+import { getAllClientsService } from '../../redux/slice/clientslice/getAllClients';
+import { isDataPresent } from '../../utils/IsDataPresent';
 
 
 
@@ -62,6 +64,8 @@ const Reports = ({ }) => {
   const dispatch = useDispatch()
   const protectedInterceptors = ProtectedInterceptors()
   const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
+  
+  const getAllClients = () => { dispatch(getAllClientsService(protectedInterceptors)) }
   const getAllBankTransaction = (bank) => { dispatch(allBankDepositByUserNameService(bank)) }
   const getAllCmsTransaction = (cms) => { dispatch(allCmsTxnByUserNameService(cms)) }
   const getAllUsers = () => { dispatch(getAllUsersService(protectedInterceptors)) }
@@ -74,6 +78,7 @@ const Reports = ({ }) => {
   const DELETE_CMS_TXN_SLICE_REDUCER = useSelector((state) => state?.DELETE_CMS_TXN_SLICE_REDUCER)
   const UPDATE_BANK_TXN_SLICE_REDUCER = useSelector((state) => state?.UPDATE_BANK_TXN_SLICE_REDUCER)
   const UPDATE_CMS_TXN_SLICE_REDUCER = useSelector((state) => state?.UPDATE_CMS_TXN_SLICE_REDUCER)
+  const GET_ALL_CLIENTS_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CLIENTS_SLICE_REDUCER)
 
   
   useEffect(()=>{
@@ -294,6 +299,37 @@ else{   setUpdatedCmsTxn((prev)=>{return{...prev,snack:true}})
 }
 
 
+const clientList = useMemo(() => {
+  return (
+      IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+          GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+              let { bankName, ...clients } = item;
+              return clients;
+          })
+      )?.filter((cll) => isDataPresent(cll?.clientName))?.map((cln)=>cln?.clientName) : []
+  )
+
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
+const bankList = useMemo(() => {
+  return (
+      IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+          GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+              let { clientName, ...banks } = item;
+              return banks;
+          })
+      )?.filter((cll) => isDataPresent(cll?.bankName))?.map((cln)=>cln?.bankName) : []
+  )
+
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
+
+useEffect(()=>{getAllClients()},[])
+
+
+
   const reportTabs = [
     {
       label: "Bank  Reports ",
@@ -433,7 +469,7 @@ else{   setUpdatedCmsTxn((prev)=>{return{...prev,snack:true}})
   <Box sx={{maxWidth:400}}>
     {
       UPDATE_BANK_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
-      <DepositAndCmsForm onSubmit={onBankTxnUpdateSubmit} title={"UPDATE BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
+      <DepositAndCmsForm isBankDeposit={true} bankList={bankList} clientList={clientList} onSubmit={onBankTxnUpdateSubmit} title={"UPDATE BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
     }
  </Box>
 </CustomDrawer>
@@ -442,7 +478,7 @@ else{   setUpdatedCmsTxn((prev)=>{return{...prev,snack:true}})
   <Box sx={{maxWidth:400}}>
     {
       UPDATE_CMS_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
-      <DepositAndCmsForm onSubmit={onCmsTxnUpdateSubmit} title={"UPDATE CMS DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
+      <DepositAndCmsForm bankList={bankList} clientList={clientList} onSubmit={onCmsTxnUpdateSubmit} title={"UPDATE CMS DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
     }
  </Box>
 </CustomDrawer>

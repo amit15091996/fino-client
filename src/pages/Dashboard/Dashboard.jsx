@@ -1,5 +1,5 @@
 import { Box, Card, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { GlobalStyles } from '../../styles/GlobalStyles'
 import { MdAccountBalanceWallet } from "react-icons/md";
 import { useTheme } from '@emotion/react';
@@ -20,6 +20,9 @@ import DynamicHead from '../../components/DynamicHead/DynamicHead';
 import BarCharts from '../../components/BarCharts/BarCharts';
 import UnderLine from '../../components/UnderLine/UnderLine';
 import PieCharts from '../../components/PieCharts/PieCharts';
+import { getAllClientsService } from '../../redux/slice/clientslice/getAllClients';
+import { isDataPresent } from '../../utils/IsDataPresent';
+import { IsArray } from '../../utils/IsArray';
 
 const Dashboard = ({}) => {
 const navigate = useNavigate();
@@ -36,8 +39,12 @@ const[bankAndCmsDepositfields,setBankAndCmsDepositfields]=useState({
 const[bankDepositSnackBarOpen,setBankDepositSnackBarOpen]=useState(false)
 const[cmsTransactionSnackBarOpen,setCmsTransactionSnackBarOpen]=useState(false)
 
+const getAllClients = () => { dispatch(getAllClientsService(protectedInterceptors)) }
+
+
 const BANK_DEPOSIT_SLICE_REDUCER=useSelector((state)=>state.BANK_DEPOSIT_SLICE_REDUCER)
 const CMS_TRANSACTION_SLICE_REDUCER=useSelector((state)=>state.CMS_TRANSACTION_SLICE_REDUCER)
+const GET_ALL_CLIENTS_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CLIENTS_SLICE_REDUCER)
 
 const onBankDepositSave= async (e)=>{
   e.preventDefault()
@@ -76,6 +83,37 @@ const onCmsTransactionSave= async (e)=>{
 }
 
 
+
+
+const clientList = useMemo(() => {
+  return (
+      IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+          GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+              let { bankName, ...clients } = item;
+              return clients;
+          })
+      )?.filter((cll) => isDataPresent(cll?.clientName))?.map((cln)=>cln?.clientName) : []
+  )
+
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
+const bankList = useMemo(() => {
+  return (
+      IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+          GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+              let { clientName, ...banks } = item;
+              return banks;
+          })
+      )?.filter((cll) => isDataPresent(cll?.bankName))?.map((cln)=>cln?.bankName) : []
+  )
+
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
+
+useEffect(()=>{getAllClients()},[])
+
 useEffect(()=>{
   setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:(prev.collectionAmount)-((+prev.cashAmount)+ (+prev.onlineAmount))}})
 },[bankAndCmsDepositfields?.onlineAmount,bankAndCmsDepositfields?.cashAmount,bankAndCmsDepositfields.collectionAmount])
@@ -98,13 +136,13 @@ const tabs=[
   {
   label:"Bank Deposit ",
   minWidth:140,
-  component:<>{BANK_DEPOSIT_SLICE_REDUCER?.isLoading?<Loading/>:<Box sx={{ mt: 1 }}><DepositAndCmsForm onSubmit={onBankDepositSave} title={"BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</> ,
+  component:<>{BANK_DEPOSIT_SLICE_REDUCER?.isLoading?<Loading/>:<Box sx={{ mt: 1 }}><DepositAndCmsForm isBankDeposit={true} bankList={bankList} clientList={clientList}  onSubmit={onBankDepositSave} title={"BANK DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</> ,
   icon:<BsBank fontSize={18}/>
 },
   {
     label:"Cms Transaction",
     minWidth:150,
-    component:<>{CMS_TRANSACTION_SLICE_REDUCER?.isLoading?<Loading/>: <Box sx={{ mt: 1 }}><DepositAndCmsForm onSubmit={onCmsTransactionSave} title={"CMS TRANSACTION"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</>,
+    component:<>{CMS_TRANSACTION_SLICE_REDUCER?.isLoading?<Loading/>: <Box sx={{ mt: 1 }}><DepositAndCmsForm bankList={bankList} clientList={clientList}  onSubmit={onCmsTransactionSave} title={"CMS TRANSACTION"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} /></Box>}</>,
     icon:<TbTransactionRupee fontSize={18}/>
   },
 

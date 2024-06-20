@@ -23,7 +23,7 @@ import { MdDeleteForever } from "react-icons/md";
 import CustomToolBar from "./TableHelpers/CustomToolBar";
 import { GlobalStyles } from "../../styles/GlobalStyles";
 
-const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick,headCells,rows,TableName,FilterdRow}) => {
+const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick,headCells,rows,TableName,FilterdRow,pdfName}) => {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
   const [page, setPage] = React.useState(0);
@@ -72,7 +72,7 @@ const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick
       }),
     });
 
-    doc.save(`${TableName}.pdf`);
+    doc.save(`${pdfName}.pdf`);
   };
 
   const Exceldownload = () => {
@@ -109,6 +109,7 @@ const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick
         onFilterClick={handleFilterClick}
         pdfdownload={pdfDownload}
         Exceldownload={Exceldownload}
+        pdfName={pdfName}
       />
 
       <Paper  sx={{ width: "100%" }}>
@@ -116,7 +117,7 @@ const FuelTable = ({sortBy,onEditClick,onDeleteClick,isActionRequired,onRowClick
           <Table stickyHeader aria-labelledby="tableTitle"
             sx={{"&:last-child": { borderRight: "1px solid rgb(213,218,222)",borderBottom: "1px solid rgb(213,218,222)",},}}
           >
-            <EnhancedTableHead headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows?.length} isActionRequired={isActionRequired}/>
+            <EnhancedTableHead  headCells={headCells} order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows?.length} isActionRequired={isActionRequired}/>
             <TableBody>
               {visibleRows?.map((row, index) => {
 

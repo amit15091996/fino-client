@@ -1,0 +1,1 @@
+export const isDataPresent=(data)=>(data !==undefined && data !==null && data !=="" && data !=='')?true:false

@@ -63,16 +63,6 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
   <Box sx={{ p: 1}}>
   <CustomTextField
         isFullwidth={true}
-        label={FinoLabel.totalSales}
-        placeholder={FinoLabel.totalSales}
-      />
-    </Box>
-
-  </Grid>
-  <Grid item xs={12} md={2}>
-  <Box sx={{ p: 1}}>
-  <CustomTextField
-        isFullwidth={true}
         label={FinoLabel.dipStockInCms}
         placeholder={FinoLabel.dipStockInCms}
         
@@ -85,16 +75,9 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
         isFullwidth={true}
         label={FinoLabel.dipStockLtrs}
         placeholder={FinoLabel.dipStockLtrs}
-        
-      
-       
       />
     </Box>
   </Grid>
-</Grid>
-
-<Grid container >
-
   <Grid item xs={12} md={2}>
   <Box sx={{ p: 1 }}>
       <CustomTextField
@@ -104,7 +87,10 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
       />
     </Box>
   </Grid>
-  <Grid item xs={12} md={2}>
+</Grid>
+
+<Grid container >
+<Grid item xs={12} md={2}>
 
   <Box sx={{ p: 1 }}>
       <CustomTextField
@@ -115,6 +101,7 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
     </Box>
 
   </Grid>
+  
   <Grid item xs={12} md={2}>
   <Box sx={{ p: 1}}>
   <CustomTextField
@@ -149,7 +136,7 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
   </Box>
 
   <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-    <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     <Typography variant='v2' color={theme?.palette?.p1?.main}>A1</Typography>
     </Box>
     <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles}}>
@@ -158,37 +145,37 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
   </Box>
 
   <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
     </Box>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-    <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
+    <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.closingMeter}</Typography>
     </Box>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
     </Box>
     <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles}}>
-    <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+    <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.closingMeter}</Typography>
     </Box>
   </Box>
 
   <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     <CustomTextField
         isFullwidth={true}
         placeholder={FinoLabel.openingMeter}
         
       />
     </Box>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     
     <CustomTextField
         isFullwidth={true}
-        placeholder={FinoLabel.sales}
+        placeholder={FinoLabel.closingMeter}
       />
     
     </Box>
-    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+    <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
     <CustomTextField
         isFullwidth={true}
         placeholder={FinoLabel.openingMeter}
@@ -198,7 +185,7 @@ const HsdSaleTankTwo = ({onSubmit,isUpdate,title}) => {
     <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles}}>
     <CustomTextField
         isFullwidth={true}
-        placeholder={FinoLabel.sales}
+        placeholder={FinoLabel.closingMeter}
       />
     </Box>
   </Box>

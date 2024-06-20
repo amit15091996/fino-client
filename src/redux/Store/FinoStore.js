@@ -18,6 +18,9 @@ import { UPDATE_BANK_TXN_SLICE_REDUCER } from '../slice/bankslice/BankTxnUpdateS
 import { DELETE_BANK_TXN_SLICE_REDUCER } from '../slice/bankslice/BankTxnDeleteSlice'
 import { UPDATE_CMS_TXN_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnUpdateSlice'
 import { DELETE_CMS_TXN_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnDeleteSlice'
+import { ADD_CLIENT_SLICE_REDUCER } from '../slice/clientslice/addClients'
+import { DELETE_CLIENT_SLICE_REDUCER } from '../slice/clientslice/deleteAClient'
+import { GET_ALL_CLIENTS_SLICE_REDUCER } from '../slice/clientslice/getAllClients'
 
 const FinoStore = configureStore({
     reducer:{
@@ -39,8 +42,10 @@ const FinoStore = configureStore({
       UPDATE_BANK_TXN_SLICE_REDUCER:UPDATE_BANK_TXN_SLICE_REDUCER,
       DELETE_BANK_TXN_SLICE_REDUCER:DELETE_BANK_TXN_SLICE_REDUCER,
       UPDATE_CMS_TXN_SLICE_REDUCER:UPDATE_CMS_TXN_SLICE_REDUCER,
-      DELETE_CMS_TXN_SLICE_REDUCER:DELETE_CMS_TXN_SLICE_REDUCER  
-      
+      DELETE_CMS_TXN_SLICE_REDUCER:DELETE_CMS_TXN_SLICE_REDUCER,
+      ADD_CLIENT_SLICE_REDUCER:ADD_CLIENT_SLICE_REDUCER, 
+      DELETE_CLIENT_SLICE_REDUCER:DELETE_CLIENT_SLICE_REDUCER,
+      GET_ALL_CLIENTS_SLICE_REDUCER:GET_ALL_CLIENTS_SLICE_REDUCER,
     },
     devTools:true
 

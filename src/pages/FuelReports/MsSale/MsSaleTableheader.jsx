@@ -14,8 +14,8 @@ const MsSaleTableheader = () => {
         {id:"date",label:"Date"},
         {id:"openingStock",label:"Opening Stock"},
         {id:"inwards",label:"Inwards"},
-        {id:"totalStock",label:"Total Sales"},
-        {id:"totalSales",label:"Opening Stock"},
+        {id:"totalStock",label:"Total Stock"},
+        {id:"totalSales",label:"Total Sales"},
         {id:"closingStock",label:"Closing Stock"},
         {id:"dipStock",label:"Dip Stock"},
         {id:"variation",label:"Variation"},
@@ -23,11 +23,11 @@ const MsSaleTableheader = () => {
         {id:"dipStockLtrs",label:"Dip Stock(LTR's)"},
         {id:"mpdtwo",label:<Box>
       
-      <Box sx={{width:"100%",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`,...GlobalStyles.alignmentStyles}}>
+      <Box sx={{width:"100%",borderBottom:GlobalStyles?.borderStyle,...GlobalStyles.alignmentStyles}}>
         <Typography variant='v6' color={theme?.palette?.p1?.main}>MPD-02</Typography>
       </Box>
 
-      <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+      <Box sx={{width:"100%",display:"flex",borderBottom:GlobalStyles?.borderStyle}}>
         <Box sx={{width:"50%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
         <Typography variant='v6' color={theme?.palette?.p1?.main}>A1</Typography>
         </Box>

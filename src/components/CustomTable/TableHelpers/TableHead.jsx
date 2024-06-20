@@ -85,7 +85,7 @@ export default function EnhancedTableHead({isCheckBoxRequird,isActionRequired,he
                 
               >
              
-               { typeof headCell==="string"?headCell?.label?.toUpperCase():headCell?.label}
+               { headCell?.label?.toUpperCase()}
              
                 {orderBy === headCell.id ? (
                   <Box component="span" sx={visuallyHidden}>

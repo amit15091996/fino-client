@@ -9,7 +9,6 @@ import { GlobalStyles } from '../../../styles/GlobalStyles';
 import { FinoLabel } from '../../../labels/FinoLabel';
 
 
-
 const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
     const theme = useTheme();
 
@@ -58,16 +57,7 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
           />
         </Box>
       </Grid>
-      <Grid item xs={12} md={2}>
-      <Box sx={{ p: 1}}>
-      <CustomTextField
-            isFullwidth={true}
-            label={FinoLabel.totalSales}
-            placeholder={FinoLabel.totalSales}
-          />
-        </Box>
-  
-      </Grid>
+     
       <Grid item xs={12} md={2}>
       <Box sx={{ p: 1}}>
       <CustomTextField
@@ -90,10 +80,6 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
           />
         </Box>
       </Grid>
-    </Grid>
-    
-    <Grid container >
-    
       <Grid item xs={12} md={2}>
       <Box sx={{ p: 1 }}>
           <CustomTextField
@@ -103,6 +89,11 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
           />
         </Box>
       </Grid>
+    </Grid>
+    
+    <Grid container >
+    
+
       <Grid item xs={12} md={2}>
 
       <Box sx={{ p: 1 }}>
@@ -142,12 +133,12 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
 
     <Grid item xs={11.75} md={5.85}>
     <Card variant='outlined' sx={{width:"100%"}} >
-      <Box sx={{width:"100%",p:1,borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`,...GlobalStyles.alignmentStyles}}>
+      <Box sx={{width:"100%",p:1,borderBottom:GlobalStyles?.borderStyle,...GlobalStyles.alignmentStyles}}>
         <Typography variant='v5' color={theme?.palette?.p1?.main}>MPD-02</Typography>
       </Box>
 
-      <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+      <Box sx={{width:"100%",display:"flex",borderBottom:GlobalStyles?.borderStyle}}>
+        <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         <Typography variant='v2' color={theme?.palette?.p1?.main}>A1</Typography>
         </Box>
         <Box sx={{p:0.7,width:"50%",...GlobalStyles.alignmentStyles}}>
@@ -155,38 +146,38 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
         </Box>
       </Box>
 
-      <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+      <Box sx={{width:"100%",display:"flex",borderBottom:GlobalStyles?.borderStyle}}>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
         </Box>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
+        <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.closingMeter}</Typography>
         </Box>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
         </Box>
         <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles}}>
-        <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+        <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.closingMeter}</Typography>
         </Box>
       </Box>
 
-      <Box sx={{width:"100%",display:"flex",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+      <Box sx={{width:"100%",display:"flex",borderBottom:GlobalStyles?.borderStyle}}>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         <CustomTextField
             isFullwidth={true}
             placeholder={FinoLabel.openingMeter}
             
           />
         </Box>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         
         <CustomTextField
             isFullwidth={true}
-            placeholder={FinoLabel.sales}
+            placeholder={FinoLabel.closingMeter}
           />
         
         </Box>
-        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:`2px solid ${GlobalStyles.sideTopNavborderColor}`}}>
+        <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles,borderRight:GlobalStyles?.borderStyle}}>
         <CustomTextField
             isFullwidth={true}
             placeholder={FinoLabel.openingMeter}
@@ -196,7 +187,7 @@ const FuelReportsForm = ({onSubmit,isUpdate,title}) => {
         <Box sx={{p:0.7,width:"25%",...GlobalStyles.alignmentStyles}}>
         <CustomTextField
             isFullwidth={true}
-            placeholder={FinoLabel.sales}
+            placeholder={FinoLabel.closingMeter}
           />
         </Box>
       </Box>

@@ -7,24 +7,27 @@ import { useTheme } from "@emotion/react";
 
 
 
-const CustomToolBar = ({onFilterClick, pdfdownload, Exceldownload, TableName }) => {
+const CustomToolBar = ({ onFilterClick, pdfdownload, Exceldownload, TableName, pdfName }) => {
 
-  const theme=useTheme()
+  const theme = useTheme()
 
   return (
 
     <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
-      {TableName && <Typography variant="v2"  >{TableName}<span><UnderLine color={theme?.palette?.p1?.main}/></span></Typography>}
+      {TableName && <Typography variant="v2"  >{TableName}<span><UnderLine color={theme?.palette?.p1?.main} /></span></Typography>}
 
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <CustomTooltips title="Pdf Download"><CustomButton color={"p1"} variant={"text"} onClick={pdfdownload} title={"PDF"}/></CustomTooltips>
-        <CustomTooltips title="Excel Download"><CustomButton color={"p1"} variant={"text"} onClick={Exceldownload} title={"EXCEL"}/></CustomTooltips>
-        <CustomTooltips title="FILTER LIST"> <IconButton onClick={onFilterClick}><FaFilter fontSize="small" style={{ color:theme?.palette?.p1?.main}} /> </IconButton></CustomTooltips>
+        {
+          pdfName && <CustomTooltips title="Pdf Download"><CustomButton color={"p1"} variant={"text"} onClick={pdfdownload} title={"PDF"} /></CustomTooltips>
+
+        }
+        <CustomTooltips title="Excel Download"><CustomButton color={"p1"} variant={"text"} onClick={Exceldownload} title={"EXCEL"} /></CustomTooltips>
+        <CustomTooltips title="FILTER LIST"> <IconButton onClick={onFilterClick}><FaFilter fontSize="small" style={{ color: theme?.palette?.p1?.main }} /> </IconButton></CustomTooltips>
       </Box>
 
 
-   </Box>
+    </Box>
   );
 }
 

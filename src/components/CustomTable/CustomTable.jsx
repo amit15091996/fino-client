@@ -40,8 +40,8 @@ const CustomTable = ({
   headCells,
   rows,
   isCheckBoxRequird,
-  isSelectItemRequired,
   TableName,
+  isEditNotRequired
 }) => {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
@@ -113,7 +113,7 @@ const CustomTable = ({
         top: 5,
         vertical: 5,
       },
-      head: [headCells?.map((item) =>  typeof item==="string"?item?.label?.toUpperCase():item?.label)],
+      head: [headCells?.map((item) =>item?.label?.toUpperCase())],
       body: rows?.map((row) => {
         let arr = [];
         headCells?.map((myrow) => arr?.push(row[myrow?.id]));
@@ -129,7 +129,7 @@ const CustomTable = ({
       fileName: `${TableName}`,
       sheet: "react-export-table-to-excel",
       tablePayload: {
-        header: headCells?.map((item) => typeof item==="string"?item?.label?.toUpperCase():item?.label),
+        header: headCells?.map((item) => item?.label?.toUpperCase()),
         body: rows?.map((row) => {
           let arr = [];
           headCells?.map((myrow) => arr?.push(row[myrow?.id]));
@@ -264,17 +264,19 @@ const CustomTable = ({
 
                     {isActionRequired ? (
                       <TableCell sx={{ textAlign: "center" }} size="small">
-                        <CustomTooltips title="EDIT">
-                          <IconButton
-                            sx={{ p: 0 }}
-                            color="primary"
-                            onClick={(e) =>
-                              onEditClick ? onEditClick(row) : emptyFunc()
-                            }
-                          >
-                            <CiEdit fontSize={18} />
-                          </IconButton>
-                        </CustomTooltips>
+                       {
+                        isEditNotRequired?null: <CustomTooltips title="EDIT">
+                        <IconButton
+                          sx={{ p: 0 }}
+                          color="primary"
+                          onClick={(e) =>
+                            onEditClick ? onEditClick(row) : emptyFunc()
+                          }
+                        >
+                          <CiEdit fontSize={18} />
+                        </IconButton>
+                      </CustomTooltips> 
+                       }
                         <CustomTooltips title="DELETE">
                           <IconButton
                             sx={{ p: 0, ml: 0.5 }}
