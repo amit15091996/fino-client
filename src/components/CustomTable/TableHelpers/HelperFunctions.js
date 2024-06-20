@@ -114,3 +114,4 @@ else{
   const tableDataTypeCheck=(field)=> !isNaN(Number(field))
 
   const tabledateCheck=(field)=> dayjs(field,"DD/MM/YYYY")?.isValid()
+  export const IsArrayTable = (data) =>data?Array.isArray(data):false
