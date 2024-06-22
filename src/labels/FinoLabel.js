@@ -17,12 +17,10 @@ export const FinoLabel={
     password:"PASSWORD",
     bankDepositTableHead:[
         {id:"bankTransactionDate",label:"Transaction Date"},
-        {id:"recievedFrom",label:"Received From"},
-        {id:"collectedBy",label:"Collected By"},
+        {id:"depositedInBank",label:"Deposited Bank"},
+        {id:"depositedBy",label:"Deposited By"},
         {id:"collectionAmount",label:"Amount"},
-        {id:"onlineAmount",label:"Online Amount"},
         {id:"cashAmount",label:"Cash Amount"},
-        {id:"balanceAmount",label:"Balance Amount"},
         {id:"remarks",label:"Remarks"},
     ],
     cmsTransactionTableHead:[

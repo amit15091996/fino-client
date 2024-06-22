@@ -23,6 +23,8 @@ import PieCharts from '../../components/PieCharts/PieCharts';
 import { getAllClientsService } from '../../redux/slice/clientslice/getAllClients';
 import { isDataPresent } from '../../utils/IsDataPresent';
 import { IsArray } from '../../utils/IsArray';
+import HasAuthority from '../../hooks/HasAuthority';
+import ClientDashboard from './ClientDashboard/ClientDashboard';
 
 const Dashboard = ({}) => {
 const navigate = useNavigate();
@@ -30,6 +32,9 @@ const theme=useTheme()
 const dispatch=useDispatch()
 const protectedInterceptors=ProtectedInterceptors()
 const{jwtToken,userName,error,userRoles,fullName}=AuthHook()
+const { isAdmin, isClient, isManager, isUser } = HasAuthority()
+
+
 
 const[tabValue,setTabValue]=useState(0)
 const[bankAndCmsDepositfields,setBankAndCmsDepositfields]=useState({
@@ -112,7 +117,7 @@ const bankList = useMemo(() => {
 }, [GET_ALL_CLIENTS_SLICE_REDUCER])
 
 
-useEffect(()=>{getAllClients()},[])
+useEffect(()=>{if(isUser){getAllClients()}},[])
 
 useEffect(()=>{
   setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:(prev.collectionAmount)-((+prev.cashAmount)+ (+prev.onlineAmount))}})
@@ -127,8 +132,6 @@ const handleTabChange=(e,value)=>{
   })
 
 }
-
-
 
 
 
@@ -152,9 +155,14 @@ const tabs=[
   return (
     <Box >
 
-      <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S DASHBOARD`}/>
+      <DynamicHead title={`DASHBOARD OF ${fullName?.toLocaleUpperCase()}`}/>
 
-      <Box sx={{...GlobalStyles.alignmentStyles_2}}>
+      
+
+{
+  (isUser || isAdmin || isManager) && <>
+
+<Box sx={{...GlobalStyles.alignmentStyles_2}}>
         <Card sx={{height:80,width:140}}>
           <Box sx={{...GlobalStyles.alignmentStyles}}>
           <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main}  />
@@ -165,12 +173,12 @@ const tabs=[
           <Box sx={{mt:1,...GlobalStyles.alignmentStyles}}>
           <Typography variant='v2' color="primary">10000.00</Typography>
           </Box>
-
         </Card>
 
       </Box>
 
-<Box sx={{mt:2}}>
+
+  <Box sx={{mt:2}}>
 <Grid container>
         <Grid item xs={12} md={6}>
         <Box sx={{mr:1,mb:1,mt:2}}>
@@ -201,24 +209,30 @@ const tabs=[
           <PieCharts/>
           </Box>
         </Card>
-
       </Box>
       </Grid>
 
       </Grid>
 </Box>
       
-      
-      
-
-      
-
-     
-
       <Box sx={{mt:2}}>
         <CustomTabs tabDetails={tabs} value={tabValue} onChange={handleTabChange} cardPosition={{display:"flex",justifyContent:"flex-start"}} tabPosition={{justifyContent:"flex-start"}} />
 
       </Box>
+  
+  </>
+}
+
+
+{
+  isClient &&<>
+  <ClientDashboard/>
+  
+  </>
+}
+
+
+
 
       <CustomSnackbar open={bankDepositSnackBarOpen} onClose={()=>{setBankDepositSnackBarOpen(false)}} message={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusMessage} severity={BANK_DEPOSIT_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
       <CustomSnackbar open={cmsTransactionSnackBarOpen} onClose={()=>{setCmsTransactionSnackBarOpen(false)}} message={CMS_TRANSACTION_SLICE_REDUCER?.data?.statusMessage} severity={CMS_TRANSACTION_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />

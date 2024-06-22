@@ -7,7 +7,7 @@ const UnderLine = ({width,height,color}) => {
   const theme=useTheme()
   
   return (
-    <Box sx={{width:width?width:"27px",height:height?height:"4px",backgroundColor:color?color:theme?.palette?.p2?.main,borderRadius:1}}>
+    <Box sx={{width:width?width:"27px",height:height?height:"4px",backgroundColor:color?color:theme?.palette?.p1?.main,borderRadius:1}}>
 
     </Box>
   )

@@ -1,5 +1,6 @@
 import { Box, Card, CircularProgress } from '@mui/material'
 import React from 'react'
+import { IoClose } from "react-icons/io5";
 
 const Loading = ({minHeight,minWidth}) => {
   return (

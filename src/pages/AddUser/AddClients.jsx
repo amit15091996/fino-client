@@ -20,12 +20,16 @@ import { FcDeleteRow } from 'react-icons/fc'
 import { deleteClientService } from '../../redux/slice/clientslice/deleteAClient'
 import CustomTooltips from '../../components/CustomTooltips/CustomTooltips'
 import { IoClose } from 'react-icons/io5'
+import DynamicHead from '../../components/DynamicHead/DynamicHead'
+import AuthHook from '../../hooks/AuthHook'
 
 
 const AddClients = () => {
     const dispatch = useDispatch()
     const protectedInterceptors = ProtectedInterceptors()
     const getAllClients = () => { dispatch(getAllClientsService(protectedInterceptors)) }
+    const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
+
 
     const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false,refresh:false})
     const [clientDelete, setClientDelete] = useState({ dialog: false, snack: false, row: {},refresh:false })
@@ -94,10 +98,15 @@ const AddClients = () => {
 
     return (
         <Box>
+
+<DynamicHead title={`CLIENT LIST'S OF ${fullName?.toLocaleUpperCase()}`} />
+
+
+
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <Box sx={{ p: 1.5 }}>
-                        <Card sx={{ p: 1.8, mt: 2 }}>
+                        {/* <Card sx={{ p: 1.8, mt: 2 }}>
                             {
                                 isDataPresent(clientName?.clientName) && ADD_CLIENT_SLICE_REDUCER?.isLoading ? <Loading minHeight={30} minWidth={"100%"} /> : <form onSubmit={onAddClick}>
                                     <Box sx={{ ...GlobalStyles.alignmentStyles_1 }}>
@@ -111,7 +120,7 @@ const AddClients = () => {
                                     </Box>
                                 </form>
                             }
-                        </Card>
+                        </Card> */}
                         <Card sx={{ p: 1.8, mt: 4 }}>
 
                             {
@@ -122,8 +131,8 @@ const AddClients = () => {
                                                 TableName={"Client's List "}
                                                 headCells={FinoLabel.clientTableHead}
                                                 rows={clientList}
-                                                isActionRequired={true}
-                                                isEditNotRequired={true}
+                                                // isActionRequired={true}
+                                                // isEditNotRequired={true}
                                                 onDeleteClick={onDelete}
                                             /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
                                     )
