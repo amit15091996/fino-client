@@ -79,6 +79,8 @@ useEffect(()=>{removeCookie('FINO_LOGIN_COOKIE',{path:"/Layout"})},[])
       setLoginSnackbarOpen(true)
     }
 
+    
+
   };
 
   const onForgotPasswordSubmit = async (e) => {

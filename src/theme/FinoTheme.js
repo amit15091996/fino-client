@@ -7,7 +7,7 @@ const font = "'Rethink Sans', sans-serif";
 export const FinoTheme = (mode) => {
 
   return createTheme({
-    shadows: 0,
+    shadows:Array(25)?.fill('none'),
     palette: {
       primary: { main: "#0a2472" },
       secondary: { main: '#00509d' },

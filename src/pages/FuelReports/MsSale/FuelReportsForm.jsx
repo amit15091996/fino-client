@@ -10,10 +10,9 @@ import { FinoLabel } from '../../../labels/FinoLabel';
 import dayjs, { Dayjs } from 'dayjs';
 
 
-const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
+const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousDayMssales, sameDayMssales }) => {
   const theme = useTheme();
   const { msSaleFields, setMsSaleFields } = msSaleFieldsVar
-
 
   return (
     <Card sx={{ p: 2 }} >
@@ -47,7 +46,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                 isFullwidth={true}
                 label={FinoLabel.openingStock}
                 placeholder={FinoLabel.openingStock}
-                value={msSaleFields?.openingStockOfMSSale}
+                value={previousDayMssales?.dipStockOfMSSale}
 
               />
             </Box>
@@ -72,7 +71,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                 isFullwidth={true}
                 label={FinoLabel.dipStockInCms}
                 placeholder={FinoLabel.dipStockInCms}
-               
+
                 type={"number"}
                 value={msSaleFields?.dipStockOfMSSaleInCentimeters}
                 onChange={(e) => { setMsSaleFields({ ...msSaleFields, dipStockOfMSSaleInCentimeters: e.target.value }) }}
@@ -99,7 +98,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                 isFullwidth={true}
                 label={FinoLabel.testing}
                 placeholder={FinoLabel.testing}
-               
+
                 type={"number"}
                 value={msSaleFields?.testing}
                 onChange={(e) => { setMsSaleFields({ ...msSaleFields, testing: e.target.value }) }}
@@ -118,7 +117,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                 isFullwidth={true}
                 label={FinoLabel.density}
                 placeholder={FinoLabel.density}
-              
+
                 type={"number"}
                 value={msSaleFields?.density}
                 onChange={(e) => { setMsSaleFields({ ...msSaleFields, density: e.target.value }) }}
@@ -194,7 +193,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                     isFullwidth={true}
                     placeholder={FinoLabel.openingMeter}
                     isDisabled={true}
-                    value={msSaleFields?.openingMeterOfMSSaleNozzleOne}
+                    value={previousDayMssales?.closingMeterOfMSSaleNozzleOne}
                   />
                 </Box>
                 <Box sx={{ p: 0.7, width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
@@ -214,7 +213,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
                     isFullwidth={true}
                     placeholder={FinoLabel.openingMeter}
                     isDisabled={true}
-                    value={msSaleFields?.openingMeterOfMSSaleNozzleTwo}
+                    value={previousDayMssales?.closingMeterOfMSSaleNozzleTwo}
 
                   />
                 </Box>
@@ -232,7 +231,9 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
 
               <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                 <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                  <span style={{ fontSize: 15 }}>=&nbsp;{+(msSaleFields?.openingMeterOfMSSaleNozzleOne - msSaleFields?.closingMeterOfMSSaleNozzleOne) - (msSaleFields?.openingMeterOfMSSaleNozzleTwo - msSaleFields?.closingMeterOfMSSaleNozzleTwo)}</span>
+                  <span style={{ fontSize: 15 }}>
+                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo)?+(previousDayMssales?.closingMeterOfMSSaleNozzleOne - msSaleFields?.closingMeterOfMSSaleNozzleOne) - (previousDayMssales?.closingMeterOfMSSaleNozzleTwo - msSaleFields?.closingMeterOfMSSaleNozzleTwo):0.00}
+                    </span>
                 </Typography>
 
               </Box>
@@ -243,13 +244,22 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar }) => {
         </Grid>
 
 
-        <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
-          <CustomButton
+        {
+          sameDayMssales?.mssaleAddedForDay ? <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}> <CustomButton
             color={"p1"}
-            width={100}
-            title={isUpdate ? "UPDATE" : "ADD"}
-          />
-        </Box>
+            width={130}
+            title={"ADD"}
+            isDisabled={true}
+          /></Box>: <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+            <CustomButton
+              color={"p1"}
+              width={130}
+              title={isUpdate ? "UPDATE" : "ADD"}
+            />
+          </Box>
+        }
+
+
       </form>
     </Card>
   )

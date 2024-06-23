@@ -1,5 +1,5 @@
 import { Box, Chip, DialogTitle, Grid, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import DynamicHead from '../../components/DynamicHead/DynamicHead'
 import AuthHook from '../../hooks/AuthHook'
 import CustomTabs from '../../components/CustomTabs/CustomTabs'
@@ -23,6 +23,7 @@ import { dateFormater, dateToJavaUtilDate, isValidDate } from '../../utils/DateT
 import { addMsSaleReportService } from '../../redux/slice/mssaleslice/addMsSaleSlice'
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar'
 import dayjs from 'dayjs'
+import { previousDayOfMssale, sameDayOfMssale } from '../../utils/FuelReportUtil'
 
 
 
@@ -38,8 +39,8 @@ const FuelReports = () => {
 
   const [msSaleFields, setMsSaleFields] = useState({
     MsSaleDate: dayjs(), inwardOfMSSale: "", dipStockOfMSSaleInLtrs: "", dipStockOfMSSaleInCentimeters: "", testing: "",
-    density: "", waterDip: "", remarks: "", closingMeterOfMSSaleNozzleOne: "", closingMeterOfMSSaleNozzleTwo: "", openingStockOfMSSale: "",
-    openingMeterOfMSSaleNozzleOne: "", openingMeterOfMSSaleNozzleTwo: ""
+    density: "", waterDip: "", remarks: "", closingMeterOfMSSaleNozzleOne: "", closingMeterOfMSSaleNozzleTwo: ""
+  
   })
   const [msSaleResponse, setMsSaleResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, msSaleData: {} })
 
@@ -54,16 +55,14 @@ const FuelReports = () => {
 
   const onMsSaleSubmit = (e) => {
     e.preventDefault();
-    let { openingStockOfMSSale, openingMeterOfMSSaleNozzleTwo, openingMeterOfMSSaleNozzleOne, ...insertedData } = msSaleFields
-    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: insertedData }))}
+    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields }))}
 
 
 const onMsSaleSubmitConfirm=async(e)=>{
   e.preventDefault();
   const msSalePayload=(payload)=>({...payload,MsSaleDate:dateToJavaUtilDate(payload?.MsSaleDate)})
-  let { openingStockOfMSSale, openingMeterOfMSSaleNozzleTwo, openingMeterOfMSSaleNozzleOne, ...insertedData } = msSaleFields
 
-  const { payload } = await dispatch(addMsSaleReportService({ protectedInterceptors: protectedInterceptors,payload: msSalePayload(insertedData) }))
+  const { payload } = await dispatch(addMsSaleReportService({ protectedInterceptors: protectedInterceptors,payload: msSalePayload(msSaleFields) }))
     if (payload?.statusCode === 200) {
       setMsSaleResponse((prev) => ({ ...prev, refresh: !prev?.refresh, snackbar: true,dialog:false,msSaleData:{},response:{} }))
       setMsSaleFields((prev)=>(
@@ -79,8 +78,8 @@ const onMsSaleSubmitConfirm=async(e)=>{
     }  
 }
 
-
-
+const previousDayMssales=useMemo(()=>previousDayOfMssale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response),[GET_ALL_MS_SALE_SLICE_REDUCER])
+const sameDayMssales=useMemo(()=>sameDayOfMssale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response),[GET_ALL_MS_SALE_SLICE_REDUCER])
 
 
 
@@ -93,7 +92,8 @@ const onMsSaleSubmitConfirm=async(e)=>{
         msSaleFieldsVar={{ msSaleFields, setMsSaleFields }}
         getAllmsSaleReport={GET_ALL_MS_SALE_SLICE_REDUCER}
         onMsSaleSubmit={onMsSaleSubmit}
-
+        previousDayMssales={previousDayMssales}
+        sameDayMssales={sameDayMssales}
       />,
       icon: <GiEnergyTank fontSize={18} />
     },
@@ -111,6 +111,9 @@ const onMsSaleSubmitConfirm=async(e)=>{
     },
 
   ]
+
+
+
 
 
   return (

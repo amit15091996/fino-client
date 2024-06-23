@@ -49,7 +49,7 @@ const SideNavbar = ({drawerClose}) => {
     else if (index === 5) {
       navigate("/Layout/clients");
     }
-    drawerClose()
+    drawerClose && drawerClose()
 
   };
 

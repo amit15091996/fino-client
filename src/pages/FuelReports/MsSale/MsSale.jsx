@@ -14,20 +14,27 @@ import MsTableRow from './MsTableRow'
 
 
 
-const MsSale = ({msSaleFieldsVar,onMsSaleSubmit}) => {
-const theme=useTheme()
+const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales }) => {
+  const theme = useTheme()
 
 
   return (
     <Box>
- <Box sx={{mt:1.5}}>
- <FuelReportsForm key={"ms_sale_adding_form"} onSubmit={onMsSaleSubmit} msSaleFieldsVar={msSaleFieldsVar} title={"MS SALE"} />
- </Box>
+      <Box sx={{ mt: 1.5 }}>
+        <FuelReportsForm
+          key={"ms_sale_adding_form"}
+          onSubmit={onMsSaleSubmit}
+          msSaleFieldsVar={msSaleFieldsVar}
+          title={"MS SALE"}
+          previousDayMssales={previousDayMssales}
+          sameDayMssales={sameDayMssales}
+        />
+      </Box>
 
- <Card sx={{p:2,mt:1.5}}>
-  <FuelTable TableName={"MS SALE"} headCells={MsSaleTableheader()} FilterdRow={FinoLabel.msSaleFilteredRow} rows={MsTableRow()}/>
+      <Card sx={{ p: 2, mt: 1.5 }}>
+        <FuelTable TableName={"MS SALE"} headCells={MsSaleTableheader()} FilterdRow={FinoLabel.msSaleFilteredRow} rows={MsTableRow()} />
 
- </Card>
+      </Card>
 
     </Box>
   )

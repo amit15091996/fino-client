@@ -14,7 +14,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
     <Box>
 
       <Grid container>
-        <Grid xs={12} md={2.7}>
+        <Grid item xs={12} md={2.7}>
 
           <Card variant="outlined" sx={{ m: 0.6 }}>
             <Box sx={{ p: 1 }}>
@@ -24,7 +24,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
           </Card>
         </Grid>
 
-        <Grid xs={12} md={2.7}>
+        <Grid item xs={12} md={2.7}>
           <Card variant="outlined" sx={{ m: 0.6 }} >
             <Box sx={{ p: 1 }}>
               <CustomDropDown
@@ -39,7 +39,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
           </Card>
         </Grid>
 
-        <Grid xs={12} md={6.6}>
+        <Grid item xs={12} md={6.6}>
 
           <form onSubmit={handleDateSearch}>
 
@@ -85,7 +85,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
 
       {
         isAdmin && <Grid container>
-          <Grid xs={12} md={2.7}>
+          <Grid item xs={12} md={2.7}>
 
             <Card variant="outlined" sx={{ m: 0.6 }}>
               <Box sx={{ p: 1 }}>
