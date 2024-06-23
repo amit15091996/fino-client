@@ -8,7 +8,7 @@ import { useTheme } from '@emotion/react';
 
 
 
- const CustomDatePicker=({label,value,onChange,isFullWidth,isRequired})=> {
+ const CustomDatePicker=({label,value,onChange,isFullWidth,isRequired,maxDate})=> {
 
   const theme=useTheme()
 
@@ -20,6 +20,7 @@ import { useTheme } from '@emotion/react';
           label={label}
           value={value}
           onChange={onChange}
+          maxDate={maxDate && maxDate}
 
           slotProps={{ textField: { size: 'small' ,variant:"outlined",fullWidth:isFullWidth,required:isRequired,
         inputProps:{

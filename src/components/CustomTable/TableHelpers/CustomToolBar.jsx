@@ -18,8 +18,8 @@ const CustomToolBar = ({onFilterClick, pdfdownload, Exceldownload, TableName,isP
       {TableName && <Typography variant="v2"  >{TableName}<span><UnderLine color={theme?.palette?.p1?.main}/></span></Typography>}
 
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        {isPdfNotRequired?null:<CustomTooltips title="Pdf Download"><CustomButton color={"p1"} variant={"text"} onClick={pdfdownload} title={"PDF"}/></CustomTooltips>}
-        <CustomTooltips title="Excel Download"><CustomButton color={"p1"} variant={"text"} onClick={Exceldownload} title={"EXCEL"}/></CustomTooltips>
+        {isPdfNotRequired?null:<CustomTooltips title="Pdf Download"><><CustomButton color={"p1"} variant={"text"} onClick={pdfdownload} title={"PDF"}/></></CustomTooltips>}
+        <CustomTooltips title="Excel Download"><><CustomButton color={"p1"} variant={"text"} onClick={Exceldownload} title={"EXCEL"}/></></CustomTooltips>
         <CustomTooltips title="FILTER LIST"> <IconButton onClick={onFilterClick}><FaFilter fontSize="small" style={{ color:theme?.palette?.p1?.main}} /> </IconButton></CustomTooltips>
       </Box>
    </Box>

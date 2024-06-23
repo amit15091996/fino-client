@@ -1,20 +1,22 @@
-import { Box, Card, Grid, MenuItem } from '@mui/material'
 import React from 'react'
-import CustomDropDown, { menuItemStyle } from '../../../components/CustomDropDown/CustomDropDown'
+import CustomAutoComplete from '../../../components/CustomAutoComplete/CustomAutoComplete'
 import { FinoLabel } from '../../../labels/FinoLabel'
 import CustomDatePicker from '../../../components/CustomDatePicker/CustomDatePicker'
 import CustomButton from '../../../components/CustomButton/CustomButton'
-import CustomAutoComplete from '../../../components/CustomAutoComplete/CustomAutoComplete'
+import { Box, Card, Grid, MenuItem } from '@mui/material'
+import CustomDropDown, { menuItemStyle } from '../../../components/CustomDropDown/CustomDropDown'
 
-const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearch, isAdmin, autoCompleteOptions, yearOptions, year, onYearChange, onMonthChange, month, dates }) => {
+const ClientSerching = (handleDateSearch, yearOptions, year, onYearChange, onMonthChange, month, dates) => {
 
-  const { serachDates, setSerachDates } = dates
+    const { serachDates, setSerachDates } = {}
+
+
+
 
   return (
-    <Box>
-
-      <Grid container>
-        <Grid item xs={12} md={2.7}>
+    <Box >
+ <Grid container>
+        <Grid xs={12} md={2.7}>
 
           <Card variant="outlined" sx={{ m: 0.6 }}>
             <Box sx={{ p: 1 }}>
@@ -24,7 +26,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={2.7}>
+        <Grid xs={12} md={2.7}>
           <Card variant="outlined" sx={{ m: 0.6 }} >
             <Box sx={{ p: 1 }}>
               <CustomDropDown
@@ -39,7 +41,7 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
           </Card>
         </Grid>
 
-        <Grid item xs={12} md={6.6}>
+        <Grid xs={12} md={6.6}>
 
           <form onSubmit={handleDateSearch}>
 
@@ -82,30 +84,9 @@ const ReportsSerching = ({ onCollectedByChange,collectedBySearch,handleDateSearc
 
 
       </Grid>
-
-      {
-        isAdmin && <Grid container>
-          <Grid item xs={12} md={2.7}>
-
-            <Card variant="outlined" sx={{ m: 0.6 }}>
-              <Box sx={{ p: 1 }}>
-                <CustomAutoComplete value={collectedBySearch} onChange={onCollectedByChange} options={autoCompleteOptions && ["ALL"].concat(autoCompleteOptions)} label={"Collected By"} isFullWidth={true} />
-              </Box>
-            </Card>
-          </Grid>
-        </Grid>
-      }
-
-
-
-
-
-
     </Box>
-
-
-
+   
   )
 }
 
-export default ReportsSerching
+export default ClientSerching

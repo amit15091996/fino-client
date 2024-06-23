@@ -34,7 +34,7 @@ const themecolor=useTheme()
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/Layout" element={<Layout />}>
             <Route path="Dashboard" element={<Dashboard />}></Route>
-            <Route path="Payments" element={<FuelReports />}></Route>
+            <Route path="fuel-reports" element={<FuelReports />}></Route>
             <Route path="add-user" element={<AddUser />}></Route>
             <Route path="activities" element={<Activities />}></Route>
             <Route path="reports" element={<Reports />}></Route>

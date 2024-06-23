@@ -123,7 +123,7 @@ const Reports = ({ }) => {
   const onBankTxnEditClick = (row) => { 
     setUpdatedBankTxn((prev)=>{return{...prev,open:true,row:row}});
     setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:row?.balanceAmount,cashAmount:row?.cashAmount,
-      collectedBy:row?.collectedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.recievedFrom,
+      collectedBy:row?.depositedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.recievedFrom,
       remarks:row?.remarks,TransactionDate:stringToDateConverter(row?.bankTransactionDate)
     }})
   }
@@ -413,7 +413,7 @@ useEffect(()=>{getAllClients()},[])
   return (
     <Box>
 
-      <DynamicHead title={`${fullName?.toLocaleUpperCase()}'S TXN REPORTS`} />
+      <DynamicHead title={`TXN REPORTS OF ${fullName?.toLocaleUpperCase()}`} />
 
 
       <Box sx={{ mt: 2 }}>

@@ -21,6 +21,15 @@ import { DELETE_CMS_TXN_SLICE_REDUCER } from '../slice/cmsslice/CmsTxnDeleteSlic
 import { ADD_CLIENT_SLICE_REDUCER } from '../slice/clientslice/addClients'
 import { DELETE_CLIENT_SLICE_REDUCER } from '../slice/clientslice/deleteAClient'
 import { GET_ALL_CLIENTS_SLICE_REDUCER } from '../slice/clientslice/getAllClients'
+import { ADD_MS_SALE_SLICE_REDUCER } from '../slice/mssaleslice/addMsSaleSlice'
+import { DELETE_MS_SALE_SLICE_REDUCER } from '../slice/mssaleslice/deleteMsSaleSlice'
+import { ADD_HSD_ONE_SLICE_REDUCER } from '../slice/hsdtankoneslice/addHsdtankOneslice'
+import { GET_ALL_MS_SALE_SLICE_REDUCER } from '../slice/mssaleslice/getAllMsSaleList'
+import { DELETE_HSD_ONE_SLICE_REDUCER } from '../slice/hsdtankoneslice/deleteHsdtankOneslice'
+import { GET_ALL_HSD_ONE_SLICE_REDUCER } from '../slice/hsdtankoneslice/getAllHsdtankOneslice'
+import { ADD_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/addHsdtankTwoslice'
+import { DELETE_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/deleteHsdtankTwoslice'
+import { GET_ALL_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/getAllHsdtankTwoslice'
 
 const FinoStore = configureStore({
     reducer:{
@@ -43,9 +52,25 @@ const FinoStore = configureStore({
       DELETE_BANK_TXN_SLICE_REDUCER:DELETE_BANK_TXN_SLICE_REDUCER,
       UPDATE_CMS_TXN_SLICE_REDUCER:UPDATE_CMS_TXN_SLICE_REDUCER,
       DELETE_CMS_TXN_SLICE_REDUCER:DELETE_CMS_TXN_SLICE_REDUCER,
+
       ADD_CLIENT_SLICE_REDUCER:ADD_CLIENT_SLICE_REDUCER, 
       DELETE_CLIENT_SLICE_REDUCER:DELETE_CLIENT_SLICE_REDUCER,
       GET_ALL_CLIENTS_SLICE_REDUCER:GET_ALL_CLIENTS_SLICE_REDUCER,
+
+      ADD_MS_SALE_SLICE_REDUCER:ADD_MS_SALE_SLICE_REDUCER,
+      DELETE_MS_SALE_SLICE_REDUCER:DELETE_MS_SALE_SLICE_REDUCER,
+      GET_ALL_MS_SALE_SLICE_REDUCER:GET_ALL_MS_SALE_SLICE_REDUCER,
+
+      ADD_HSD_ONE_SLICE_REDUCER:ADD_HSD_ONE_SLICE_REDUCER,
+      DELETE_HSD_ONE_SLICE_REDUCER:DELETE_HSD_ONE_SLICE_REDUCER,
+      GET_ALL_HSD_ONE_SLICE_REDUCER:GET_ALL_HSD_ONE_SLICE_REDUCER,
+
+      ADD_HSD_TWO_SLICE_REDUCER:ADD_HSD_TWO_SLICE_REDUCER,
+      DELETE_HSD_TWO_SLICE_REDUCER:DELETE_HSD_TWO_SLICE_REDUCER,
+      GET_ALL_HSD_TWO_SLICE_REDUCER:GET_ALL_HSD_TWO_SLICE_REDUCER,
+
+      
+
     },
     devTools:true
 

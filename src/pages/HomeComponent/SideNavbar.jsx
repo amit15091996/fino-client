@@ -35,7 +35,7 @@ const SideNavbar = ({drawerClose}) => {
     if (index === 0) {
       navigate("/Layout/Dashboard");
     } else if (index === 1) {
-      navigate("/Layout/Payments");
+      navigate("/Layout/fuel-reports");
     }
     else if (index === 2) {
       navigate("/Layout/reports");
@@ -49,7 +49,7 @@ const SideNavbar = ({drawerClose}) => {
     else if (index === 5) {
       navigate("/Layout/clients");
     }
-    drawerClose()
+    drawerClose && drawerClose()
 
   };
 
@@ -86,54 +86,67 @@ const SideNavbar = ({drawerClose}) => {
             primary="Dashboard"
           />
         </ListItemButton>
-        <ListItemButton
-          sx={{
-            "&.Mui-selected":
-              SideNavbarStyles.listItemButtonSelectedStyle(theme),
-          }}
-          selected={selectedIndex === 2}
-          onClick={(e) => handleSelectedIndex(e, 2)}
-        >
-          <ListItemIcon>
-            <TbReport
-              style={
-                selectedIndex === 2
-                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-                  : SideNavbarStyles.listItemIconStyle(theme)
-              }
-            />
-          </ListItemIcon>
-          <ListItemText
-            sx={
-              selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
-            }
-            primary="Txn Reports"
-          />
-        </ListItemButton>
-        <ListItemButton
-          sx={{
-            "&.Mui-selected":
-              SideNavbarStyles.listItemButtonSelectedStyle(theme),
-          }}
-          selected={selectedIndex === 1}
-          onClick={(e) => handleSelectedIndex(e, 1)}
-        >
-          <ListItemIcon>
-            <BsFillFuelPumpDieselFill
-              style={
-                selectedIndex === 1
-                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-                  : SideNavbarStyles.listItemIconStyle(theme)
-              }
-            />
-          </ListItemIcon>
-          <ListItemText
-            sx={
-              selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
-            }
-            primary="Fuel Reports"
-          />
-        </ListItemButton>
+
+
+{
+  (isUser || isAdmin || isManager) &&  <ListItemButton
+  sx={{
+    "&.Mui-selected":
+      SideNavbarStyles.listItemButtonSelectedStyle(theme),
+  }}
+  selected={selectedIndex === 2}
+  onClick={(e) => handleSelectedIndex(e, 2)}
+>
+  <ListItemIcon>
+    <TbReport
+      style={
+        selectedIndex === 2
+          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+          : SideNavbarStyles.listItemIconStyle(theme)
+      }
+    />
+  </ListItemIcon>
+  <ListItemText
+    sx={
+      selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
+    }
+    primary="Txn Reports"
+  />
+</ListItemButton>
+}
+
+
+       
+     
+
+{
+  (isManager || isAdmin) &&    <ListItemButton
+  sx={{
+    "&.Mui-selected":
+      SideNavbarStyles.listItemButtonSelectedStyle(theme),
+  }}
+  selected={selectedIndex === 1}
+  onClick={(e) => handleSelectedIndex(e, 1)}
+>
+  <ListItemIcon>
+    <BsFillFuelPumpDieselFill
+      style={
+        selectedIndex === 1
+          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+          : SideNavbarStyles.listItemIconStyle(theme)
+      }
+    />
+  </ListItemIcon>
+  <ListItemText
+    sx={
+      selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
+    }
+    primary="Fuel Reports"
+  />
+</ListItemButton>
+}
+
+     
 
 
 
