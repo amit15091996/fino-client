@@ -23,3 +23,27 @@ export const sameDayOfMssale = (dataArray) => {
         return {}
     }
 }
+
+export const previousDayOfHsdSaleTwo = (dataArray) => {
+
+
+    if (Array.isArray(dataArray)) {
+        const previousDay = dataArray?.find((hsdtwo) => dayjs(hsdtwo?.hsdTankTwoDate).isValid() ? dayjs(hsdtwo?.hsdTankTwoDate)?.isSame(dayjs().subtract(1, "day"), "dates") : {})
+
+        return previousDay ? previousDay : {}
+    } else {
+        return {}
+    }
+}
+
+export const sameDayOfHsdSaleTwo = (dataArray) => {
+
+
+    if (Array.isArray(dataArray)) {
+        const sameDay = dataArray?.find((hsdtwo) => { return dayjs(hsdtwo?.hsdTankTwoDate).isValid() ? dayjs(hsdtwo?.hsdTankTwoDate)?.isSame(dayjs(), "dates") : {} })
+        return sameDay ? sameDay : {}
+    } else {
+        return {}
+    }
+}
+

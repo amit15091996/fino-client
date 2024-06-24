@@ -7,15 +7,37 @@ import { GlobalStyles } from '../../../styles/GlobalStyles'
 import { useTheme } from '@emotion/react'
 import FuelTable from '../../../components/FuelTable/FuelTable'
 import { FinoLabel } from '../../../labels/FinoLabel'
-import MsTableRow from './MsTableRow'
+import { dateFormater } from '../../../utils/DateTimeFormatter'
 
 
 
 
 
 
-const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales }) => {
+const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales, getAllmsSaleReport }) => {
   const theme = useTheme()
+
+
+  const MsTableRow = Array.isArray(getAllmsSaleReport?.data?.response) ? getAllmsSaleReport?.data?.response?.map((msSale) => {
+    const closingAndSale = {
+      mpdtwo: <Box sx={{ width: "100%", display: "flex",height:"100%" }}>
+        <Box sx={{ height:"100%",width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+          <Typography variant='v6' >{msSale?.openingMeterOfMSSaleNozzleOne}</Typography>
+        </Box>
+        <Box sx={{ height:"100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+          <Typography variant='v6' >{msSale?.salesForMSSaleNozzleOne}</Typography>
+        </Box>
+        <Box sx={{ height:"100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+          <Typography variant='v6' >{msSale?.openingMeterOfMSSaleNozzleTwo}</Typography>
+        </Box>
+        <Box sx={{  height:"100%",width: "25%", ...GlobalStyles.alignmentStyles }}>
+          <Typography variant='v6'>{msSale?.salesForMSSaleNozzleTwo}</Typography>
+        </Box>
+      </Box>
+    }
+    return { ...msSale, msSaleDate: dateFormater(msSale?.dateFormater), ...closingAndSale }
+  }) : []
+
 
 
   return (
@@ -32,7 +54,13 @@ const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMs
       </Box>
 
       <Card sx={{ p: 2, mt: 1.5 }}>
-        <FuelTable TableName={"MS SALE"} headCells={MsSaleTableheader()} FilterdRow={FinoLabel.msSaleFilteredRow} rows={MsTableRow()} />
+        <FuelTable
+          TableName={"MS SALE"}
+          headCells={MsSaleTableheader()}
+          FilterdRow={FinoLabel.msSaleFilteredRow}
+          rows={MsTableRow}
+          isActionRequired={true}
+        />
 
       </Card>
 

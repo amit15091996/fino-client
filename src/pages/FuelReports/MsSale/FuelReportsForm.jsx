@@ -8,6 +8,7 @@ import CustomButton from '../../../components/CustomButton/CustomButton';
 import { GlobalStyles } from '../../../styles/GlobalStyles';
 import { FinoLabel } from '../../../labels/FinoLabel';
 import dayjs, { Dayjs } from 'dayjs';
+import CustomTooltips from '../../../components/CustomTooltips/CustomTooltips';
 
 
 const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousDayMssales, sameDayMssales }) => {
@@ -232,7 +233,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
               <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                 <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
                   <span style={{ fontSize: 15 }}>
-                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo)?+(previousDayMssales?.closingMeterOfMSSaleNozzleOne - msSaleFields?.closingMeterOfMSSaleNozzleOne) - (previousDayMssales?.closingMeterOfMSSaleNozzleTwo - msSaleFields?.closingMeterOfMSSaleNozzleTwo):0.00}
+                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo)?+(msSaleFields?.closingMeterOfMSSaleNozzleOne-previousDayMssales?.closingMeterOfMSSaleNozzleOne ) - (msSaleFields?.closingMeterOfMSSaleNozzleTwo-previousDayMssales?.closingMeterOfMSSaleNozzleTwo):0.00}
                     </span>
                 </Typography>
 
@@ -245,12 +246,18 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
 
 
         {
-          sameDayMssales?.mssaleAddedForDay ? <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}> <CustomButton
+          sameDayMssales?.mssaleAddedForDay ? 
+        
+           <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+             <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
+           <CustomButton
             color={"p1"}
             width={130}
             title={"ADD"}
             isDisabled={true}
-          /></Box>: <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+          /></Box></CustomTooltips></Box>
+          
+          : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
             <CustomButton
               color={"p1"}
               width={130}

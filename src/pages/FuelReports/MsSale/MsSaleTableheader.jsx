@@ -11,16 +11,16 @@ const MsSaleTableheader = () => {
 
 
   return [
-        {id:"date",label:"Date"},
-        {id:"openingStock",label:"Opening Stock"},
-        {id:"inwards",label:"Inwards"},
-        {id:"totalStock",label:"Total Stock"},
-        {id:"totalSales",label:"Total Sales"},
-        {id:"closingStock",label:"Closing Stock"},
-        {id:"dipStock",label:"Dip Stock"},
-        {id:"variation",label:"Variation"},
-        {id:"dipStockInCms",label:"Dip Stock(CM's)"},
-        {id:"dipStockLtrs",label:"Dip Stock(LTR's)"},
+        {id:"msSaleDate",label:"Date"},
+        {id:"openingStockOfMSSale",label:"Opening Stock"},
+        {id:"inwardOfMSSale",label:"Inwards"},
+        {id:"totalStockMSSale",label:"Total Stock"},
+        {id:"totalSalesMSSale",label:"Total Sales"},
+        {id:"closingStockMSSale",label:"Closing Stock"},
+        {id:"dipStockOfMSSale",label:"Dip Stock"},
+        {id:"variationOfMSSale",label:"Variation"},
+        {id:"dipStockOfMSSaleInCentimeter",label:"Dip Stock(CM's)"},
+        {id:"dipStockOfMSSaleInLtrs",label:"Dip Stock(LTR's)"},
         {id:"mpdtwo",label:<Box>
       
       <Box sx={{width:"100%",borderBottom:GlobalStyles?.borderStyle,...GlobalStyles.alignmentStyles}}>
@@ -51,7 +51,7 @@ const MsSaleTableheader = () => {
         </Box>
       </Box>
         </Box>},
-         {id:"totalMeterSales",label:"Total Meter Sales(LTR's)"},
+         {id:"totalMeterSalesForTheDayForMSSaleInLtrs",label:"Total Meter Sales(LTR's)"},
          {id:"testing",label:"Testing"},
          {id:"density",label:"Density"},
          {id:"waterDip",label:"Water Dip"},
