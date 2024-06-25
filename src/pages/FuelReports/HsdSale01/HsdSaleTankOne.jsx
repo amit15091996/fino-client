@@ -7,12 +7,15 @@ import { GlobalStyles } from '../../../styles/GlobalStyles'
 import UnderLine from '../../../components/UnderLine/UnderLine'
 import { useTheme } from '@emotion/react'
 import { FinoLabel } from '../../../labels/FinoLabel'
+import CustomTooltips from '../../../components/CustomTooltips/CustomTooltips'
 
 
 
-const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
-
+const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previousDayHsdTankOneSales, sameDayTankOneSales }) => {
   const theme = useTheme();
+  const { hsdTankOneFields, setHsdTankOneFields } = hsdTankOneFieldsVar
+
+
 
 
 
@@ -35,6 +38,8 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                 isFullWidth={true}
                 isRequired={true}
                 label={FinoLabel.date}
+                value={hsdTankOneFields?.HsdTankOneDate}
+                onChange={(newValue) => { setHsdTankOneFields({ ...hsdTankOneFields, HsdTankOneDate: newValue }) }}
               />
             </Box>
           </Grid>
@@ -44,8 +49,8 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                 isFullwidth={true}
                 label={FinoLabel.openingStock}
                 placeholder={FinoLabel.openingStock}
-
-
+                isDisabled={true}
+                value={previousDayHsdTankOneSales?.openingStockOfHsdTankOne}
 
               />
             </Box>
@@ -53,38 +58,50 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
+                isRequired={true}
                 isFullwidth={true}
                 label={FinoLabel.inwards}
                 placeholder={FinoLabel.inwards}
+                value={hsdTankOneFields?.inwardOfHsdTankOne}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, inwardOfHsdTankOne: e.target.value }) }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
                 isFullwidth={true}
                 label={FinoLabel.dipStockInCms}
                 placeholder={FinoLabel.dipStockInCms}
-
+                value={hsdTankOneFields?.dipStockOfHsdTankOneInCentimeters}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, dipStockOfHsdTankOneInCentimeters: e.target.value }) }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
+                isRequired={true}
                 isFullwidth={true}
                 label={FinoLabel.dipStockLtrs}
                 placeholder={FinoLabel.dipStockLtrs}
-
+                value={hsdTankOneFields?.dipStockOfHsdTankOneInLtrs}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, dipStockOfHsdTankOneInLtrs: e.target.value }) }}
               />
             </Box>
           </Grid>
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
                 isFullwidth={true}
                 label={FinoLabel.testing}
                 placeholder={FinoLabel.testing}
+                value={hsdTankOneFields?.testing}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, testing: e.target.value }) }}
               />
             </Box>
           </Grid>
@@ -96,9 +113,13 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
 
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
+
                 isFullwidth={true}
                 label={FinoLabel.density}
                 placeholder={FinoLabel.density}
+                value={hsdTankOneFields?.density}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, density: e.target.value }) }}
               />
             </Box>
 
@@ -106,9 +127,13 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomTextField
+                type={"number"}
+
                 isFullwidth={true}
                 label={FinoLabel.waterDip}
                 placeholder={FinoLabel.waterDip}
+                value={hsdTankOneFields?.waterDip}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, waterDip: e.target.value }) }}
 
               />
             </Box>
@@ -119,6 +144,8 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                 isFullwidth={true}
                 label={FinoLabel.remarks}
                 placeholder={FinoLabel.remarks}
+                value={hsdTankOneFields?.remarks}
+                onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, remarks: e.target.value }) }}
 
               />
             </Box>
@@ -165,14 +192,20 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                     <CustomTextField
                       isFullwidth={true}
                       placeholder={FinoLabel.openingMeter}
+                      isDisabled={true}
+                      value={previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleOne}
 
                     />
                   </Box>
                   <Box sx={{ p: 0.7, width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
 
                     <CustomTextField
+                      type={"number"}
+                      isRequired={true}
                       isFullwidth={true}
                       placeholder={FinoLabel.closingMeter}
+                      value={hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne}
+                      onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, closingMeterOfHsdTankOneNozzleOne: e.target.value }) }}
                     />
 
                   </Box>
@@ -180,20 +213,26 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                     <CustomTextField
                       isFullwidth={true}
                       placeholder={FinoLabel.openingMeter}
+                      isDisabled={true}
+                      value={previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleTwo}
 
                     />
                   </Box>
                   <Box sx={{ p: 0.7, width: "25%", ...GlobalStyles.alignmentStyles }}>
                     <CustomTextField
+                      type={"number"}
+                      isRequired={true}
                       isFullwidth={true}
                       placeholder={FinoLabel.closingMeter}
+                      value={hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo}
+                      onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, closingMeterOfHsdTankOneNozzleTwo: e.target.value }) }}
                     />
                   </Box>
                 </Box>
 
                 <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                   <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                    <span style={{ fontSize: 15 }}>=&nbsp;1000</span>
+                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleOne) - (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleTwo) : 0.00}</span>
                   </Typography>
 
                 </Box>
@@ -237,14 +276,22 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                     <CustomTextField
                       isFullwidth={true}
                       placeholder={FinoLabel.openingMeter}
+                      isDisabled={true}
+                      value={previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleThree}
 
                     />
                   </Box>
+
+
                   <Box sx={{ p: 0.7, width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
 
                     <CustomTextField
+                      type={"number"}
+                      isRequired={true}
                       isFullwidth={true}
                       placeholder={FinoLabel.closingMeter}
+                      value={hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree}
+                      onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, closingMeterOfHsdTankOneNozzleThree: e.target.value }) }}
                     />
 
                   </Box>
@@ -252,20 +299,25 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
                     <CustomTextField
                       isFullwidth={true}
                       placeholder={FinoLabel.openingMeter}
-
+                      isDisabled={true}
+                      value={previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleFour}
                     />
                   </Box>
                   <Box sx={{ p: 0.7, width: "25%", ...GlobalStyles.alignmentStyles }}>
                     <CustomTextField
+                      type={"number"}
+                      isRequired={true}
                       isFullwidth={true}
                       placeholder={FinoLabel.closingMeter}
+                      value={hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour}
+                      onChange={(e) => { setHsdTankOneFields({ ...hsdTankOneFields, closingMeterOfHsdTankOneNozzleFour: e.target.value }) }}
                     />
                   </Box>
                 </Box>
 
                 <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                   <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                    <span style={{ fontSize: 15 }}>=&nbsp;1000</span>
+                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleThree) - (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleFour) : 0.00}</span>
                   </Typography>
 
                 </Box>
@@ -276,13 +328,23 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title }) => {
         </Grid>
 
 
-        <Box sx={{ mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-          <CustomButton
-            color={"p1"}
-            width={100}
-            title={isUpdate ? "UPDATE" : "ADD"}
-          />
-        </Box>
+        {
+          sameDayTankOneSales?.hsdTankOneAddedForDay?
+            <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+              <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
+                <CustomButton
+                  color={"p1"}
+                  width={130}
+                  title={"ADD"}
+                  isDisabled={true}
+                /></Box></CustomTooltips></Box> : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+              <CustomButton
+                color={"p1"}
+                width={130}
+                title={isUpdate ? "UPDATE" : "ADD"}
+              />
+            </Box>
+        }
       </form>
     </Card>
   )

@@ -34,6 +34,7 @@ import { useTheme } from '@emotion/react';
         }, 
       openPickerButton:{style:{color:theme?.palette?.p1?.main,padding:0,paddingRight:0.7}}
       }}
+      sx={{"& .MuiInputBase-input.Mui-disabled":{WebkitTextFillColor:"#000"}}}
         />
     </LocalizationProvider>
   );

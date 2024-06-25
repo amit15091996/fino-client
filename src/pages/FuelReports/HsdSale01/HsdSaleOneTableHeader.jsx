@@ -10,16 +10,16 @@ const HsdSaleOneTableHeader = () => {
 
   return (
     [
-        {id:"date",label:"Date"},
-        {id:"openingStock",label:"Opening Stock"},
-        {id:"inwards",label:"Inwards"},
-        {id:"totalStock",label:"Total Stock"},
-        {id:"totalSales",label:"Total Sales"},
-        {id:"closingStock",label:"Closing Stock"},
-        {id:"dipStock",label:"Dip Stock"},
-        {id:"variation",label:"Variation"},
-        {id:"dipStockInCms",label:"Dip Stock(CM's)"},
-        {id:"dipStockLtrs",label:"Dip Stock(LTR's)"},
+        {id:"hsdTankOneDate",label:"Date"},
+        {id:"openingStockOfHsdTankOne",label:"Opening Stock"},
+        {id:"inwardOfHsdTankOne",label:"Inwards"},
+        {id:"totalStockHsdTankOne",label:"Total Stock"},
+        {id:"totalSalesHsdTankOne",label:"Total Sales"},
+        {id:"closingStockHsdTankOne",label:"Closing Stock"},
+        {id:"dipStockOfHsdTankOne",label:"Dip Stock"},
+        {id:"variationOfHsdTankOne",label:"Variation"},
+        {id:"dipOfHsdTankOneInCentimeter",label:"Dip Stock(CM's)"},
+        {id:"dipOfHsdTankOneInLtrs",label:"Dip Stock(LTR's)"},
         {id:"mpdOne",label:<Box>
       
       <Box sx={{width:"100%",borderBottom:`1.5px solid ${GlobalStyles.sideTopNavborderColor}`,...GlobalStyles.alignmentStyles}}>
@@ -80,7 +80,7 @@ const HsdSaleOneTableHeader = () => {
           </Box>
         </Box>
           </Box>},
-         {id:"totalMeterSales",label:"Total Meter Sales(LTR's)"},
+         {id:"totalSalesForTheDayHsdTankOne",label:"Total Meter Sales(LTR's)"},
          {id:"testing",label:"Testing"},
          {id:"density",label:"Density"},
          {id:"waterDip",label:"Water Dip"},
