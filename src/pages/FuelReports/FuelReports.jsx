@@ -23,9 +23,11 @@ import { dateFormater, dateToJavaUtilDate, isValidDate } from '../../utils/DateT
 import { addMsSaleReportService } from '../../redux/slice/mssaleslice/addMsSaleSlice'
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar'
 import dayjs from 'dayjs'
-import { previousDayOfHsdSaleTwo, previousDayOfMssale, sameDayOfHsdSaleTwo, sameDayOfMssale } from '../../utils/FuelReportUtil'
+import { allDatesBetweenTwoDatesOfMsSale, previousDayOfHsdSaleOne, previousDayOfHsdSaleTwo, previousDayOfMssale, sameDayOfHsdSaleOne, sameDayOfHsdSaleTwo, sameDayOfMssale } from '../../utils/FuelReportUtil'
 import { getAllHsdTankTwoReportService } from '../../redux/slice/hsdtanktwoslice/getAllHsdtankTwoslice'
 import { addHsdTankTwoReportService } from '../../redux/slice/hsdtanktwoslice/addHsdtankTwoslice'
+import { getAllHsdTankOneReportService } from '../../redux/slice/hsdtankoneslice/getAllHsdtankOneslice'
+import { addHsdTankOneReportService } from '../../redux/slice/hsdtankoneslice/addHsdtankOneslice'
 
 
 
@@ -39,23 +41,30 @@ const FuelReports = () => {
   const [fuelTabValue, setFuelTabValue] = useState(0)
   const onFuelTabChange = (e, value) => { setFuelTabValue(value) }
 
-  const [msSaleResponse, setMsSaleResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, msSaleData: {} })
+  const [msSaleResponse, setMsSaleResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, msSaleData: {},previousData:[] })
   const [hsdTankTwoResponse, setHsdTankTwoResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, hsdTankTwoData: {} })
+  const [hsdTankOneResponse, setHsdTankOneResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, hsdTankOneData: {} })
 
   const [msSaleFields, setMsSaleFields] = useState({
-    MsSaleDate: dayjs(), inwardOfMSSale: "", dipStockOfMSSaleInLtrs: "", dipStockOfMSSaleInCentimeters: "", testing: "",
+    MsSaleDate: dayjs(), inwardOfMSSale:0, dipStockOfMSSaleInLtrs: "", dipStockOfMSSaleInCentimeters: "", testing: 0,
     density: "", waterDip: "", remarks: "", closingMeterOfMSSaleNozzleOne: "", closingMeterOfMSSaleNozzleTwo: ""
   })
 
   const [hsdTankTwoFields, setHsdTankTwoFields] = useState({
-    HsdTankTwoDate: dayjs(), inwardOfHsdTankTwo: "", dipStockOfHsdTankTwoInLtrs: "", dipStockOfHsdTankTwoInCentimeters: "",
-    testing: "", density: "", waterDip: "", remarks: "", closingMeterOfHsdTankTwoNozzleOne: "", closingMeterOfHsdTankTwoNozzleTwo: ""
+    HsdTankTwoDate: dayjs(), inwardOfHsdTankTwo:0, dipStockOfHsdTankTwoInLtrs: "", dipStockOfHsdTankTwoInCentimeters: "",
+    testing: 0, density: "", waterDip: "", remarks: "", closingMeterOfHsdTankTwoNozzleOne: "", closingMeterOfHsdTankTwoNozzleTwo: ""
   })
 
+  const [hsdTankOneFields, setHsdTankOneFields] = useState({
+    HsdTankOneDate: dayjs(), inwardOfHsdTankOne:0, dipStockOfHsdTankOneInLtrs: "", dipStockOfHsdTankOneInCentimeters: ""
+    , testing: 0, density: "", waterDip: "", remarks: "", closingMeterOfHsdTankOneNozzleOne: "", closingMeterOfHsdTankOneNozzleTwo: "",
+    closingMeterOfHsdTankOneNozzleThree: "", closingMeterOfHsdTankOneNozzleFour: ""
+  })
 
 
   const getAllMsSaleReports = () => { dispatch(getAllMsSaleReportService(protectedInterceptors)) }
   const getAllHsdSaleTwoReports = () => { dispatch(getAllHsdTankTwoReportService(protectedInterceptors)) }
+  const getAllHsdSaleOneReports = () => { dispatch(getAllHsdTankOneReportService(protectedInterceptors)) }
 
 
   const GET_ALL_MS_SALE_SLICE_REDUCER = useSelector((state) => state.GET_ALL_MS_SALE_SLICE_REDUCER)
@@ -66,17 +75,29 @@ const FuelReports = () => {
   const ADD_HSD_TWO_SLICE_REDUCER = useSelector((state) => state.ADD_HSD_TWO_SLICE_REDUCER)
   const DELETE_HSD_TWO_SLICE_REDUCER = useSelector((state) => state.DELETE_HSD_TWO_SLICE_REDUCER)
 
+
+  const GET_ALL_HSD_ONE_SLICE_REDUCER = useSelector((state) => state.GET_ALL_HSD_ONE_SLICE_REDUCER)
+  const ADD_HSD_ONE_SLICE_REDUCER = useSelector((state) => state.ADD_HSD_ONE_SLICE_REDUCER)
+  const DELETE_HSD_ONE_SLICE_REDUCER = useSelector((state) => state.DELETE_HSD_ONE_SLICE_REDUCER)
+
   useEffect(() => { getAllMsSaleReports() }, [msSaleResponse?.refresh])
   useEffect(() => { getAllHsdSaleTwoReports() }, [hsdTankTwoResponse?.refresh])
+  useEffect(() => { getAllHsdSaleOneReports() }, [hsdTankOneResponse?.refresh])
+
 
   const onMsSaleSubmit = (e) => {
     e.preventDefault();
-    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields }))
+    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields,previousData:allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response) }))
   }
   const onHsdTankTwoSubmit = (e) => {
     e.preventDefault();
     setHsdTankTwoResponse((prev) => ({ ...prev, dialog: true, hsdTankTwoData: hsdTankTwoFields }))
 
+  }
+
+  const onHsdTankOneSubmit = (e) => {
+    e.preventDefault();
+    setHsdTankOneResponse((prev) => ({ ...prev, dialog: true, hsdTankOneData: hsdTankOneFields }))
   }
 
   const onMsSaleSubmitConfirm = async (e) => {
@@ -105,11 +126,29 @@ const FuelReports = () => {
     }
   }
 
+  const onHsdTankOneSaleConfirm = async (e) => {
+    e.preventDefault();
+    const hsdTankOnePayload = (payload) => ({ ...payload, HsdTankOneDate: dateToJavaUtilDate(payload?.HsdTankOneDate) })
+
+    const { payload } = await dispatch(addHsdTankOneReportService({ protectedInterceptors: protectedInterceptors, payload: hsdTankOnePayload(hsdTankOneFields) }))
+    if (payload?.statusCode === 200) {
+      setHsdTankOneResponse((prev) => ({ ...prev, refresh: !prev?.refresh, snackbar: true, dialog: false, hsdTankOneData: {}, response: {} }))
+    }
+    else {
+      setHsdTankOneResponse((prev) => ({ ...prev, snackbar: true, dialog: false }))
+    }
+  }
+
+
+
   const previousDayMssales = useMemo(() => previousDayOfMssale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response), [GET_ALL_MS_SALE_SLICE_REDUCER])
   const sameDayMssales = useMemo(() => sameDayOfMssale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response), [GET_ALL_MS_SALE_SLICE_REDUCER])
 
   const previousDayHsdTankTwoSales = useMemo(() => previousDayOfHsdSaleTwo(GET_ALL_HSD_TWO_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_TWO_SLICE_REDUCER])
   const sameDayTankTwoSales = useMemo(() => sameDayOfHsdSaleTwo(GET_ALL_HSD_TWO_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_TWO_SLICE_REDUCER])
+
+  const previousDayHsdTankOneSales = useMemo(() => previousDayOfHsdSaleOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
+  const sameDayTankOneSales = useMemo(() => sameDayOfHsdSaleOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
 
 
   const fuelTabs = [
@@ -123,13 +162,24 @@ const FuelReports = () => {
         onMsSaleSubmit={onMsSaleSubmit}
         previousDayMssales={previousDayMssales}
         sameDayMssales={sameDayMssales}
+        isAdmin={isAdmin}
       />,
       icon: <GiEnergyTank fontSize={18} />
     },
     {
       label: "HSD SALE 01",
       minWidth: 150,
-      component: <HsdSaleOne />,
+      component: <HsdSaleOne
+
+        key={"hsd_tank_one_sale_report"}
+        hsdTankOneFieldsVar={{ hsdTankOneFields, setHsdTankOneFields }}
+        allhsdTankOneReport={GET_ALL_HSD_ONE_SLICE_REDUCER}
+        onHsdTankOneSubmit={onHsdTankOneSubmit}
+        previousDayHsdTankOneSales={previousDayHsdTankOneSales}
+        sameDayTankOneSales={sameDayTankOneSales}
+        isAdmin={isAdmin}
+
+      />,
       icon: <GiFuelTank fontSize={18} />
     },
     {
@@ -142,13 +192,13 @@ const FuelReports = () => {
         onHsdTankTwoSubmit={onHsdTankTwoSubmit}
         previousDayHsdTankTwoSales={previousDayHsdTankTwoSales}
         sameDayTankTwoSales={sameDayTankTwoSales}
+        isAdmin={isAdmin}
 
       />,
       icon: <GiScubaTanks fontSize={18} />
     },
 
   ]
-
 
 
 
@@ -248,9 +298,50 @@ const FuelReports = () => {
       </CustomDialog>
 
 
+      <CustomDialog isFullWidth={true} maxWidth={"lg"} open={hsdTankOneResponse?.dialog} onClose={() => { setHsdTankOneResponse((prev) => ({ ...prev, dialog: false })) }}>
+
+
+        {
+          ADD_HSD_ONE_SLICE_REDUCER?.isLoading ? <Loading /> :
+            <Box>
+              <CustomDialogTitle title={"HSD TANK 01"} onClose={() => { setHsdTankOneResponse((prev) => ({ ...prev, dialog: false })) }} />
+
+
+              <Box sx={{ p: 2 }}>
+                <Box sx={{ p: 1 }} >
+                  <Typography color={"primary"} variant='v3' >Do you want to submit Hsd Tank 01 Sale reports for the day...</Typography>
+                </Box>
+                <Box sx={{ mt: 1.5 }}>
+                  <Grid container>
+                    {
+                      Object.keys(hsdTankOneResponse?.hsdTankOneData)?.map((hsdOne) => {
+                        return (
+                          <Grid item xs={12} md={4}>
+                            <Box sx={{ p: 1 }}>
+                              <Chip size='small' sx={{ letterSpacing: 1.4, width: "100%" }} label={`${hsdOne?.toUpperCase()} : ${isDataAvailable(hsdTankOneResponse?.hsdTankOneData[hsdOne])}`}>
+                              </Chip>
+                            </Box>
+                          </Grid>
+                        )
+                      })
+
+                    }
+                  </Grid>
+                </Box>
+              </Box>
+              <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
+                <CustomButton width={150} onClick={onHsdTankOneSaleConfirm} title={"SUBMIT"} color={"p1"} />
+              </Box>
+
+            </Box>
+        }
+      </CustomDialog>
+
+
 
       <CustomSnackbar open={msSaleResponse?.snackbar} onClose={() => { setMsSaleResponse((prev) => { return { ...prev, snackbar: false } }) }} message={ADD_MS_SALE_SLICE_REDUCER?.data?.statusMessage} severity={ADD_MS_SALE_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
       <CustomSnackbar open={hsdTankTwoResponse?.snackbar} onClose={() => { setHsdTankTwoResponse((prev) => { return { ...prev, snackbar: false } }) }} message={ADD_HSD_TWO_SLICE_REDUCER?.data?.statusMessage} severity={ADD_HSD_TWO_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
+      <CustomSnackbar open={hsdTankOneResponse?.snackbar} onClose={() => { setHsdTankOneResponse((prev) => { return { ...prev, snackbar: false } }) }} message={ADD_HSD_ONE_SLICE_REDUCER?.data?.statusMessage} severity={ADD_HSD_ONE_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
 
     </Box>
   )
