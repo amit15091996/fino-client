@@ -9,13 +9,13 @@ import PieCharts from '../../../components/PieCharts/PieCharts';
 import ClientSerching from './ClientSerching';
 import CustomTable from '../../../components/CustomTable/CustomTable';
 import { FinoLabel } from '../../../labels/FinoLabel';
+import { IsArray } from '../../../utils/IsArray';
+import { TwoDecimalPlaceAdd } from '../../../utils/TwoDecimalPlaceAdd';
 
 
-const ClientDashboard = () => {
+const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn,onDateSerch,onMonthChange,onYearChange }) => {
 
     const theme = useTheme()
-
-
 
     return (
         <Box>
@@ -26,10 +26,10 @@ const ClientDashboard = () => {
                         <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main} />
                     </Box>
                     <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                        <Typography variant='v2' color="primary">Opening Balance</Typography>
+                        <Typography variant='v2' color="primary">Total Amount</Typography>
                     </Box>
                     <Box sx={{ mt: 1, ...GlobalStyles.alignmentStyles }}>
-                        <Typography variant='v2' color="primary">10000.00</Typography>
+                        <Typography variant='v2' color="primary">{`₹ ${totalAmount}`}</Typography>
                     </Box>
                 </Card>
             </Box>
@@ -73,14 +73,20 @@ const ClientDashboard = () => {
             </Box>
 
             <Box sx={{ mt: 2 }}>
-                <ClientSerching />
+                <ClientSerching
+                    yearOptions={yearOptinsForClientCmsTxn}
+                    onDateSerch={onDateSerch}
+                    onMonthChange={onMonthChange}
+                    onYearChange={onYearChange}
+
+                />
             </Box>
 
             <Box sx={{ mt: 2 }}>
                 <CustomTable
                     TableName={"YOUR REPORTS"}
                     headCells={FinoLabel.cmsTransactionTableHead}
-                    rows={[]}
+                    rows={IsArray(clientTable) ? clientTable : []}
 
                 />
             </Box>

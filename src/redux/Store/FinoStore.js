@@ -30,6 +30,7 @@ import { GET_ALL_HSD_ONE_SLICE_REDUCER } from '../slice/hsdtankoneslice/getAllHs
 import { ADD_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/addHsdtankTwoslice'
 import { DELETE_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/deleteHsdtankTwoslice'
 import { GET_ALL_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/getAllHsdtankTwoslice'
+import { GET_CLIENT_BY_USERNAME_SLICE_REDUCER } from '../slice/clientslice/getClientsDetailsByUserName'
 
 const FinoStore = configureStore({
     reducer:{
@@ -69,6 +70,7 @@ const FinoStore = configureStore({
       DELETE_HSD_TWO_SLICE_REDUCER:DELETE_HSD_TWO_SLICE_REDUCER,
       GET_ALL_HSD_TWO_SLICE_REDUCER:GET_ALL_HSD_TWO_SLICE_REDUCER,
 
+      GET_CLIENT_BY_USERNAME_SLICE_REDUCER:GET_CLIENT_BY_USERNAME_SLICE_REDUCER
       
 
     },
