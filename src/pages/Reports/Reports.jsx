@@ -102,7 +102,7 @@ const Reports = ({ }) => {
     }
     else { return [] }
 
-  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER,BANK_TXN_SEARCH_SLICE_REDUCER])
+  }, [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
 
   const yearOptinsForCmsTxn = useMemo(() => {
     let year = []
@@ -113,7 +113,7 @@ const Reports = ({ }) => {
     }
     else { return [] }
 
-  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER,CMS_TXN_SEARCH_SLICE_REDUCER])
+  }, [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
 
   useEffect(() => {getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })}, [bankTxnDelete?.refresh,updatedBankTxn?.refresh])
   useEffect(()=>{ getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName })},[cmsTxnDelete?.refresh,updatedCmsTxn?.refresh])
