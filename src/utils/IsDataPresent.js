@@ -5,7 +5,7 @@ export const isAnyDataAvailableInsideAnObject = (objectData) => {
     if (typeof objectData === "object") {
       const newDataArray=Object.keys(objectData)?.map((key) => { if (isDataPresent(objectData[key])) { return "Y" } else { return "N" } })
        
-        return newDataArray?.every((item) => item ==="Y") ? true : false
+        return newDataArray?.find((item) => item ==="Y") ? true : false
     }
     else { return false }
 }
