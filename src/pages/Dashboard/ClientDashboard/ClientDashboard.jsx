@@ -4,21 +4,25 @@ import { GlobalStyles } from '../../../styles/GlobalStyles'
 import { useTheme } from '@emotion/react'
 import { MdAccountBalanceWallet } from "react-icons/md";
 import UnderLine from '../../../components/UnderLine/UnderLine';
-import BarCharts from '../../../components/BarCharts/BarCharts';
-import PieCharts from '../../../components/PieCharts/PieCharts';
 import ClientSerching from './ClientSerching';
 import CustomTable from '../../../components/CustomTable/CustomTable';
 import { FinoLabel } from '../../../labels/FinoLabel';
 import { IsArray } from '../../../utils/IsArray';
 import { TwoDecimalPlaceAdd } from '../../../utils/TwoDecimalPlaceAdd';
+import TableLoader from '../../../components/CustomTable/TableHelpers/TableLoader';
+import CustomAlert from '../../../components/CustomAlert/CustomAlert';
+import CustomBarCharts from '../../../components/BarCharts/CustomBarCharts';
+import CustomPieCharts from '../../../components/PieCharts/CustomPieCharts';
 
 
-const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn,onDateSerch,onMonthChange,onYearChange }) => {
+const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, onDateSerch, 
+    onMonthChange, onYearChange, clientDetailsResponse,memorizedClientBar }) => {
 
     const theme = useTheme()
 
+
     return (
-        <Box>
+        <Box >
 
             <Box sx={{ ...GlobalStyles.alignmentStyles_2 }}>
                 <Card sx={{ height: 80, width: 140 }}>
@@ -35,19 +39,19 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn,o
             </Box>
 
 
-            <Box sx={{ mt: 2 }}>
+            <Box>
                 <Grid container>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ mr: 1, mb: 1, mt: 2 }}>
                             <Card>
                                 <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
                                     <Typography variant="v5">
-                                        Yearly Sale's
+                                        Monthly txn's
                                     </Typography>
                                     <UnderLine color={theme?.palette?.p1?.main} width={21} />
                                 </Box>
                                 <Box sx={{ p: 2 }}>
-                                    <BarCharts />
+                                    <CustomBarCharts width={500} height={200} dataset={memorizedClientBar} series={FinoLabel.clientBarGraphSeries} />
                                 </Box>
                             </Card>
 
@@ -63,7 +67,7 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn,o
                                     <UnderLine color={theme?.palette?.p1?.main} width={21} />
                                 </Box>
                                 <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
-                                    <PieCharts />
+                                    <CustomPieCharts chartData={FinoLabel?.clientPieChartSeries([])} />
                                 </Box>
                             </Card>
                         </Box>
@@ -82,13 +86,18 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn,o
                 />
             </Box>
 
-            <Box sx={{ mt: 2 }}>
-                <CustomTable
-                    TableName={"YOUR REPORTS"}
-                    headCells={FinoLabel.cmsTransactionTableHead}
-                    rows={IsArray(clientTable) ? clientTable : []}
+            <Box sx={{ mt: 2, p: 0.9 }}>
+                {
+                    clientDetailsResponse?.isLoading ? <TableLoader /> :
+                        (IsArray(clientTable) && clientTable?.length > 0) ?
+                            <CustomTable
+                                TableName={"YOUR REPORTS"}
+                                headCells={FinoLabel.cmsTransactionTableHead}
+                                rows={IsArray(clientTable) ? clientTable : []}
 
-                />
+                            /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
+                }
+
             </Box>
 
         </Box>

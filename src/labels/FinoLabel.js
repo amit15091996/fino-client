@@ -121,11 +121,13 @@ export const FinoLabel = {
     ],
 
 
-
-
-
-
-
-
-
+    clientBarGraphSeries: [
+        { dataKey: 'amount', label: 'Amount' }
+    ],
+    clientPieChartSeries: (amountArray) => Array.isArray(amountArray) ? amountArray?.map((item, index) => {
+        if (index === 0) { return { label: 'Q1(in inr)', value: item, color: '#0088FE' } }
+        else if (index === 1) { return { label: 'Q2(in inr)', value: item, color: '#00C49F' } }
+        else if (index === 2) { return { label: 'Q3(in inr)', value: item, color: '#FFBB28' } }
+        else if (index === 3) { return { label: 'Q4(in inr)', value: item, color: '#FF8042' } }
+    }) : []
 }

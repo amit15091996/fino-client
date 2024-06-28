@@ -17,9 +17,7 @@ import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
 import Loading from '../../components/Loading/Loading';
 import { cmsTransactionService } from '../../redux/slice/cmsslice/CmsTransactionSlice';
 import DynamicHead from '../../components/DynamicHead/DynamicHead';
-import BarCharts from '../../components/BarCharts/BarCharts';
 import UnderLine from '../../components/UnderLine/UnderLine';
-import PieCharts from '../../components/PieCharts/PieCharts';
 import { getAllClientsService } from '../../redux/slice/clientslice/getAllClients';
 import { isAnyDataAvailableInsideAnObject, isDataPresent } from '../../utils/IsDataPresent';
 import { IsArray } from '../../utils/IsArray';
@@ -27,6 +25,9 @@ import HasAuthority from '../../hooks/HasAuthority';
 import ClientDashboard from './ClientDashboard/ClientDashboard';
 import { getClientDetailsByUserNameService } from '../../redux/slice/clientslice/getClientsDetailsByUserName';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
+import { monthWiseClientTxnAmount } from '../../utils/ChartUtils';
+import CustomPieCharts from '../../components/PieCharts/CustomPieCharts';
+import CustomBarCharts from '../../components/BarCharts/CustomBarCharts';
 
 const Dashboard = ({ }) => {
   const navigate = useNavigate();
@@ -51,6 +52,7 @@ const Dashboard = ({ }) => {
 
   const getAllClients = () => { dispatch(getAllClientsService(protectedInterceptors)) }
   const getClientDetailsByUsername = async () => {
+    setClientDetailsResponse((prev) => ({ ...prev, isLoading: true }))
     const { payload } = await dispatch(getClientDetailsByUserNameService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, payload: {} }))
     if (payload?.statusCode === 200) {
       const clientData = IsArray(payload?.response) ? payload?.response : []
@@ -186,6 +188,7 @@ const Dashboard = ({ }) => {
   const onClientYearChange = async (year) => {
 
     setClientSearchParams({ ...clientSearchParams, year: year })
+    setClientDetailsResponse((prev) => ({ ...prev, isLoading: true }))
     const { payload } = await dispatch(getClientDetailsByUserNameService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, payload: { year: year ? year : "" } }))
     if (payload?.statusCode === 200) {
       const clientSearchData = IsArray(payload?.response) ? payload?.response : []
@@ -196,7 +199,37 @@ const Dashboard = ({ }) => {
 
   }
 
-  console.log(isAnyDataAvailableInsideAnObject(clientSearchParams));
+  const onClientMonthChange = async (month) => {
+
+    setClientSearchParams({ ...clientSearchParams, month: month })
+    setClientDetailsResponse((prev) => ({ ...prev, isLoading: true }))
+    const { payload } = await dispatch(getClientDetailsByUserNameService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, payload: { month: month ? month : "" } }))
+    if (payload?.statusCode === 200) {
+      const clientSearchData = IsArray(payload?.response) ? payload?.response : []
+      setClientDetailsResponse((prev) => ({ ...prev, isLoading: false, newData: clientSearchData }))
+    } else {
+      setClientDetailsResponse((prev) => ({ ...prev, isLoading: false, previousData: [], newData: [], error: payload?.statusMessage }))
+    }
+
+  }
+
+
+  const onClientDateChange = async (e, dates) => {
+    e.preventDefault();
+    setClientSearchParams({ ...clientSearchParams, fromDate: dates?.fromDate, toDate: dates?.toDate })
+    setClientDetailsResponse((prev) => ({ ...prev, isLoading: true }))
+    const { payload } = await dispatch(getClientDetailsByUserNameService({ protectedInterceptors: protectedInterceptors, mobileNumber: userName, payload: { fromDate: dates?.fromDate ? dateToJavaUtilDate(dates?.fromDate) : "", toDate: dates?.toDate ? dateToJavaUtilDate(dates?.toDate) : "" } }))
+    if (payload?.statusCode === 200) {
+      const clientSearchData = IsArray(payload?.response) ? payload?.response : []
+      setClientDetailsResponse((prev) => ({ ...prev, isLoading: false, newData: clientSearchData }))
+    } else {
+      setClientDetailsResponse((prev) => ({ ...prev, isLoading: false, previousData: [], newData: [], error: payload?.statusMessage }))
+    }
+
+  }
+
+const memorizedClientBar=useMemo(()=>monthWiseClientTxnAmount(clientDetailsResponse?.previousData),[clientDetailsResponse?.previousData])
+
 
   return (
     <Box >
@@ -236,7 +269,7 @@ const Dashboard = ({ }) => {
                       <UnderLine color={theme?.palette?.p1?.main} width={21} />
                     </Box>
                     <Box sx={{ p: 2 }}>
-                      <BarCharts />
+                      <CustomBarCharts />
                     </Box>
                   </Card>
 
@@ -252,7 +285,7 @@ const Dashboard = ({ }) => {
                       <UnderLine color={theme?.palette?.p1?.main} width={21} />
                     </Box>
                     <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
-                      <PieCharts />
+                      <CustomPieCharts />
                     </Box>
                   </Card>
                 </Box>
@@ -271,20 +304,24 @@ const Dashboard = ({ }) => {
 
 
       {
-        isClient && <>
+        isClient && <Box>
           <ClientDashboard
             clientTable={
               isAnyDataAvailableInsideAnObject(clientSearchParams) ?
-                clientDetailsResponse?.previousData?.map((client) => ({ ...client, cmsTransactionDate: dateFormater(client?.cmsTransactionDate) }))
-                : clientDetailsResponse?.newData?.map((client) => ({ ...client, cmsTransactionDate: dateFormater(client?.cmsTransactionDate) }))
+                clientDetailsResponse?.newData?.map((client) => ({ ...client, cmsTransactionDate: dateFormater(client?.cmsTransactionDate) }))
+                : clientDetailsResponse?.previousData?.map((client) => ({ ...client, cmsTransactionDate: dateFormater(client?.cmsTransactionDate) }))
 
             }
             totalAmount={totalAmount}
             yearOptinsForClientCmsTxn={yearOptinsForClientCmsTxn}
             onYearChange={onClientYearChange}
+            clientDetailsResponse={clientDetailsResponse}
+            onMonthChange={onClientMonthChange}
+            onDateSerch={onClientDateChange}
+            memorizedClientBar={memorizedClientBar}
           />
 
-        </>
+        </Box>
       }
 
 
