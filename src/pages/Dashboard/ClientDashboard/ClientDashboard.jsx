@@ -11,15 +11,15 @@ import { IsArray } from '../../../utils/IsArray';
 import { TwoDecimalPlaceAdd } from '../../../utils/TwoDecimalPlaceAdd';
 import TableLoader from '../../../components/CustomTable/TableHelpers/TableLoader';
 import CustomAlert from '../../../components/CustomAlert/CustomAlert';
-import CustomBarCharts from '../../../components/BarCharts/CustomBarCharts';
-import CustomPieCharts from '../../../components/PieCharts/CustomPieCharts';
+import CustomBarCharts from '../../../components/CustomBarCharts/CustomBarCharts';
+import CustomPieCharts from '../../../components/CustomPieCharts/CustomPieCharts';
+import { PieChartDataSet } from '../../../utils/ChartUtils';
 
 
 const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, onDateSerch, 
     onMonthChange, onYearChange, clientDetailsResponse,memorizedClientBar }) => {
 
     const theme = useTheme()
-
 
     return (
         <Box >
@@ -51,7 +51,7 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, 
                                     <UnderLine color={theme?.palette?.p1?.main} width={21} />
                                 </Box>
                                 <Box sx={{ p: 2 }}>
-                                    <CustomBarCharts width={500} height={200} dataset={memorizedClientBar} series={FinoLabel.clientBarGraphSeries} />
+                                    <CustomBarCharts width={550} height={200} dataset={memorizedClientBar} series={FinoLabel.clientBarGraphSeries} />
                                 </Box>
                             </Card>
 
@@ -67,7 +67,7 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, 
                                     <UnderLine color={theme?.palette?.p1?.main} width={21} />
                                 </Box>
                                 <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
-                                    <CustomPieCharts chartData={FinoLabel?.clientPieChartSeries([])} />
+                                    <CustomPieCharts height={200} width={500} chartData={FinoLabel?.clientPieChartSeries(PieChartDataSet(memorizedClientBar?.map(item=>item?.amount)))} />
                                 </Box>
                             </Card>
                         </Box>

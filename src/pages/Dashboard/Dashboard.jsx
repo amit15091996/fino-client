@@ -25,9 +25,13 @@ import HasAuthority from '../../hooks/HasAuthority';
 import ClientDashboard from './ClientDashboard/ClientDashboard';
 import { getClientDetailsByUserNameService } from '../../redux/slice/clientslice/getClientsDetailsByUserName';
 import { TwoDecimalPlaceAdd } from '../../utils/TwoDecimalPlaceAdd';
-import { monthWiseClientTxnAmount } from '../../utils/ChartUtils';
-import CustomPieCharts from '../../components/PieCharts/CustomPieCharts';
-import CustomBarCharts from '../../components/BarCharts/CustomBarCharts';
+import { PieChartDataSet, monthWiseBankTxnAmount, monthWiseClientTxnAmount } from '../../utils/ChartUtils';
+import CustomBarCharts from '../../components/CustomBarCharts/CustomBarCharts';
+import CustomPieCharts from '../../components/CustomPieCharts/CustomPieCharts';
+import { allBankDepositByUserNameService } from '../../redux/slice/bankslice/AllBankDepositByUserName';
+import { allCmsTxnByUserNameService } from '../../redux/slice/cmsslice/AllCmsTxnByUserName';
+import { HiBanknotes } from "react-icons/hi2";
+import { FinoLabel } from '../../labels/FinoLabel';
 
 const Dashboard = ({ }) => {
   const navigate = useNavigate();
@@ -36,7 +40,6 @@ const Dashboard = ({ }) => {
   const protectedInterceptors = ProtectedInterceptors()
   const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
-
 
 
   const [tabValue, setTabValue] = useState(0)
@@ -61,12 +64,15 @@ const Dashboard = ({ }) => {
       setClientDetailsResponse((prev) => ({ ...prev, isLoading: false, previousData: [], newData: [], error: payload?.statusMessage }))
     }
   }
-
+  const getAllBankTransaction = (bank) => { dispatch(allBankDepositByUserNameService(bank)) }
+  const getAllCmsTransaction = (cms) => { dispatch(allCmsTxnByUserNameService(cms)) }
 
   const BANK_DEPOSIT_SLICE_REDUCER = useSelector((state) => state.BANK_DEPOSIT_SLICE_REDUCER)
   const CMS_TRANSACTION_SLICE_REDUCER = useSelector((state) => state.CMS_TRANSACTION_SLICE_REDUCER)
   const GET_ALL_CLIENTS_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CLIENTS_SLICE_REDUCER)
   const GET_CLIENT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_CLIENT_BY_USERNAME_SLICE_REDUCER)
+  const GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER)
+  const GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER)
 
 
   const onBankDepositSave = async (e) => {
@@ -80,9 +86,7 @@ const Dashboard = ({ }) => {
         remarks: ""
       })
     }
-    else {
-      setBankDepositSnackBarOpen(true)
-    }
+    else { setBankDepositSnackBarOpen(true) }
 
 
   }
@@ -98,14 +102,8 @@ const Dashboard = ({ }) => {
         remarks: ""
       })
     }
-    else {
-      setCmsTransactionSnackBarOpen(true)
-    }
-
-
+    else { setCmsTransactionSnackBarOpen(true) }
   }
-
-
 
 
   const clientList = useMemo(() => {
@@ -142,6 +140,17 @@ const Dashboard = ({ }) => {
     setBankAndCmsDepositfields((prev) => { return { ...prev, balanceAmount: (prev.collectionAmount) - ((+prev.cashAmount) + (+prev.onlineAmount)) } })
   }, [bankAndCmsDepositfields?.onlineAmount, bankAndCmsDepositfields?.cashAmount, bankAndCmsDepositfields.collectionAmount])
 
+  useEffect(() => { getAllBankTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName }) }, [])
+  useEffect(() => { getAllCmsTransaction({ protectedInterceptors: protectedInterceptors, mobileNumber: userName }) }, [])
+
+
+  const totalBankAmount = useMemo(() => IsArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response) ? TwoDecimalPlaceAdd(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => item?.collectionAmount)?.reduce((a, b) => a + b, 0)) : TwoDecimalPlaceAdd(0), [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
+  const totalCmsAmount = useMemo(() => IsArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response) ? TwoDecimalPlaceAdd(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.map((item) => item?.collectionAmount)?.reduce((a, b) => a + b, 0)) : TwoDecimalPlaceAdd(0), [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
+  const memorizedUserCmsTxn = useMemo(() => monthWiseClientTxnAmount(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response), [GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER])
+  const memorizedUserBankTxn = useMemo(() => monthWiseBankTxnAmount(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response), [GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER])
+
+
+
 
   const handleTabChange = (e, value) => {
     setTabValue(value)
@@ -170,7 +179,7 @@ const Dashboard = ({ }) => {
 
   ]
 
-  // client details integration starts Headers
+  // client details integration starts Here
 
   const totalAmount = useMemo(() => IsArray(clientDetailsResponse?.previousData) ? TwoDecimalPlaceAdd(clientDetailsResponse?.previousData?.map((item) => item?.collectionAmount)?.reduce((a, b) => a + b, 0)) : TwoDecimalPlaceAdd(0), [clientDetailsResponse?.previousData])
   const yearOptinsForClientCmsTxn = useMemo(() => {
@@ -183,7 +192,6 @@ const Dashboard = ({ }) => {
     else { return [] }
 
   }, [clientDetailsResponse?.previousData])
-
 
   const onClientYearChange = async (year) => {
 
@@ -228,76 +236,128 @@ const Dashboard = ({ }) => {
 
   }
 
-const memorizedClientBar=useMemo(()=>monthWiseClientTxnAmount(clientDetailsResponse?.previousData),[clientDetailsResponse?.previousData])
-
+  const memorizedClientBar = useMemo(() => monthWiseClientTxnAmount(clientDetailsResponse?.previousData), [clientDetailsResponse?.previousData])
+  // client details integration end's Here
 
   return (
     <Box >
 
       <DynamicHead title={`DASHBOARD OF ${fullName?.toLocaleUpperCase()}`} />
 
-
-
       {
         (isUser || isAdmin || isManager) && <>
 
+
           <Box sx={{ ...GlobalStyles.alignmentStyles_2 }}>
-            <Card sx={{ height: 80, width: 140 }}>
+            <Card sx={{ height: 80, width: 150, mr: 2 }}>
+              <Box sx={{ ...GlobalStyles.alignmentStyles }}>
+                <HiBanknotes fontSize={28} color={theme?.palette?.primary?.main} />
+              </Box>
+              <Box sx={{ ...GlobalStyles.alignmentStyles }}>
+                <Typography variant='v2' color="primary">Total Bank Deposit's</Typography>
+              </Box>
+              <Box sx={{ mt: 1, ...GlobalStyles.alignmentStyles }}>
+                <Typography variant='v2' color="primary">{totalBankAmount}</Typography>
+              </Box>
+            </Card>
+            <Card sx={{ height: 80, width: 150 }}>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
                 <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main} />
               </Box>
               <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                <Typography variant='v2' color="primary">Opening Balance</Typography>
+                <Typography variant='v2' color="primary">Total CMS Txn's</Typography>
               </Box>
               <Box sx={{ mt: 1, ...GlobalStyles.alignmentStyles }}>
-                <Typography variant='v2' color="primary">10000.00</Typography>
+                <Typography variant='v2' color="primary">{totalCmsAmount}</Typography>
               </Box>
             </Card>
-
           </Box>
-
-
-          <Box sx={{ mt: 2 }}>
-            <Grid container>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ mr: 1, mb: 1, mt: 2 }}>
-                  <Card>
-                    <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                      <Typography variant="v5">
-                        Yearly Sale's
-                      </Typography>
-                      <UnderLine color={theme?.palette?.p1?.main} width={21} />
-                    </Box>
-                    <Box sx={{ p: 2 }}>
-                      <CustomBarCharts />
-                    </Box>
-                  </Card>
-
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={6}>
-                <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                  <Card>
-                    <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                      <Typography variant="v5">
-                        Quarterly Sale's
-                      </Typography>
-                      <UnderLine color={theme?.palette?.p1?.main} width={21} />
-                    </Box>
-                    <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
-                      <CustomPieCharts />
-                    </Box>
-                  </Card>
-                </Box>
-              </Grid>
-
-            </Grid>
-          </Box>
-
           <Box sx={{ mt: 2 }}>
             <CustomTabs tabDetails={tabs} value={tabValue} onChange={handleTabChange} cardPosition={{ display: "flex", justifyContent: "flex-start" }} tabPosition={{ justifyContent: "flex-start" }} />
-
           </Box>
+
+          {
+            IsArray(GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response) && GET_ALL_BANK_DEPOSIT_BY_USERNAME_SLICE_REDUCER?.data?.response?.length > 0 &&
+            <Box sx={{ mt: 2 }}>
+              <Grid container>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mr: 1, mb: 1, mt: 2 }}>
+                    <Card>
+                      <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                        <Typography variant="v5">
+                          Monthly Bank Txn's
+                        </Typography>
+                        <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                      </Box>
+                      <Box sx={{ p: 2 }}>
+                        <CustomBarCharts width={550} height={200} dataset={memorizedUserBankTxn} series={FinoLabel.clientBarGraphSeries} />
+                      </Box>
+                    </Card>
+
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                    <Card>
+                      <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                        <Typography variant="v5">
+                          Quarterly Bank Txn's
+                        </Typography>
+                        <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                      </Box>
+                      <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles, width: "100%", height: "100%" }}>
+                        <CustomPieCharts height={200} width={500} chartData={FinoLabel?.clientPieChartSeries(PieChartDataSet(memorizedUserBankTxn?.map(item => item?.amount)))} />
+                      </Box>
+                    </Card>
+                  </Box>
+                </Grid>
+
+              </Grid>
+            </Box>
+          }
+
+          {
+            IsArray(GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response) && GET_ALL_CMS_TXN_BY_USERNAME_SLICE_REDUCER?.data?.response?.length > 0 &&
+            <Box sx={{ mt: 2 }}>
+              <Grid container>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ mr: 1, mb: 1, mt: 2 }}>
+                    <Card>
+                      <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                        <Typography variant="v5">
+                          Monthly CMS Txn's
+                        </Typography>
+                        <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                      </Box>
+                      <Box sx={{ p: 2 }}>
+                        <CustomBarCharts width={550} height={200} dataset={memorizedUserCmsTxn} series={FinoLabel.clientBarGraphSeries} />
+                      </Box>
+                    </Card>
+
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                    <Card>
+                      <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                        <Typography variant="v5">
+                          Quarterly CMS Txn's
+                        </Typography>
+                        <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                      </Box>
+                      <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles, width: "100%", height: "100%" }}>
+                        <CustomPieCharts height={200} width={500} chartData={FinoLabel?.clientPieChartSeries(PieChartDataSet(memorizedUserCmsTxn?.map(item => item?.amount)))} />
+                      </Box>
+                    </Card>
+                  </Box>
+                </Grid>
+
+              </Grid>
+            </Box>
+
+          }
+
+
 
         </>
       }

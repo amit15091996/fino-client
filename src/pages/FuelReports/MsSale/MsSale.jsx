@@ -35,7 +35,7 @@ const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMs
         </Box>
       </Box>
     }
-    return { ...msSale, msSaleDate: dateFormater(msSale?.dateFormater), ...closingAndSale }
+    return { ...msSale, msSaleDate: dateFormater(msSale?.msSaleDate), ...closingAndSale }
   }) : []
 
 
