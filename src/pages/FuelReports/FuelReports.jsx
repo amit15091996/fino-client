@@ -23,11 +23,12 @@ import { dateFormater, dateToJavaUtilDate, isValidDate } from '../../utils/DateT
 import { addMsSaleReportService } from '../../redux/slice/mssaleslice/addMsSaleSlice'
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar'
 import dayjs from 'dayjs'
-import { allDatesBetweenTwoDatesOfMsSale, previousDayOfHsdSaleOne, previousDayOfHsdSaleTwo, previousDayOfMssale, sameDayOfHsdSaleOne, sameDayOfHsdSaleTwo, sameDayOfMssale } from '../../utils/FuelReportUtil'
+import { allDatesBetweenTwoDatesOfHsdTankOne, allDatesBetweenTwoDatesOfHsdTankTwo, allDatesBetweenTwoDatesOfMsSale, previousDayOfHsdSaleOne, previousDayOfHsdSaleTwo, previousDayOfMssale, sameDayOfHsdSaleOne, sameDayOfHsdSaleTwo, sameDayOfMssale } from '../../utils/FuelReportUtil'
 import { getAllHsdTankTwoReportService } from '../../redux/slice/hsdtanktwoslice/getAllHsdtankTwoslice'
 import { addHsdTankTwoReportService } from '../../redux/slice/hsdtanktwoslice/addHsdtankTwoslice'
 import { getAllHsdTankOneReportService } from '../../redux/slice/hsdtankoneslice/getAllHsdtankOneslice'
 import { addHsdTankOneReportService } from '../../redux/slice/hsdtankoneslice/addHsdtankOneslice'
+import LeftDates from './FuelValidation/LeftDates'
 
 
 
@@ -41,22 +42,22 @@ const FuelReports = () => {
   const [fuelTabValue, setFuelTabValue] = useState(0)
   const onFuelTabChange = (e, value) => { setFuelTabValue(value) }
 
-  const [msSaleResponse, setMsSaleResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, msSaleData: {},previousData:[] })
+  const [msSaleResponse, setMsSaleResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, msSaleData: {}, previousData: [] })
   const [hsdTankTwoResponse, setHsdTankTwoResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, hsdTankTwoData: {} })
   const [hsdTankOneResponse, setHsdTankOneResponse] = useState({ response: {}, snackbar: false, refresh: false, dialog: false, hsdTankOneData: {} })
 
   const [msSaleFields, setMsSaleFields] = useState({
-    MsSaleDate: dayjs(), inwardOfMSSale:0, dipStockOfMSSaleInLtrs: "", dipStockOfMSSaleInCentimeters: "", testing: 0,
+    MsSaleDate: dayjs(), inwardOfMSSale: 0, dipStockOfMSSaleInLtrs: "", dipStockOfMSSaleInCentimeters: "", testing: 0,
     density: "", waterDip: "", remarks: "", closingMeterOfMSSaleNozzleOne: "", closingMeterOfMSSaleNozzleTwo: ""
   })
 
   const [hsdTankTwoFields, setHsdTankTwoFields] = useState({
-    HsdTankTwoDate: dayjs(), inwardOfHsdTankTwo:0, dipStockOfHsdTankTwoInLtrs: "", dipStockOfHsdTankTwoInCentimeters: "",
+    HsdTankTwoDate: dayjs(), inwardOfHsdTankTwo: 0, dipStockOfHsdTankTwoInLtrs: "", dipStockOfHsdTankTwoInCentimeters: "",
     testing: 0, density: "", waterDip: "", remarks: "", closingMeterOfHsdTankTwoNozzleOne: "", closingMeterOfHsdTankTwoNozzleTwo: ""
   })
 
   const [hsdTankOneFields, setHsdTankOneFields] = useState({
-    HsdTankOneDate: dayjs(), inwardOfHsdTankOne:0, dipStockOfHsdTankOneInLtrs: "", dipStockOfHsdTankOneInCentimeters: ""
+    HsdTankOneDate: dayjs(), inwardOfHsdTankOne: 0, dipStockOfHsdTankOneInLtrs: "", dipStockOfHsdTankOneInCentimeters: ""
     , testing: 0, density: "", waterDip: "", remarks: "", closingMeterOfHsdTankOneNozzleOne: "", closingMeterOfHsdTankOneNozzleTwo: "",
     closingMeterOfHsdTankOneNozzleThree: "", closingMeterOfHsdTankOneNozzleFour: ""
   })
@@ -87,7 +88,7 @@ const FuelReports = () => {
 
   const onMsSaleSubmit = (e) => {
     e.preventDefault();
-    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields,previousData:allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response) }))
+    setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields, previousData: allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response) }))
   }
   const onHsdTankTwoSubmit = (e) => {
     e.preventDefault();
@@ -149,6 +150,10 @@ const FuelReports = () => {
 
   const previousDayHsdTankOneSales = useMemo(() => previousDayOfHsdSaleOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
   const sameDayTankOneSales = useMemo(() => sameDayOfHsdSaleOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
+
+  const datesWhereMsSaleIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response), [GET_ALL_MS_SALE_SLICE_REDUCER])
+  const datesWhereHsdTankOneIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfHsdTankOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
+  const datesWhereHsdTankTwoIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfHsdTankTwo(GET_ALL_HSD_TWO_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_TWO_SLICE_REDUCER])
 
 
   const fuelTabs = [
@@ -226,6 +231,9 @@ const FuelReports = () => {
             <Box>
               <CustomDialogTitle title={"MS SALE"} onClose={() => { setMsSaleResponse((prev) => ({ ...prev, dialog: false })) }} />
 
+              {datesWhereMsSaleIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+                <LeftDates datesArray={datesWhereMsSaleIsNotAvailable} />
+              </Box>}
 
               <Box sx={{ p: 2 }}>
                 <Box sx={{ p: 1 }} >
@@ -250,7 +258,8 @@ const FuelReports = () => {
                 </Box>
               </Box>
               <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-                <CustomButton width={150} onClick={onMsSaleSubmitConfirm} title={"SUBMIT"} color={"p1"} />
+                {datesWhereMsSaleIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onMsSaleSubmitConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
+                <CustomButton width={150} isDisabled={datesWhereMsSaleIsNotAvailable?.length > 0} onClick={onMsSaleSubmitConfirm} title={"SUBMIT"} color={"p1"} />
               </Box>
 
             </Box>
@@ -265,7 +274,9 @@ const FuelReports = () => {
           ADD_HSD_TWO_SLICE_REDUCER?.isLoading ? <Loading /> :
             <Box>
               <CustomDialogTitle title={"HSD TANK 02"} onClose={() => { setHsdTankTwoResponse((prev) => ({ ...prev, dialog: false })) }} />
-
+              {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+                <LeftDates datesArray={datesWhereHsdTankTwoIsNotAvailable} />
+              </Box>}
 
               <Box sx={{ p: 2 }}>
                 <Box sx={{ p: 1 }} >
@@ -290,7 +301,9 @@ const FuelReports = () => {
                 </Box>
               </Box>
               <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-                <CustomButton width={150} onClick={onHsdTankTwoSaleConfirm} title={"SUBMIT"} color={"p1"} />
+                {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onMsSaleSubmitConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
+
+                <CustomButton width={150} isDisabled={datesWhereHsdTankTwoIsNotAvailable?.length > 0} onClick={onHsdTankTwoSaleConfirm} title={"SUBMIT"} color={"p1"} />
               </Box>
 
             </Box>
@@ -305,7 +318,9 @@ const FuelReports = () => {
           ADD_HSD_ONE_SLICE_REDUCER?.isLoading ? <Loading /> :
             <Box>
               <CustomDialogTitle title={"HSD TANK 01"} onClose={() => { setHsdTankOneResponse((prev) => ({ ...prev, dialog: false })) }} />
-
+              {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+                <LeftDates datesArray={datesWhereHsdTankOneIsNotAvailable} />
+              </Box>}
 
               <Box sx={{ p: 2 }}>
                 <Box sx={{ p: 1 }} >
@@ -330,7 +345,9 @@ const FuelReports = () => {
                 </Box>
               </Box>
               <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-                <CustomButton width={150} onClick={onHsdTankOneSaleConfirm} title={"SUBMIT"} color={"p1"} />
+                {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onMsSaleSubmitConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
+
+                <CustomButton width={150} isDisabled={datesWhereHsdTankOneIsNotAvailable?.length > 0} onClick={onHsdTankOneSaleConfirm} title={"SUBMIT"} color={"p1"} />
               </Box>
 
             </Box>
