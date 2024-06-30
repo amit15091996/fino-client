@@ -8,13 +8,14 @@ import { useTheme } from '@emotion/react';
 
 
 
- const CustomDatePicker=({label,value,onChange,isFullWidth,isRequired,maxDate})=> {
+ const CustomDatePicker=({label,value,onChange,isFullWidth,isRequired,maxDate,isDisabled})=> {
 
   const theme=useTheme()
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+        disabled={isDisabled}
          format='DD/MM/YYYY'
          defaultValue={dayjs()}
           label={label}

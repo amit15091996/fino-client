@@ -14,7 +14,7 @@ import { dateFormater } from '../../../utils/DateTimeFormatter'
 
 
 
-const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales, getAllmsSaleReport,isAdmin }) => {
+const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales, getAllmsSaleReport,isAdmin,onMsSaleEditClick,onMsSaleDeleteClick}) => {
   const theme = useTheme()
 
 
@@ -60,6 +60,8 @@ const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMs
           FilterdRow={FinoLabel.msSaleFilteredRow}
           rows={MsTableRow}
           isActionRequired={isAdmin}
+          onEditClick={onMsSaleEditClick}
+          onDeleteClick={onMsSaleDeleteClick}
         />
 
       </Card>

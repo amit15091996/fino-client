@@ -22,6 +22,7 @@ import CustomTooltips from '../../components/CustomTooltips/CustomTooltips'
 import { IoClose } from 'react-icons/io5'
 import DynamicHead from '../../components/DynamicHead/DynamicHead'
 import AuthHook from '../../hooks/AuthHook'
+import lock from "../../assets/lock.jpg"
 
 
 const AddClients = () => {
@@ -31,8 +32,8 @@ const AddClients = () => {
     const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
 
 
-    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false,refresh:false})
-    const [clientDelete, setClientDelete] = useState({ dialog: false, snack: false, row: {},refresh:false })
+    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false, refresh: false })
+    const [clientDelete, setClientDelete] = useState({ dialog: false, snack: false, row: {}, refresh: false })
 
     const ADD_CLIENT_SLICE_REDUCER = useSelector((state) => state?.ADD_CLIENT_SLICE_REDUCER)
     const GET_ALL_CLIENTS_SLICE_REDUCER = useSelector((state) => state?.GET_ALL_CLIENTS_SLICE_REDUCER)
@@ -48,7 +49,7 @@ const AddClients = () => {
         e.preventDefault()
         const { payload } = await dispatch(addClientsService({ protectedInterceptors: protectedInterceptors, payload: clientName }))
         if (payload?.statusCode === 200) {
-            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true ,refresh:!prev.refresh}))
+            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true, refresh: !prev.refresh }))
         }
         else {
             setClientName((prev) => ({ ...prev, snack: true }))
@@ -60,7 +61,7 @@ const AddClients = () => {
         e.preventDefault();
         const { payload } = await dispatch(deleteClientService({ protectedInterceptors: protectedInterceptors, clientId: clientDelete?.row?.clientId }))
         if (payload?.statusCode === 200) {
-            setClientDelete((prev) => ({ ...prev, dialog: false, row: {}, snack: true,refresh:!prev.refresh }))
+            setClientDelete((prev) => ({ ...prev, dialog: false, row: {}, snack: true, refresh: !prev.refresh }))
         }
         else {
             setClientDelete((prev) => ({ ...prev, dialog: false, row: {}, snack: true }))
@@ -99,7 +100,7 @@ const AddClients = () => {
     return (
         <Box>
 
-<DynamicHead title={`CLIENT LIST'S OF ${fullName?.toLocaleUpperCase()}`} />
+            <DynamicHead title={`CLIENT LIST'S OF ${fullName?.toLocaleUpperCase()}`} />
 
 
 
@@ -121,7 +122,7 @@ const AddClients = () => {
                                 </form>
                             }
                         </Card> */}
-                        <Card sx={{ p: 1.8, mt: 4 }}>
+                        <Card sx={{ p: 1.8, mt:2}}>
 
                             {
                                 GET_ALL_CLIENTS_SLICE_REDUCER?.isLoading ? <TableLoader /> :
@@ -131,8 +132,6 @@ const AddClients = () => {
                                                 TableName={"Client's List "}
                                                 headCells={FinoLabel.clientTableHead}
                                                 rows={clientList}
-                                                // isActionRequired={true}
-                                                // isEditNotRequired={true}
                                                 onDeleteClick={onDelete}
                                             /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
                                     )
@@ -155,7 +154,7 @@ const AddClients = () => {
                                 isDataPresent(clientName?.bankName) && ADD_CLIENT_SLICE_REDUCER?.isLoading ? <Loading minHeight={30} minWidth={"100%"} /> : <form onSubmit={onAddClick}>
                                     <Box sx={{ ...GlobalStyles.alignmentStyles_1 }}>
                                         <Box sx={{ width: "80%" }}>
-                                            <CustomTextField value={clientName.bankName} onChange={(e) => { setClientName({ ...clientName, bankName: e.target.value }) }} isFullwidth={true} label={"Bank Name"} placeholder={"Bank Name"}></CustomTextField>
+                                            <CustomTextField isRequired={true} value={clientName.bankName} onChange={(e) => { setClientName({ ...clientName, bankName: e.target.value }) }} isFullwidth={true} label={"Bank Name"} placeholder={"Bank Name"}></CustomTextField>
                                         </Box>
 
                                         <Box sx={{ width: "20%", ml: 2 }}>
@@ -221,7 +220,10 @@ const AddClients = () => {
 
             <CustomSnackbar open={clientDelete?.snack} onClose={() => { setClientDelete((prev) => { return { ...prev, snack: false } }) }} message={DELETE_CLIENT_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_CLIENT_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
 
-            
+
+
+
+
         </Box>
 
     )

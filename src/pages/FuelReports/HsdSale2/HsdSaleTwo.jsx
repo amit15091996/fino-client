@@ -10,7 +10,8 @@ import { dateFormater } from '../../../utils/DateTimeFormatter'
 
 
 
-const HsdSaleTwo = ({ hsdTankTwoFieldsVar, allhsdTankTwoReport, onHsdTankTwoSubmit, previousDayHsdTankTwoSales, sameDayTankTwoSales, isAdmin }) => {
+const HsdSaleTwo = ({ hsdTankTwoFieldsVar, allhsdTankTwoReport, onHsdTankTwoSubmit, previousDayHsdTankTwoSales,
+  sameDayTankTwoSales, isAdmin, onHsdTankTwoEditClick, onHsdTankTwoDeleteClick }) => {
 
   const theme = useTheme()
 
@@ -43,7 +44,11 @@ const HsdSaleTwo = ({ hsdTankTwoFieldsVar, allhsdTankTwoReport, onHsdTankTwoSubm
 
     <Box>
       <Box sx={{ mt: 1.5 }}>
-        <HsdSaleTankTwo hsdTankTwoFieldsVar={hsdTankTwoFieldsVar} sameDayTankTwoSales={sameDayTankTwoSales} previousDayHsdTankTwoSales={previousDayHsdTankTwoSales} onSubmit={onHsdTankTwoSubmit} title={"HSD SALE TK-02"} />
+        <HsdSaleTankTwo
+          hsdTankTwoFieldsVar={hsdTankTwoFieldsVar}
+          sameDayTankTwoSales={sameDayTankTwoSales}
+          previousDayHsdTankTwoSales={previousDayHsdTankTwoSales}
+          onSubmit={onHsdTankTwoSubmit} title={"HSD SALE TK-02"} />
       </Box>
 
       <Card sx={{ p: 2, mt: 1.5 }}>
@@ -52,6 +57,8 @@ const HsdSaleTwo = ({ hsdTankTwoFieldsVar, allhsdTankTwoReport, onHsdTankTwoSubm
           TableName={"HSD SALE TK-02"} headCells={HsdSaleTwoTableHead()}
           FilterdRow={FinoLabel.msSaleFilteredRow}
           rows={hsdTankTwoTableRow}
+          onEditClick={onHsdTankTwoEditClick}
+          onDeleteClick={onHsdTankTwoDeleteClick}
 
         />
 
