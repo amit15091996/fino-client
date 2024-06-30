@@ -22,12 +22,16 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
   return (
     <Card sx={{ p: 2 }} >
 
-      <Box sx={{ ml: 1, mb: 1 }}>
-        <Typography variant="v5">
-          {title}
-        </Typography>
-        <UnderLine color={theme?.palette?.p1?.main} width={21} />
-      </Box>
+      {
+        title && <Box sx={{ ml: 1, mb: 1 }}>
+          <Typography variant="v5">
+            {title}
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21} />
+        </Box>
+      }
+
+
 
       <form onSubmit={onSubmit}>
 
@@ -35,6 +39,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomDatePicker
+              isDisabled={isUpdate}
                 isFullWidth={true}
                 isRequired={true}
                 label={FinoLabel.date}
@@ -329,7 +334,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
 
 
         {
-          sameDayTankOneSales?.hsdTankOneAddedForDay?
+          sameDayTankOneSales?.hsdTankOneAddedForDay ?
             <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
               <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
                 <CustomButton
@@ -337,7 +342,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
                   width={130}
                   title={"ADD"}
                   isDisabled={true}
-                /></Box></CustomTooltips></Box> : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+                /></Box></CustomTooltips></Box> : <Box sx={{ mt:3,...GlobalStyles.alignmentStyles_2 }}>
               <CustomButton
                 color={"p1"}
                 width={130}

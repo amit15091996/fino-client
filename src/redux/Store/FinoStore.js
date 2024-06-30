@@ -31,6 +31,9 @@ import { ADD_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/addHsdtankTw
 import { DELETE_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/deleteHsdtankTwoslice'
 import { GET_ALL_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/getAllHsdtankTwoslice'
 import { GET_CLIENT_BY_USERNAME_SLICE_REDUCER } from '../slice/clientslice/getClientsDetailsByUserName'
+import { UPDATE_MS_SALE_SLICE_REDUCER } from '../slice/mssaleslice/updateMsSaleSlice'
+import { UPDATE_HSD_ONE_SLICE_REDUCER } from '../slice/hsdtankoneslice/updateHsdtankOneslice'
+import { UPDATE_HSD_TWO_SLICE_REDUCER } from '../slice/hsdtanktwoslice/updateHsdtankTwoslice'
 
 const FinoStore = configureStore({
     reducer:{
@@ -61,15 +64,19 @@ const FinoStore = configureStore({
       ADD_MS_SALE_SLICE_REDUCER:ADD_MS_SALE_SLICE_REDUCER,
       DELETE_MS_SALE_SLICE_REDUCER:DELETE_MS_SALE_SLICE_REDUCER,
       GET_ALL_MS_SALE_SLICE_REDUCER:GET_ALL_MS_SALE_SLICE_REDUCER,
+      UPDATE_MS_SALE_SLICE_REDUCER:UPDATE_MS_SALE_SLICE_REDUCER,
 
       ADD_HSD_ONE_SLICE_REDUCER:ADD_HSD_ONE_SLICE_REDUCER,
       DELETE_HSD_ONE_SLICE_REDUCER:DELETE_HSD_ONE_SLICE_REDUCER,
       GET_ALL_HSD_ONE_SLICE_REDUCER:GET_ALL_HSD_ONE_SLICE_REDUCER,
+      UPDATE_HSD_ONE_SLICE_REDUCER:UPDATE_HSD_ONE_SLICE_REDUCER,
 
       ADD_HSD_TWO_SLICE_REDUCER:ADD_HSD_TWO_SLICE_REDUCER,
       DELETE_HSD_TWO_SLICE_REDUCER:DELETE_HSD_TWO_SLICE_REDUCER,
       GET_ALL_HSD_TWO_SLICE_REDUCER:GET_ALL_HSD_TWO_SLICE_REDUCER,
+      UPDATE_HSD_TWO_SLICE_REDUCER:UPDATE_HSD_TWO_SLICE_REDUCER,
 
+      
       GET_CLIENT_BY_USERNAME_SLICE_REDUCER:GET_CLIENT_BY_USERNAME_SLICE_REDUCER
       
 

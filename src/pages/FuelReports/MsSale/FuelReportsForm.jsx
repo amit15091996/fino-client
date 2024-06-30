@@ -17,13 +17,15 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
 
   return (
     <Card sx={{ p: 2 }} >
+      {
+        title && <Box sx={{ ml: 1, mb: 1 }}>
+          <Typography variant="v5">
+            {title}
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21} />
+        </Box>
+      }
 
-      <Box sx={{ ml: 1, mb: 1 }}>
-        <Typography variant="v5">
-          {title}
-        </Typography>
-        <UnderLine color={theme?.palette?.p1?.main} width={21} />
-      </Box>
 
       <form onSubmit={onSubmit}>
 
@@ -31,6 +33,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomDatePicker
+                isDisabled={isUpdate}
                 maxDate={dayjs()}
                 isFullWidth={true}
                 isRequired={true}
@@ -233,8 +236,8 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
               <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                 <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
                   <span style={{ fontSize: 15 }}>
-                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo)?+(msSaleFields?.closingMeterOfMSSaleNozzleOne-previousDayMssales?.closingMeterOfMSSaleNozzleOne ) - (msSaleFields?.closingMeterOfMSSaleNozzleTwo-previousDayMssales?.closingMeterOfMSSaleNozzleTwo):0.00}
-                    </span>
+                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo) ? +(msSaleFields?.closingMeterOfMSSaleNozzleOne - previousDayMssales?.closingMeterOfMSSaleNozzleOne) - (msSaleFields?.closingMeterOfMSSaleNozzleTwo - previousDayMssales?.closingMeterOfMSSaleNozzleTwo) : 0.00}
+                  </span>
                 </Typography>
 
               </Box>
@@ -246,24 +249,24 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
 
 
         {
-          sameDayMssales?.mssaleAddedForDay ? 
-        
-           <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
-             <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
-           <CustomButton
-            color={"p1"}
-            width={130}
-            title={"ADD"}
-            isDisabled={true}
-          /></Box></CustomTooltips></Box>
-          
-          : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
-            <CustomButton
-              color={"p1"}
-              width={130}
-              title={isUpdate ? "UPDATE" : "ADD"}
-            />
-          </Box>
+          sameDayMssales?.mssaleAddedForDay ?
+
+            <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+              <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
+                <CustomButton
+                  color={"p1"}
+                  width={130}
+                  title={"ADD"}
+                  isDisabled={true}
+                /></Box></CustomTooltips></Box>
+
+            : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+              <CustomButton
+                color={"p1"}
+                width={130}
+                title={isUpdate ? "UPDATE" : "ADD"}
+              />
+            </Box>
         }
 
 

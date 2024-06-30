@@ -123,7 +123,7 @@ const Reports = ({ }) => {
   const onBankTxnEditClick = (row) => { 
     setUpdatedBankTxn((prev)=>{return{...prev,open:true,row:row}});
     setBankAndCmsDepositfields((prev)=>{return{...prev,balanceAmount:row?.balanceAmount,cashAmount:row?.cashAmount,
-      collectedBy:row?.depositedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.recievedFrom,
+      collectedBy:row?.depositedBy,collectionAmount:row?.collectionAmount,onlineAmount:row?.onlineAmount,recievedFrom:row?.depositedInBank,
       remarks:row?.remarks,TransactionDate:stringToDateConverter(row?.bankTransactionDate)
     }})
   }

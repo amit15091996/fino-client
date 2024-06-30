@@ -14,28 +14,37 @@ import CustomAlert from '../../../components/CustomAlert/CustomAlert';
 import CustomBarCharts from '../../../components/CustomBarCharts/CustomBarCharts';
 import CustomPieCharts from '../../../components/CustomPieCharts/CustomPieCharts';
 import { PieChartDataSet } from '../../../utils/ChartUtils';
+import CustomSkeleton from '../../../components/CustomSkeleton/CustomSkeleton';
 
 
-const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, onDateSerch, 
-    onMonthChange, onYearChange, clientDetailsResponse,memorizedClientBar }) => {
+const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, onDateSerch,
+    onMonthChange, onYearChange, clientDetailsResponse, memorizedClientBar }) => {
 
     const theme = useTheme()
+
+
+
+
 
     return (
         <Box >
 
             <Box sx={{ ...GlobalStyles.alignmentStyles_2 }}>
-                <Card sx={{ height: 80, width: 140 }}>
-                    <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                        <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main} />
-                    </Box>
-                    <Box sx={{ ...GlobalStyles.alignmentStyles }}>
-                        <Typography variant='v2' color="primary">Total Amount</Typography>
-                    </Box>
-                    <Box sx={{ mt: 1, ...GlobalStyles.alignmentStyles }}>
-                        <Typography variant='v2' color="primary">{`₹ ${totalAmount}`}</Typography>
-                    </Box>
-                </Card>
+                {
+                    (IsArray(clientDetailsResponse?.previousData) && clientDetailsResponse?.previousData.length === 0) && clientDetailsResponse?.isLoading ? <CustomSkeleton height={80} width={150} /> :
+                        <Card sx={{ height: 80, width: 140 }}>
+                            <Box sx={{ ...GlobalStyles.alignmentStyles }}>
+                                <MdAccountBalanceWallet fontSize={28} color={theme?.palette?.primary?.main} />
+                            </Box>
+                            <Box sx={{ ...GlobalStyles.alignmentStyles }}>
+                                <Typography variant='v2' color="primary">Total Amount</Typography>
+                            </Box>
+                            <Box sx={{ mt: 1, ...GlobalStyles.alignmentStyles }}>
+                                <Typography variant='v2' color="primary">{`₹ ${totalAmount}`}</Typography>
+                            </Box>
+                        </Card>
+                }
+
             </Box>
 
 
@@ -43,33 +52,44 @@ const ClientDashboard = ({ clientTable, totalAmount, yearOptinsForClientCmsTxn, 
                 <Grid container>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ mr: 1, mb: 1, mt: 2 }}>
-                            <Card>
-                                <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                                    <Typography variant="v5">
-                                        Monthly txn's
-                                    </Typography>
-                                    <UnderLine color={theme?.palette?.p1?.main} width={21} />
-                                </Box>
-                                <Box sx={{ p: 2 }}>
-                                    <CustomBarCharts width={550} height={200} dataset={memorizedClientBar} series={FinoLabel.clientBarGraphSeries} />
-                                </Box>
-                            </Card>
+
+                            {
+                                (IsArray(clientDetailsResponse?.previousData) && clientDetailsResponse?.previousData?.length === 0) && clientDetailsResponse?.isLoading ? <CustomSkeleton height={200} /> :
+                                    <Card>
+                                        <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                                            <Typography variant="v5">
+                                                Monthly txn's
+                                            </Typography>
+                                            <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                                        </Box>
+                                        <Box sx={{ p: 2 }}>
+                                            <CustomBarCharts width={550} height={200} dataset={memorizedClientBar} series={FinoLabel.clientBarGraphSeries} />
+                                        </Box>
+                                    </Card>
+                            }
+
+
 
                         </Box>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                            <Card>
-                                <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
-                                    <Typography variant="v5">
-                                        Quarterly Sale's
-                                    </Typography>
-                                    <UnderLine color={theme?.palette?.p1?.main} width={21} />
-                                </Box>
-                                <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
-                                    <CustomPieCharts height={200} width={500} chartData={FinoLabel?.clientPieChartSeries(PieChartDataSet(memorizedClientBar?.map(item=>item?.amount)))} />
-                                </Box>
-                            </Card>
+
+                            {
+                                (IsArray(clientDetailsResponse?.previousData) && clientDetailsResponse?.previousData?.length === 0) && clientDetailsResponse?.isLoading ? <CustomSkeleton height={200} /> :
+                                    <Card>
+                                        <Box sx={{ ml: 1, mb: 1, mt: 2 }}>
+                                            <Typography variant="v5">
+                                                Quarterly Sale's
+                                            </Typography>
+                                            <UnderLine color={theme?.palette?.p1?.main} width={21} />
+                                        </Box>
+                                        <Box sx={{ p: 2, ...GlobalStyles.alignmentStyles }}>
+                                            <CustomPieCharts height={200} width={500} chartData={FinoLabel?.clientPieChartSeries(PieChartDataSet(memorizedClientBar?.map(item => item?.amount)))} />
+                                        </Box>
+                                    </Card>
+                            }
+
                         </Box>
                     </Grid>
 

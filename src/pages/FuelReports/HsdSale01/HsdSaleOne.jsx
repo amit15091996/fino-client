@@ -12,7 +12,8 @@ import { dateFormater } from '../../../utils/DateTimeFormatter'
 
 
 
-const HsdSaleOne = ({hsdTankOneFieldsVar,allhsdTankOneReport,onHsdTankOneSubmit,previousDayHsdTankOneSales,sameDayTankOneSales,isAdmin}) => {
+const HsdSaleOne = ({ hsdTankOneFieldsVar, allhsdTankOneReport, onHsdTankOneSubmit, previousDayHsdTankOneSales,
+  sameDayTankOneSales, isAdmin, onHsdTankOneDeleteClick, onHsdTankOneEditClick }) => {
 
   const theme = useTheme()
 
@@ -50,7 +51,7 @@ const HsdSaleOne = ({hsdTankOneFieldsVar,allhsdTankOneReport,onHsdTankOneSubmit,
         </Box>
       </Box>
     }
-    return { ...hsdOne, hsdTankOneDate: dateFormater(hsdOne?.hsdTankOneDate), ...closingAndSaleofMpdOne,...closingAndSaleofMpdTwo }
+    return { ...hsdOne, hsdTankOneDate: dateFormater(hsdOne?.hsdTankOneDate), ...closingAndSaleofMpdOne, ...closingAndSaleofMpdTwo }
   }) : []
 
 
@@ -63,22 +64,24 @@ const HsdSaleOne = ({hsdTankOneFieldsVar,allhsdTankOneReport,onHsdTankOneSubmit,
       <Box sx={{ mt: 1.5 }}>
 
         <HsdSaleTankOne
-         title={"HSD SALE TK-01"} 
-         hsdTankOneFieldsVar={hsdTankOneFieldsVar}
-         onSubmit={onHsdTankOneSubmit}
-         previousDayHsdTankOneSales={previousDayHsdTankOneSales}
-         sameDayTankOneSales={sameDayTankOneSales}
-         />
+          title={"HSD SALE TK-01"}
+          hsdTankOneFieldsVar={hsdTankOneFieldsVar}
+          onSubmit={onHsdTankOneSubmit}
+          previousDayHsdTankOneSales={previousDayHsdTankOneSales}
+          sameDayTankOneSales={sameDayTankOneSales}
+        />
       </Box>
 
       <Card sx={{ p: 2, mt: 1.5 }}>
-        <FuelTable 
-        TableName={"HSD SALE TK-01"} 
-        headCells={HsdSaleOneTableHeader()}
-         FilterdRow={FinoLabel.msSaleFilteredRow} 
-         rows={hsdTankOneTableRow}
-         isActionRequired={isAdmin}
-         />
+        <FuelTable
+          TableName={"HSD SALE TK-01"}
+          headCells={HsdSaleOneTableHeader()}
+          FilterdRow={FinoLabel.msSaleFilteredRow}
+          rows={hsdTankOneTableRow}
+          isActionRequired={isAdmin}
+          onDeleteClick={onHsdTankOneDeleteClick}
+          onEditClick={onHsdTankOneEditClick}
+        />
       </Card>
 
     </Box>

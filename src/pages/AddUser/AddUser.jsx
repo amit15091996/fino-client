@@ -501,6 +501,8 @@ const AddUser = ({ }) => {
       <CustomSnackbar open={assignNewRole?.snackbar} onClose={() => { setAssignNewRole((prev) => { return { ...prev, snackbar: false } }) }} message={ASSIGN_ROLE_SLICE_REDUCER?.data?.statusMessage} severity={ASSIGN_ROLE_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
       <CustomSnackbar open={userUpdateOperation?.snackbar} onClose={() => { setUserUpdateOperation((prev) => { return { ...prev, snackbar: false } }) }} message={UPDATE_USER_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_USER_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
 
+      <Box sx={{ p:1}}></Box>
+
     </>
   )
 }

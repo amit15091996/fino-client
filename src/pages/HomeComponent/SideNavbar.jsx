@@ -6,7 +6,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { MdPayments } from "react-icons/md";
 import { TbLayoutGridAdd, TbReport } from "react-icons/tb";
 import { RxActivityLog } from "react-icons/rx";
@@ -23,42 +23,33 @@ import { VscPersonAdd } from "react-icons/vsc";
 
 
 
-const SideNavbar = ({drawerClose}) => {
+const SideNavbar = ({ drawerClose }) => {
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
 
   const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isPending, startTransition] = useTransition();
+
+
   const handleSelectedIndex = (e, index) => {
-    setSelectedIndex(index);
-    if (index === 0) {
-      navigate("/Layout/Dashboard");
-    } else if (index === 1) {
-      navigate("/Layout/fuel-reports");
-    }
-    else if (index === 2) {
-      navigate("/Layout/reports");
-    }
-    else if (index === 3) {
-      navigate("/Layout/activities");
-    }
-    else if (index === 4) {
-      navigate("/Layout/add-user");
-    }
-    else if (index === 5) {
-      navigate("/Layout/clients");
-    }
+    startTransition(() => { setSelectedIndex(index); })
+    if (index === 0) { navigate("/Layout/Dashboard"); }
+    else if (index === 1) { navigate("/Layout/reports"); }
+    else if (index === 2) { navigate("/Layout/fuel-reports"); }
+    else if (index === 3) { navigate("/Layout/add-user"); }
+    else if (index === 4) { navigate("/Layout/clients"); }
     drawerClose && drawerClose()
 
   };
 
- useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
+  useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
 
 
   return (
     <Card
-      sx={{ height: "100%", borderRadius: 0, width: "100%", opacity: 1 }}
+      sx={{ height: "100%", borderRadius: 0, width: "100%" }}
     >
       <List sx={{ width: "100%" }} aria-labelledby="fino-multiple-list-item">
         <ListItemButton
@@ -88,169 +79,127 @@ const SideNavbar = ({drawerClose}) => {
         </ListItemButton>
 
 
-{
-  (isUser || isAdmin || isManager) &&  <ListItemButton
-  sx={{
-    "&.Mui-selected":
-      SideNavbarStyles.listItemButtonSelectedStyle(theme),
-  }}
-  selected={selectedIndex === 2}
-  onClick={(e) => handleSelectedIndex(e, 2)}
->
-  <ListItemIcon>
-    <TbReport
-      style={
-        selectedIndex === 2
-          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-          : SideNavbarStyles.listItemIconStyle(theme)
-      }
-    />
-  </ListItemIcon>
-  <ListItemText
-    sx={
-      selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
-    }
-    primary="Txn Reports"
-  />
-</ListItemButton>
-}
-
-
-       
-     
-
-{
-  (isManager || isAdmin) &&    <ListItemButton
-  sx={{
-    "&.Mui-selected":
-      SideNavbarStyles.listItemButtonSelectedStyle(theme),
-  }}
-  selected={selectedIndex === 1}
-  onClick={(e) => handleSelectedIndex(e, 1)}
->
-  <ListItemIcon>
-    <BsFillFuelPumpDieselFill
-      style={
-        selectedIndex === 1
-          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-          : SideNavbarStyles.listItemIconStyle(theme)
-      }
-    />
-  </ListItemIcon>
-  <ListItemText
-    sx={
-      selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
-    }
-    primary="Fuel Reports"
-  />
-</ListItemButton>
-}
-
-     
-
-
-
-        {/* <ListItemButton
-          sx={{
-            "&.Mui-selected":
-              SideNavbarStyles.listItemButtonSelectedStyle(theme),
-          }}
-          selected={selectedIndex === 3}
-          onClick={(e) => handleSelectedIndex(e, 3)}
-        >
-          <ListItemIcon>
-            <RxActivityLog
-              style={
-                selectedIndex === 3
-                  ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-                  : SideNavbarStyles.listItemIconStyle(theme)
-              }
-            />
-          </ListItemIcon>
-          <ListItemText
-            sx={
-              selectedIndex !== 3 && SideNavbarStyles.listItemTextstyle(theme)
-            }
-            primary="Activities"
-          />
-        </ListItemButton> */}
-
-{
-  isAdmin && <ListItemButton
-  sx={{
-    "&.Mui-selected":
-      SideNavbarStyles.listItemButtonSelectedStyle(theme),
-  }}
-  selected={selectedIndex === 4}
-  onClick={(e) => handleSelectedIndex(e, 4)}
->
-  <ListItemIcon>
-    <RiUserAddFill
-      style={
-        selectedIndex === 4
-          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-          : SideNavbarStyles.listItemIconStyle(theme)
-      }
-    />
-  </ListItemIcon>
-  <ListItemText
-    sx={
-      selectedIndex !== 4 && SideNavbarStyles.listItemTextstyle(theme)
-    }
-    primary="Add User"
-  />
-</ListItemButton>
-}
-
-
-{
-  isAdmin && <ListItemButton
-  sx={{
-    "&.Mui-selected":
-      SideNavbarStyles.listItemButtonSelectedStyle(theme),
-  }}
-  selected={selectedIndex === 5}
-  onClick={(e) => handleSelectedIndex(e, 5)}
->
-  <ListItemIcon>
-    <VscPersonAdd
-      style={
-        selectedIndex === 5
-          ? SideNavbarStyles.ListIconStyleIfSelected(theme)
-          : SideNavbarStyles.listItemIconStyle(theme)
-      }
-    />
-  </ListItemIcon>
-  <ListItemText
-    sx={
-      selectedIndex !== 5 && SideNavbarStyles.listItemTextstyle(theme)
-    }
-    primary="Add Client's"
-  />
-</ListItemButton>
-}
-
-
-
-
-        
-        {/* <ListItemButton   onClick={(e)=>{handleClick(e)}}>
-        <ListItemIcon>
-          <IoBowlingBallOutline/>
-        </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open ? <MdExpandLess  /> : <MdExpandMore />}
-      </ListItemButton>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{pl:4,"&.Mui-selected": {backgroundColor: "#1976d2",color:"#FFF",borderRadius:2,":hover":{backgroundColor:"#1976d2"}}}} selected={selectedIndex===2} onClick={(e)=>{ handleSelectedIndex(e,2)}} >
+        {
+          (isUser || isAdmin || isManager) && <ListItemButton
+            sx={{
+              "&.Mui-selected":
+                SideNavbarStyles.listItemButtonSelectedStyle(theme),
+            }}
+            selected={selectedIndex === 1}
+            onClick={(e) => handleSelectedIndex(e, 1)}
+          >
             <ListItemIcon>
-              <MdStarBorder  />
+              <TbReport
+                style={
+                  selectedIndex === 1
+                    ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                    : SideNavbarStyles.listItemIconStyle(theme)
+                }
+              />
             </ListItemIcon>
-            <ListItemText  primary="Starred" />
+            <ListItemText
+              sx={
+                selectedIndex !== 1 && SideNavbarStyles.listItemTextstyle(theme)
+              }
+              primary="Txn Reports"
+            />
           </ListItemButton>
-        </List>
-      </Collapse> */}
+        }
+
+
+
+
+
+        {
+          (isManager || isAdmin) && <ListItemButton
+            sx={{
+              "&.Mui-selected":
+                SideNavbarStyles.listItemButtonSelectedStyle(theme),
+            }}
+            selected={selectedIndex === 2}
+            onClick={(e) => handleSelectedIndex(e, 2)}
+          >
+            <ListItemIcon>
+              <BsFillFuelPumpDieselFill
+                style={
+                  selectedIndex === 2
+                    ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                    : SideNavbarStyles.listItemIconStyle(theme)
+                }
+              />
+            </ListItemIcon>
+            <ListItemText
+              sx={
+                selectedIndex !== 2 && SideNavbarStyles.listItemTextstyle(theme)
+              }
+              primary="Fuel Reports"
+            />
+          </ListItemButton>
+        }
+
+
+
+
+
+
+        {
+          isAdmin && <ListItemButton
+            sx={{
+              "&.Mui-selected":
+                SideNavbarStyles.listItemButtonSelectedStyle(theme),
+            }}
+            selected={selectedIndex === 3}
+            onClick={(e) => handleSelectedIndex(e, 3)}
+          >
+            <ListItemIcon>
+              <RiUserAddFill
+                style={
+                  selectedIndex === 3
+                    ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                    : SideNavbarStyles.listItemIconStyle(theme)
+                }
+              />
+            </ListItemIcon>
+            <ListItemText
+              sx={
+                selectedIndex !== 3 && SideNavbarStyles.listItemTextstyle(theme)
+              }
+              primary="Add User"
+            />
+          </ListItemButton>
+        }
+
+
+        {
+          isAdmin && <ListItemButton
+            sx={{
+              "&.Mui-selected":
+                SideNavbarStyles.listItemButtonSelectedStyle(theme),
+            }}
+            selected={selectedIndex === 4}
+            onClick={(e) => handleSelectedIndex(e, 4)}
+          >
+            <ListItemIcon>
+              <VscPersonAdd
+                style={
+                  selectedIndex === 4
+                    ? SideNavbarStyles.ListIconStyleIfSelected(theme)
+                    : SideNavbarStyles.listItemIconStyle(theme)
+                }
+              />
+            </ListItemIcon>
+            <ListItemText
+              sx={
+                selectedIndex !== 4 && SideNavbarStyles.listItemTextstyle(theme)
+              }
+              primary="Add Client's"
+            />
+          </ListItemButton>
+        }
+
+
+
+
       </List>
     </Card>
   );

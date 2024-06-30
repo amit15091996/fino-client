@@ -20,12 +20,16 @@ const HsdSaleTankTwo = ({ onSubmit, isUpdate, title, hsdTankTwoFieldsVar, previo
   return (
     <Card sx={{ p: 2 }} >
 
-      <Box sx={{ ml: 1, mb: 1 }}>
-        <Typography variant="v5">
-          {title}
-        </Typography>
-        <UnderLine color={theme?.palette?.p1?.main} width={21} />
-      </Box>
+
+      {
+        title && <Box sx={{ ml: 1, mb: 1 }}>
+          <Typography variant="v5">
+            {title}
+          </Typography>
+          <UnderLine color={theme?.palette?.p1?.main} width={21} />
+        </Box>
+      }
+
 
       <form onSubmit={onSubmit}>
 
@@ -33,6 +37,7 @@ const HsdSaleTankTwo = ({ onSubmit, isUpdate, title, hsdTankTwoFieldsVar, previo
           <Grid item xs={12} md={2}>
             <Box sx={{ p: 1 }}>
               <CustomDatePicker
+                isDisabled={isUpdate}
                 maxDate={dayjs()}
                 isFullWidth={true}
                 isRequired={true}
@@ -237,21 +242,21 @@ const HsdSaleTankTwo = ({ onSubmit, isUpdate, title, hsdTankTwoFieldsVar, previo
 
 
         {
-          sameDayTankTwoSales?.hsdTankTwoAddedForDay? 
-          <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+          sameDayTankTwoSales?.hsdTankTwoAddedForDay ?
+            <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
               <CustomTooltips title={"DATA ALREADY ADDED FOR TODAY"}><Box>
-             <CustomButton
-            color={"p1"}
-            width={130}
-            title={"ADD"}
-            isDisabled={true}
-          /></Box></CustomTooltips></Box> : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
-            <CustomButton
-              color={"p1"}
-              width={130}
-              title={isUpdate ? "UPDATE" : "ADD"}
-            />
-          </Box>
+                <CustomButton
+                  color={"p1"}
+                  width={130}
+                  title={"ADD"}
+                  isDisabled={true}
+                /></Box></CustomTooltips></Box> : <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles_2 }}>
+              <CustomButton
+                color={"p1"}
+                width={130}
+                title={isUpdate ? "UPDATE" : "ADD"}
+              />
+            </Box>
         }
       </form>
     </Card>

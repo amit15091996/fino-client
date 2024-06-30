@@ -26,6 +26,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProtectedInterceptors from "../../hooks/ProtectedInterceptors"
 import Loading from '../../components/Loading/Loading';
 import CustomSnackbar from '../../components/Customsnackbar/CustomSnackbar';
+import CustomDialogTitle from '../../components/CustomDialog/CustomDialogTitle';
+import ProfileCard from './ProfileCard';
 
 
 const TopNavbar = () => {
@@ -33,39 +35,45 @@ const TopNavbar = () => {
   const theme = useTheme()
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const protectedInterceptors=ProtectedInterceptors()
+  const protectedInterceptors = ProtectedInterceptors()
   const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openSideNavBarDrawer, setOpenSideNavBarDrawer] = useState(false)
   const [logoutDialogopen, setLogoutDialogopen] = useState(false)
-  const[resetPasswordFields,setResetPasswordFields]=useState({mobileNumber:userName,oldPassword:"",newPassword:"",confirmNewPassword:"",Snackbar:false,dialog:false})
+  const [resetPasswordFields, setResetPasswordFields] = useState({ mobileNumber: userName, oldPassword: "", newPassword: "", confirmNewPassword: "", Snackbar: false, dialog: false })
   const [cookies, setCookie, removeCookie] = useCookies(['FINO_LOGIN_COOKIE']);
   const RESET_PASSWORD_SLICE_REDUCER = useSelector((state) => state?.RESET_PASSWORD_SLICE_REDUCER)
 
+  const [profileCard, setProfileCard] = useState(false)
 
 
   const handleDrawerOpen = () => { setOpenSideNavBarDrawer(true) }
   const open = Boolean(anchorEl);
   const handleClick = (event) => { setAnchorEl(event.currentTarget); };
-  const handleClose = () => { setAnchorEl(null); };
+  const onProfileClick = () => { setProfileCard(true) };
+
+  const handleClose = () => { setAnchorEl(null); }
+
   const onLogOutClick = () => { setAnchorEl(null); setLogoutDialogopen(true) }
   const handleLogout = () => { removeCookie('FINO_LOGIN_COOKIE'); navigate("/"); setLogoutDialogopen(false) }
 
-  const resetPasswordDialog = () => { setResetPasswordFields((prev)=>{return{...prev,dialog:true}})}
-const onResetPasswordSubmit=async (e)=>{
-  e.preventDefault()
+  const resetPasswordDialog = () => { setResetPasswordFields((prev) => { return { ...prev, dialog: true } }) }
+  const onResetPasswordSubmit = async (e) => {
+    e.preventDefault()
 
-const resetPayload={protectedInterceptors:protectedInterceptors, mobileNumber:resetPasswordFields?.mobileNumber,
-  oldPassword:resetPasswordFields?.oldPassword,newPassword:resetPasswordFields?.newPassword}
+    const resetPayload = {
+      protectedInterceptors: protectedInterceptors, mobileNumber: resetPasswordFields?.mobileNumber,
+      oldPassword: resetPasswordFields?.oldPassword, newPassword: resetPasswordFields?.newPassword
+    }
     const { payload } = await dispatch(resetPasswordService(resetPayload))
     if (payload?.statusCode === 200) {
-      setResetPasswordFields((prev)=>{return{...prev,dialog:false,Snackbar:true,mobileNumber:prev?.mobileNumber,oldPassword:"",confirmNewPassword:"",newPassword:""}})
+      setResetPasswordFields((prev) => { return { ...prev, dialog: false, Snackbar: true, mobileNumber: prev?.mobileNumber, oldPassword: "", confirmNewPassword: "", newPassword: "" } })
       removeCookie('FINO_LOGIN_COOKIE'); navigate("/");
     }
     else {
-      setResetPasswordFields((prev)=>{return{...prev,Snackbar:true,mobileNumber:prev?.mobileNumber,oldPassword:prev?.oldPassword,confirmNewPassword:prev?.confirmNewPassword,newPassword:prev?.newPassword}})
+      setResetPasswordFields((prev) => { return { ...prev, Snackbar: true, mobileNumber: prev?.mobileNumber, oldPassword: prev?.oldPassword, confirmNewPassword: prev?.confirmNewPassword, newPassword: prev?.newPassword } })
     }
-}
+  }
 
 
 
@@ -150,7 +158,7 @@ const resetPayload={protectedInterceptors:protectedInterceptors, mobileNumber:re
             },
           }}
         >
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={onProfileClick}>
             <ListItemIcon>
               <CgProfile fontSize={20} />
             </ListItemIcon>
@@ -176,99 +184,79 @@ const resetPayload={protectedInterceptors:protectedInterceptors, mobileNumber:re
       </Box>
 
 
-      <CustomDialog open={logoutDialogopen} onClose={() => setLogoutDialogopen(false)}>
-        <Box sx={{ p: 1 }}>
-          <Box sx={{ ...GlobalStyles.alignmentStyles_2 }} ><CustomTooltips title={"CLOSE"}> <IconButton aria-label="close" onClick={() => setLogoutDialogopen(false)} sx={{ color: (theme) => theme?.palette?.p1?.main }} >
-            <IoClose /></IconButton> </CustomTooltips></Box>
+      <CustomDialog isFullWidth={true} maxWidth={"xs"} open={logoutDialogopen} onClose={() => setLogoutDialogopen(false)}>
+        <Box>
+          <CustomDialogTitle title={"LOGOUT"} onClose={() => setLogoutDialogopen(false)} />
 
           <Box sx={{ p: 2, flexWrap: "wrap" }}>
             <Typography color={"info"} variant='v2' >Do you really wish to logout from our system......?</Typography>
           </Box>
-          <Box sx={{ p: 1, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
+          <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
             <CustomButton title={"logout"} variant={"outlined"} color={"p1"} onClick={handleLogout} endIcon={<BiLogOutCircle />} />
           </Box>
 
         </Box>
       </CustomDialog>
 
-      <CustomDialog open={resetPasswordFields?.dialog} onClose={()=>{setResetPasswordFields((prev)=>{return{...prev,dialog:false}})}}>
-        <Box sx={{ p: 1 }}>
-          <Box sx={{ ...GlobalStyles.alignmentStyles_3 }} >
-          
-          <Box sx={{ p: 2, flexWrap: "wrap" }}>
-            <Typography variant='v2' >RESET PASSWORD</Typography>
-            <UnderLine width={"20px"} color={theme?.palette?.p1?.main}/>
-          </Box>
-            <CustomTooltips title={"CLOSE"}> <IconButton aria-label="close" onClick={()=>{setResetPasswordFields((prev)=>{return{...prev,dialog:false}})}} sx={{ color: (theme) => theme?.palette?.p1?.main }} >
-            <IoClose /></IconButton>
-             </CustomTooltips>
-             </Box>
-
-
-
- <Box sx={{ maxWidth: 370,height:"100%",display:"flex",alignItems:"center",p:1.5}} >
-
-  {
-    RESET_PASSWORD_SLICE_REDUCER?.isLoading?<Loading/>:<Box sx={{width:"100%",border: `1px solid ${GlobalStyles.sideTopNavborderColor}`, m: 1.5, borderRadius: 1.5, p:1}}>
-    <Box sx={{ ...GlobalStyles.alignmentStyles, mt: 1, border: `1px solid ${theme?.palette?.p1?.main}`, m: 1, borderRadius: 1.5, p: 0.3, boxShadow: ` -3px -3px 1px ${theme?.palette?.p1?.main}` }}>
-        <Typography color={theme?.palette?.p1?.main} variant="v3">
-        RESET PASSWORD
-        </Typography>
-    </Box>
-    <Box sx={{ width:"100%",...GlobalStyles.alignmentStyles, m: 1, borderRadius: 1.5, p: 0.3,flexWrap:"wrap"}}>
-                <Typography color={theme?.palette?.p1?.main}   variant="v2">
-                  {FinoLabel.resetPasswordDesc}
-                </Typography></Box>
-    
-    <form  onSubmit={onResetPasswordSubmit}>
-    <Box sx={{ p: 1, mt:4, ...GlobalStyles.alignmentStyles }}>
-    <CustomTextField
-        label={FinoLabel.oldPassword}
-        placeholder={FinoLabel.oldPassword}
-        isFullwidth={true}
-        isRequired={true}
-        value={resetPasswordFields?.oldPassword}
-        onChange={(e)=>{setResetPasswordFields({...resetPasswordFields,oldPassword:e.target.value})}}
-      />
-    </Box>
-    
-    <Box sx={{ p: 1, mt:2, ...GlobalStyles.alignmentStyles }}>
-    <CustomTextField
-        label={FinoLabel.newPassword}
-        placeholder={FinoLabel.newPassword}
-        isFullwidth={true}
-        isRequired={true}
-        value={resetPasswordFields?.newPassword}
-        onChange={(e)=>{setResetPasswordFields({...resetPasswordFields,newPassword:e.target.value})}}
-      />
-    </Box>
-    <Box sx={{ p: 1, mt:2, ...GlobalStyles.alignmentStyles }}>
-    <CustomTextField
-        label={FinoLabel.confirmPassword}
-        placeholder={FinoLabel.confirmPassword}
-        isFullwidth={true}
-        isRequired={true}
-        type={"password"}
-        value={resetPasswordFields?.confirmNewPassword}
-        onChange={(e)=>{setResetPasswordFields({...resetPasswordFields,confirmNewPassword:e.target.value})}}
-        helpertext={resetPasswordFields?.newPassword!==resetPasswordFields?.confirmNewPassword ?<Typography color={"error"} variant="v2" sx={{fontSize:11}}>New Password and confirm password must be same</Typography>:""}
-    
-      />
-    </Box>
-    <Box sx={{p:1,mt:1,...GlobalStyles.alignmentStyles}}>
-    <CustomButton isDisabled={resetPasswordFields?.newPassword!==resetPasswordFields?.confirmNewPassword} color={"p1"} isFullwidth={true} title={"RESET"}  endIcon={<BiReset/>}/>
-    </Box>
-    </form>
-    </Box>
-  }
-
-           
-
-</Box>
-</Box>
+      <CustomDialog isFullWidth={true} maxWidth={"sm"} open={profileCard} onClose={() => setProfileCard(false)}>
+        <CustomDialogTitle title={"PROFILE"} onClose={() => setProfileCard(false)} />
+        <ProfileCard />
       </CustomDialog>
 
- <CustomSnackbar open={resetPasswordFields?.Snackbar} onClose={() =>{setResetPasswordFields((prev)=>{return{...prev,Snackbar:false}})}} message={RESET_PASSWORD_SLICE_REDUCER?.data?.statusMessage} severity={RESET_PASSWORD_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
+
+      <CustomDialog isFullWidth={true} maxWidth={"sm"} open={resetPasswordFields?.dialog} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, dialog: false } }) }}>
+
+        <CustomDialogTitle title={"RESET PASSWORD"} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, dialog: false } }) }} />
+
+        {
+          RESET_PASSWORD_SLICE_REDUCER?.isLoading ? <Loading /> : <Box sx={{ p: 3 }}>
+
+
+            <form onSubmit={onResetPasswordSubmit}>
+              <Box sx={{ p: 1, ...GlobalStyles.alignmentStyles }}>
+                <CustomTextField
+                  label={FinoLabel.oldPassword}
+                  placeholder={FinoLabel.oldPassword}
+                  isFullwidth={true}
+                  isRequired={true}
+                  value={resetPasswordFields?.oldPassword}
+                  onChange={(e) => { setResetPasswordFields({ ...resetPasswordFields, oldPassword: e.target.value }) }}
+                />
+              </Box>
+
+              <Box sx={{ p: 1, mt: 1.4, ...GlobalStyles.alignmentStyles }}>
+                <CustomTextField
+                  label={FinoLabel.newPassword}
+                  placeholder={FinoLabel.newPassword}
+                  isFullwidth={true}
+                  isRequired={true}
+                  value={resetPasswordFields?.newPassword}
+                  onChange={(e) => { setResetPasswordFields({ ...resetPasswordFields, newPassword: e.target.value }) }}
+                />
+              </Box>
+              <Box sx={{ p: 1, mt: 1.4, ...GlobalStyles.alignmentStyles }}>
+                <CustomTextField
+                  label={FinoLabel.confirmPassword}
+                  placeholder={FinoLabel.confirmPassword}
+                  isFullwidth={true}
+                  isRequired={true}
+                  type={"password"}
+                  value={resetPasswordFields?.confirmNewPassword}
+                  onChange={(e) => { setResetPasswordFields({ ...resetPasswordFields, confirmNewPassword: e.target.value }) }}
+                  helpertext={resetPasswordFields?.newPassword !== resetPasswordFields?.confirmNewPassword ? <Typography color={"error"} variant="v2" sx={{ fontSize: 11 }}>New Password and confirm password must be same</Typography> : ""}
+
+                />
+              </Box>
+              <Box sx={{ p: 1, mt: 1.4, ...GlobalStyles.alignmentStyles }}>
+                <CustomButton isDisabled={resetPasswordFields?.newPassword !== resetPasswordFields?.confirmNewPassword} color={"p1"} isFullwidth={true} title={"RESET"} endIcon={<BiReset />} />
+              </Box>
+            </form>
+          </Box>
+        }
+
+      </CustomDialog>
+
+      <CustomSnackbar open={resetPasswordFields?.Snackbar} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, Snackbar: false } }) }} message={RESET_PASSWORD_SLICE_REDUCER?.data?.statusMessage} severity={RESET_PASSWORD_SLICE_REDUCER?.data?.statusCode === 200 ? "success" : "info"} />
 
 
     </Card>
