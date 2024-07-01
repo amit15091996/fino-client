@@ -24,7 +24,7 @@ import * as XLSX from "xlsx";
 
 const CustomTable = ({
   sortBy, onEditClick, onDeleteClick, isActionRequired, isCheckBoxSelected, onIndividualCheckBoxClick,
-  onSelectAllCheckbox, selectedCheckbox, onRowClick, headCells, rows, isCheckBoxRequird, TableName, isEditNotRequired,isPdfNotRequired}) => {
+  onSelectAllCheckbox, selectedCheckbox, onRowClick, headCells, rows, isCheckBoxRequird, TableName, isEditNotRequired, isPdfNotRequired }) => {
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
@@ -57,19 +57,10 @@ const CustomTable = ({
   const doc = new jsPDF();
   const pdfDownload = () => {
     autoTable(doc, {
-      theme: "grid",
-      headStyles: {
-        fillColor: `${theme?.palette?.p1?.main}`,
-        fontSize: 8,
-      },
-      margin: {
-        bottom: 5,
-        horizontal: 5,
-        left: 5,
-        right: 5,
-        top: 5,
-        vertical: 5,
-      },
+      theme: "plain",
+      headStyles: { fillColor: `${theme?.palette?.p1?.main}`, fontSize: 6, cellPadding: 0.9, lineWidth: 0.2,textColor:"#FFF", lineColor: "#d8e2dc" },
+      bodyStyles: { fontSize:6, cellPadding:0.9, lineWidth: 0.1, lineColor: "#d8e2dc"},
+      margin: { bottom: 5, horizontal: 5, left:5, right:5, top: 5, vertical: 5, },
       head: [headCells?.map((item) => item?.label?.toUpperCase())],
       body: rows?.map((row) => {
         let arr = [];
@@ -78,7 +69,7 @@ const CustomTable = ({
       }),
     });
 
-    doc.save(TableName?`${TableName}.pdf`:"Fino.pdf");
+    doc.save(TableName ? `${TableName}.pdf` : "Fino.pdf");
   };
 
   const Exceldownload = () => {
