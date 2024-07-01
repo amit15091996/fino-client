@@ -7,6 +7,7 @@ import { GlobalStyles } from '../../../styles/GlobalStyles'
 import FuelTable from '../../../components/FuelTable/FuelTable'
 import { FinoLabel } from '../../../labels/FinoLabel'
 import { dateFormater } from '../../../utils/DateTimeFormatter'
+import { FuelReportExcelHead } from '../../../labels/FuelReportExcelHead'
 
 
 
@@ -59,7 +60,8 @@ const HsdSaleTwo = ({ hsdTankTwoFieldsVar, allhsdTankTwoReport, onHsdTankTwoSubm
           rows={hsdTankTwoTableRow}
           onEditClick={onHsdTankTwoEditClick}
           onDeleteClick={onHsdTankTwoDeleteClick}
-
+          excelHead={FuelReportExcelHead?.hsdTankTwoExcelHead}
+          excelRows={Array.isArray(allhsdTankTwoReport?.data?.response) ? allhsdTankTwoReport?.data?.response?.map((hsdTwo) => ({ ...hsdTwo, hsdTankTwoDate: dateFormater(hsdTwo?.hsdTankTwoDate) })) : []}
         />
 
       </Card>

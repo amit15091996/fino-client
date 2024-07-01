@@ -127,7 +127,7 @@ const FuelReports = () => {
       density: row?.density,
       dipStockOfMSSaleInCentimeters: row?.dipStockOfMSSaleInCentimeter,
       dipStockOfMSSaleInLtrs: row?.dipStockOfMSSaleInLtrs,
-      inwardOfMSSale: row?.dipStockOfMSSaleInLtrs,
+      inwardOfMSSale: row?.inwardOfMSSale,
       MsSaleDate: stringToDateConverter(row?.msSaleDate),
       remarks: row?.remarks, testing: row?.testing, waterDip: row?.waterDip
 

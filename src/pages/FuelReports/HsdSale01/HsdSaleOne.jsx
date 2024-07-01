@@ -8,6 +8,7 @@ import FuelTable from '../../../components/FuelTable/FuelTable'
 import { FinoLabel } from '../../../labels/FinoLabel'
 import { GlobalStyles } from '../../../styles/GlobalStyles'
 import { dateFormater } from '../../../utils/DateTimeFormatter'
+import { FuelReportExcelHead } from '../../../labels/FuelReportExcelHead'
 
 
 
@@ -81,6 +82,8 @@ const HsdSaleOne = ({ hsdTankOneFieldsVar, allhsdTankOneReport, onHsdTankOneSubm
           isActionRequired={isAdmin}
           onDeleteClick={onHsdTankOneDeleteClick}
           onEditClick={onHsdTankOneEditClick}
+          excelHead={FuelReportExcelHead?.hsdTankOneExcelHead}
+          excelRows={Array.isArray(allhsdTankOneReport?.data?.response) ? allhsdTankOneReport?.data?.response?.map((hsdOne) => ({ ...hsdOne, hsdTankOneDate: dateFormater(hsdOne?.hsdTankOneDate) })) : []}
         />
       </Card>
 

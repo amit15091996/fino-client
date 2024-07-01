@@ -8,29 +8,30 @@ import { useTheme } from '@emotion/react'
 import FuelTable from '../../../components/FuelTable/FuelTable'
 import { FinoLabel } from '../../../labels/FinoLabel'
 import { dateFormater } from '../../../utils/DateTimeFormatter'
+import { FuelReportExcelHead } from '../../../labels/FuelReportExcelHead'
 
 
 
 
 
 
-const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales, getAllmsSaleReport,isAdmin,onMsSaleEditClick,onMsSaleDeleteClick}) => {
+const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMssales, getAllmsSaleReport, isAdmin, onMsSaleEditClick, onMsSaleDeleteClick }) => {
   const theme = useTheme()
 
 
   const MsTableRow = Array.isArray(getAllmsSaleReport?.data?.response) ? getAllmsSaleReport?.data?.response?.map((msSale) => {
     const closingAndSale = {
-      mpdtwo: <Box sx={{ width: "100%", display: "flex",height:"100%" }}>
-        <Box sx={{ height:"100%",width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+      mpdtwo: <Box sx={{ width: "100%", display: "flex", height: "100%" }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6' >{msSale?.openingMeterOfMSSaleNozzleOne}</Typography>
         </Box>
-        <Box sx={{ height:"100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6' >{msSale?.salesForMSSaleNozzleOne}</Typography>
         </Box>
-        <Box sx={{ height:"100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6' >{msSale?.openingMeterOfMSSaleNozzleTwo}</Typography>
         </Box>
-        <Box sx={{  height:"100%",width: "25%", ...GlobalStyles.alignmentStyles }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles }}>
           <Typography variant='v6'>{msSale?.salesForMSSaleNozzleTwo}</Typography>
         </Box>
       </Box>
@@ -62,6 +63,8 @@ const MsSale = ({ msSaleFieldsVar, onMsSaleSubmit, previousDayMssales, sameDayMs
           isActionRequired={isAdmin}
           onEditClick={onMsSaleEditClick}
           onDeleteClick={onMsSaleDeleteClick}
+          excelHead={FuelReportExcelHead?.msSaleExcelHead}
+          excelRows={Array.isArray(getAllmsSaleReport?.data?.response) ? getAllmsSaleReport?.data?.response?.map((msSale) => ({ ...msSale, msSaleDate: dateFormater(msSale?.msSaleDate) })) : []}
         />
 
       </Card>

@@ -24,7 +24,9 @@ import * as XLSX from "xlsx";
 
 const FuelTable = ({
   sortBy, onEditClick, onDeleteClick, isActionRequired, isCheckBoxSelected, onIndividualCheckBoxClick,
-  onSelectAllCheckbox, selectedCheckbox, onRowClick, headCells, rows, isCheckBoxRequird, TableName, isEditNotRequired,FilterdRow,isPdfNotRequired}) => {
+  onSelectAllCheckbox, selectedCheckbox, onRowClick, headCells, rows, isCheckBoxRequird, TableName, isEditNotRequired, FilterdRow, isPdfNotRequired,
+  excelHead, excelRows,
+}) => {
 
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState(sortBy ? sortBy : "");
@@ -78,14 +80,19 @@ const FuelTable = ({
       }),
     });
 
-    doc.save(TableName?`${TableName}.pdf`:"Fino.pdf");
+    doc.save(TableName ? `${TableName}.pdf` : "Fino.pdf");
   };
 
+
+
+
   const Exceldownload = () => {
-    const header = IsArrayTable(headCells) ? headCells?.map((item) => item?.label) : [];
-    const body = IsArrayTable(rows) ? rows?.map((row) => { const alteredRows = {}; IsArrayTable(headCells) && headCells?.map((head, index) => (alteredRows[head?.id] = row[head?.id])); return alteredRows; }) : []
+
+    const header = IsArrayTable(excelHead) ? excelHead?.map((item) => item?.label?.toUpperCase()) : [];
+    const body = IsArrayTable(excelRows) ? excelRows?.map((row) => { const alteredRows = {}; IsArrayTable(excelHead) && excelHead?.map((head, index) => (alteredRows[head?.id] = row[head?.id])); return alteredRows; }) : [];
     const workBook = XLSX.utils.book_new();
     const workSheet = XLSX.utils.json_to_sheet([]);
+    workSheet["!cols"] = IsArrayTable(excelHead) ? excelHead?.map((item) => { return ({ wch: 15 }) }) : [];
     XLSX.utils.sheet_add_aoa(workSheet, [header]);
     XLSX.utils.sheet_add_json(workSheet, body, { skipHeader: true, origin: "A2" });
     XLSX.utils.book_append_sheet(workBook, workSheet, TableName ? TableName : "Fino")
@@ -281,7 +288,7 @@ const FuelTable = ({
         key={"filterPopover"}
       >
         <FilteredItem
-          headCells={FilterdRow?FilterdRow:headCells}
+          headCells={FilterdRow ? FilterdRow : headCells}
           key={"filteredItem"}
           customFilter={{ filterItem, setFilterItem }}
         />
