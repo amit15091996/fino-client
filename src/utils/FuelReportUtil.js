@@ -3,7 +3,7 @@ import dayjs from "dayjs"
 export const previousDayOfMssale = (dataArray) => {
 
     if (Array.isArray(dataArray) && dataArray?.length > 0) {
-        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.msSaleDate).isValid() && dayjs(endDate?.msSaleDate).isValid()) ? dayjs(startDate?.msSaleDate) < dayjs(endDate?.msSaleDate) ? startDate : endDate : {})
+        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.msSaleDate).isValid() && dayjs(endDate?.msSaleDate).isValid()) ? dayjs(startDate?.msSaleDate) > dayjs(endDate?.msSaleDate) ? startDate : endDate : {})
         return previousDay ? previousDay : {}
     } else {
         return {}
@@ -26,7 +26,7 @@ export const previousDayOfHsdSaleTwo = (dataArray) => {
 
 
     if (Array.isArray(dataArray) && dataArray?.length > 0) {
-        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.hsdTankTwoDate).isValid() && dayjs(endDate?.hsdTankTwoDate).isValid()) ? dayjs(startDate?.hsdTankTwoDate) < dayjs(endDate?.hsdTankTwoDate) ? startDate : endDate : {});
+        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.hsdTankTwoDate).isValid() && dayjs(endDate?.hsdTankTwoDate).isValid()) ? dayjs(startDate?.hsdTankTwoDate) > dayjs(endDate?.hsdTankTwoDate) ? startDate : endDate : {});
         return previousDay ? previousDay : {}
     } else {
         return {}
@@ -49,7 +49,7 @@ export const previousDayOfHsdSaleOne = (dataArray) => {
 
 
     if (Array.isArray(dataArray) && dataArray?.length > 0) {
-        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.hsdTankOneDate).isValid() && dayjs(endDate?.hsdTankOneDate).isValid()) ? dayjs(startDate?.hsdTankOneDate) < dayjs(endDate?.hsdTankOneDate) ? startDate : endDate : {});
+        const previousDay = dataArray?.reduce((startDate, endDate) => (dayjs(startDate?.hsdTankOneDate).isValid() && dayjs(endDate?.hsdTankOneDate).isValid()) ? dayjs(startDate?.hsdTankOneDate) > dayjs(endDate?.hsdTankOneDate) ? startDate : endDate : {});
 
         return previousDay ? previousDay : {}
     } else {

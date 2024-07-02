@@ -55,7 +55,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
                 label={FinoLabel.openingStock}
                 placeholder={FinoLabel.openingStock}
                 isDisabled={true}
-                value={previousDayHsdTankOneSales?.openingStockOfHsdTankOne}
+                value={previousDayHsdTankOneSales?.dipStockOfHsdTankOne}
 
               />
             </Box>
@@ -237,7 +237,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
 
                 <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                   <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleOne) - (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleTwo) : 0.00}</span>
+                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleOne - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleOne) + (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleTwo - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleTwo) : 0.00}</span>
                   </Typography>
 
                 </Box>
@@ -322,7 +322,7 @@ const HsdSaleTankOne = ({ onSubmit, isUpdate, title, hsdTankOneFieldsVar, previo
 
                 <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                   <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleThree) - (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleFour) : 0.00}</span>
+                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree || hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour) ? +(hsdTankOneFields?.closingMeterOfHsdTankOneNozzleThree -previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleThree) + (hsdTankOneFields?.closingMeterOfHsdTankOneNozzleFour - previousDayHsdTankOneSales?.closingMeterOfHsdTankOneNozzleFour) : 0.00}</span>
                   </Typography>
 
                 </Box>

@@ -236,7 +236,7 @@ const FuelReportsForm = ({ onSubmit, isUpdate, title, msSaleFieldsVar, previousD
               <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                 <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
                   <span style={{ fontSize: 15 }}>
-                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo) ? +(msSaleFields?.closingMeterOfMSSaleNozzleOne - previousDayMssales?.closingMeterOfMSSaleNozzleOne) - (msSaleFields?.closingMeterOfMSSaleNozzleTwo - previousDayMssales?.closingMeterOfMSSaleNozzleTwo) : 0.00}
+                    =&nbsp;{(msSaleFields?.closingMeterOfMSSaleNozzleOne || msSaleFields?.closingMeterOfMSSaleNozzleTwo) ? +(msSaleFields?.closingMeterOfMSSaleNozzleOne - previousDayMssales?.closingMeterOfMSSaleNozzleOne) + (msSaleFields?.closingMeterOfMSSaleNozzleTwo - previousDayMssales?.closingMeterOfMSSaleNozzleTwo) : 0.00}
                   </span>
                 </Typography>
 
