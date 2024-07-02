@@ -12,7 +12,7 @@ const LeftDates = ({ datesArray }) => {
         <Box sx={{ width: "100%", height: "100%"}}>
              <Box sx={{p:0.3,ml:0.5}}>
                 <Typography variant='v5'>
-                    {`Please add below dates report before adding today report `}
+                    {`Please add below dates report before adding today's report `}
                     <UnderLine />
                 </Typography>
             </Box>

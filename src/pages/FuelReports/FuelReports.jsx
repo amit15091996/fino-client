@@ -118,7 +118,10 @@ const FuelReports = () => {
     setMsSaleResponse((prev) => ({ ...prev, dialog: true, msSaleData: msSaleFields, previousData: allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response) }))
   }
   const onMsSaleEditClick = (row) => {
-    setMsSaleEditResponse((prev) => ({ ...prev, dialog: true, msSaleData: row, msSalePreviousDate: previousDayOfMssaleWhileEdit(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response, row?.msSaleDate) }));
+
+    const prevDayMsSale = previousDayOfMssaleWhileEdit(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response, row?.msSaleDate);
+
+    setMsSaleEditResponse((prev) => ({ ...prev, dialog: true, msSaleData: row, msSalePreviousDate: prevDayMsSale }));
 
     setMsSaleFields((prev) => ({
       ...prev,
@@ -339,7 +342,6 @@ const FuelReports = () => {
   const datesWhereMsSaleIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfMsSale(GET_ALL_MS_SALE_SLICE_REDUCER?.data?.response), [GET_ALL_MS_SALE_SLICE_REDUCER])
   const datesWhereHsdTankOneIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfHsdTankOne(GET_ALL_HSD_ONE_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_ONE_SLICE_REDUCER])
   const datesWhereHsdTankTwoIsNotAvailable = useMemo(() => allDatesBetweenTwoDatesOfHsdTankTwo(GET_ALL_HSD_TWO_SLICE_REDUCER?.data?.response), [GET_ALL_HSD_TWO_SLICE_REDUCER])
-
 
 
   const fuelTabs = [

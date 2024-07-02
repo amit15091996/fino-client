@@ -231,7 +231,7 @@ const HsdSaleTankTwo = ({ onSubmit, isUpdate, title, hsdTankTwoFieldsVar, previo
 
                 <Box sx={{ width: "96%", ...GlobalStyles.alignmentStyles_2, p: 1 }}>
                   <Typography variant='v2' color={theme?.palette?.p1?.main}>{FinoLabel.totalMeterSales}
-                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleOne || hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleTwo) ? +(hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleOne - previousDayHsdTankTwoSales?.closingMeterOfHsdTankTwoNozzleOne) - (hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleTwo - previousDayHsdTankTwoSales?.closingMeterOfHsdTankTwoNozzleTwo) : 0.00}</span>
+                    <span style={{ fontSize: 15 }}>=&nbsp;{(hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleOne || hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleTwo) ? +(hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleOne - previousDayHsdTankTwoSales?.closingMeterOfHsdTankTwoNozzleOne) + (hsdTankTwoFields?.closingMeterOfHsdTankTwoNozzleTwo - previousDayHsdTankTwoSales?.closingMeterOfHsdTankTwoNozzleTwo) : 0.00}</span>
                   </Typography>
                 </Box>
               </Card>

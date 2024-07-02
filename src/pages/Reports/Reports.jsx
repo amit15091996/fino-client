@@ -420,7 +420,7 @@ useEffect(()=>{getAllClients()},[])
         <CustomTabs tabDetails={reportTabs} value={reportsTab} onChange={handleReportTabChanges} cardPosition={{ display: "flex", justifyContent: "flex-start" }} tabPosition={{ justifyContent: "flex-start" }} />
 
       </Box>
-
+      <Box sx={{padding:"3px"}}></Box>
 
       <CustomDialog open={bankTxnDelete?.dialog} onClose={() => setBankTxnDelete((prev)=>{return{...prev,dialog:false}})}>
        
@@ -487,6 +487,7 @@ useEffect(()=>{getAllClients()},[])
 <CustomSnackbar open={cmsTxnDelete?.snack} onClose={()=>{setCmsTxnDelete((prev)=>{return{...prev,snack:false}})}} message={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusMessage} severity={DELETE_CMS_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 <CustomSnackbar open={updatedBankTxn?.snack} onClose={()=>{setUpdatedBankTxn((prev)=>{return{...prev,snack:false}})}} message={UPDATE_BANK_TXN_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_BANK_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
 <CustomSnackbar open={updatedCmsTxn?.snack} onClose={()=>{setUpdatedCmsTxn((prev)=>{return{...prev,snack:false}})}} message={UPDATE_CMS_TXN_SLICE_REDUCER?.data?.statusMessage} severity={UPDATE_CMS_TXN_SLICE_REDUCER?.data?.statusCode===200?"success":"info"} />
+
 
 
     </Box>
