@@ -204,7 +204,7 @@ const TopNavbar = () => {
       </CustomDialog>
 
 
-      <CustomDialog isFullWidth={true} maxWidth={"sm"} open={resetPasswordFields?.dialog} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, dialog: false } }) }}>
+      <CustomDialog isFullWidth={true} maxWidth={"xs"} open={resetPasswordFields?.dialog} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, dialog: false } }) }}>
 
         <CustomDialogTitle title={"RESET PASSWORD"} onClose={() => { setResetPasswordFields((prev) => { return { ...prev, dialog: false } }) }} />
 

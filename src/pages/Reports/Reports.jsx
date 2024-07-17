@@ -325,6 +325,19 @@ const bankList = useMemo(() => {
 
 }, [GET_ALL_CLIENTS_SLICE_REDUCER])
 
+const companyList = useMemo(() => {
+  return (
+      IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+          GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+              let { clientName, ...banks } = item;
+              return banks;
+          })
+      )?.filter((cll) => isDataPresent(cll?.companyName))?.map((cln) => cln?.companyName) : []
+  )
+
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
 
 useEffect(()=>{getAllClients()},[])
 
@@ -478,7 +491,7 @@ useEffect(()=>{getAllClients()},[])
   <Box sx={{maxWidth:400}}>
     {
       UPDATE_CMS_TXN_SLICE_REDUCER?.isLoading?<Loading/>:
-      <DepositAndCmsForm bankList={bankList} clientList={clientList} onSubmit={onCmsTxnUpdateSubmit} title={"UPDATE CMS DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
+      <DepositAndCmsForm bankList={bankList} clientList={clientList} companyList={companyList} onSubmit={onCmsTxnUpdateSubmit} title={"UPDATE CMS DEPOSIT"} fields={{bankAndCmsDepositfields,setBankAndCmsDepositfields}} isUpdate={true}  />
     }
  </Box>
 </CustomDrawer>

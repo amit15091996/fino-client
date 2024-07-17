@@ -32,7 +32,7 @@ const AddClients = () => {
     const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
 
 
-    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false, refresh: false })
+    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false, refresh: false, companyName: "" })
     const [clientDelete, setClientDelete] = useState({ dialog: false, snack: false, row: {}, refresh: false })
 
     const ADD_CLIENT_SLICE_REDUCER = useSelector((state) => state?.ADD_CLIENT_SLICE_REDUCER)
@@ -49,7 +49,7 @@ const AddClients = () => {
         e.preventDefault()
         const { payload } = await dispatch(addClientsService({ protectedInterceptors: protectedInterceptors, payload: clientName }))
         if (payload?.statusCode === 200) {
-            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true, refresh: !prev.refresh }))
+            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true, refresh: !prev.refresh, companyName: "" }))
         }
         else {
             setClientName((prev) => ({ ...prev, snack: true }))
@@ -97,6 +97,21 @@ const AddClients = () => {
     }, [GET_ALL_CLIENTS_SLICE_REDUCER])
 
 
+    const companyList = useMemo(() => {
+        return (
+            IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+                GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+                    let { clientName, ...banks } = item;
+                    return banks;
+                })
+            )?.filter((cll) => isDataPresent(cll?.companyName)) : []
+        )
+
+
+    }, [GET_ALL_CLIENTS_SLICE_REDUCER])
+
+
+
     return (
         <Box>
 
@@ -107,12 +122,12 @@ const AddClients = () => {
             <Grid container>
                 <Grid item xs={12} md={6}>
                     <Box sx={{ p: 1.5 }}>
-                        {/* <Card sx={{ p: 1.8, mt: 2 }}>
+                        <Card sx={{ p: 1.8, mt: 2 }}>
                             {
-                                isDataPresent(clientName?.clientName) && ADD_CLIENT_SLICE_REDUCER?.isLoading ? <Loading minHeight={30} minWidth={"100%"} /> : <form onSubmit={onAddClick}>
+                                isDataPresent(clientName?.companyName) && ADD_CLIENT_SLICE_REDUCER?.isLoading ? <Loading minHeight={30} minWidth={"100%"} /> : <form onSubmit={onAddClick}>
                                     <Box sx={{ ...GlobalStyles.alignmentStyles_1 }}>
                                         <Box sx={{ width: "80%" }}>
-                                            <CustomTextField value={clientName.clientName} onChange={(e) => { setClientName({ ...clientName, clientName: e.target.value }) }} isFullwidth={true} label={"Client Name"} placeholder={"Client Name"}></CustomTextField>
+                                            <CustomTextField isRequired={true} value={clientName.companyName} onChange={(e) => { setClientName({ ...clientName, companyName: e.target.value }) }} isFullwidth={true} label={"Company Name"} placeholder={"Company Name"}></CustomTextField>
                                         </Box>
 
                                         <Box sx={{ width: "20%", ml: 2 }}>
@@ -121,30 +136,30 @@ const AddClients = () => {
                                     </Box>
                                 </form>
                             }
-                        </Card> */}
-                        <Card sx={{ p: 1.8, mt:2}}>
+
+                        </Card>
+                        <Card sx={{ p: 1.8, mt: 4 }}>
 
                             {
                                 GET_ALL_CLIENTS_SLICE_REDUCER?.isLoading ? <TableLoader /> :
                                     (
-                                        IsArray(clientList) && clientList?.length > 0 ?
+                                        IsArray(companyList) && bankList?.length > 0 ?
+
                                             <CustomTable
-                                                TableName={"Client's List "}
-                                                headCells={FinoLabel.clientTableHead}
-                                                rows={clientList}
+                                                TableName={"Bank's List "}
+                                                headCells={FinoLabel.CopmanyTableHead}
+                                                rows={companyList}
+                                                isEditNotRequired={true}
+                                                isActionRequired={true}
                                                 onDeleteClick={onDelete}
                                             /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
                                     )
 
                             }
 
-
-
-
                         </Card>
 
                     </Box>
-
                 </Grid>
 
                 <Grid item xs={12} md={6}>
@@ -192,6 +207,37 @@ const AddClients = () => {
             </Grid>
 
 
+            <Box sx={{ mt: 2 }}>
+                <Grid container>
+                    <Grid item xs={12} md={6}>
+                        <Box sx={{ p: 1.5 }}>
+
+                            <Card sx={{ p: 1.8, mt: 2 }}>
+
+                                {
+                                    GET_ALL_CLIENTS_SLICE_REDUCER?.isLoading ? <TableLoader /> :
+                                        (
+                                            IsArray(clientList) && clientList?.length > 0 ?
+                                                <CustomTable
+                                                    TableName={"Client's List "}
+                                                    headCells={FinoLabel.clientTableHead}
+                                                    rows={clientList}
+                                                    onDeleteClick={onDelete}
+                                                /> : <CustomAlert alertTitle={FinoLabel.noRecordFound} alertDescription={FinoLabel.noRecordFoundDesc} color={"secondary"} variant={"outlined"} severity={"info"} />
+                                        )
+
+                                }
+
+
+                            </Card>
+
+                        </Box>
+                    </Grid>
+
+                </Grid>
+
+
+            </Box>
 
             <CustomDialog open={clientDelete?.dialog} onClose={() => setClientDelete((prev) => { return { ...prev, dialog: false } })}>
 

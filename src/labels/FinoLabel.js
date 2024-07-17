@@ -31,6 +31,7 @@ export const FinoLabel = {
         { id: "onlineAmount", label: "Online Amount" },
         { id: "cashAmount", label: "Cash Amount" },
         { id: "balanceAmount", label: "Balance Amount" },
+        { id: "companyName", label: "Company Name" },
         { id: "remarks", label: "Remarks" },
     ],
     firstName: "FIRST NAME",
@@ -118,6 +119,10 @@ export const FinoLabel = {
     bankTableHead: [
         { id: "clientId", label: "Bank Id" },
         { id: "bankName", label: "BankName Name" },
+    ],
+    CopmanyTableHead: [
+        { id: "clientId", label: "Company Id" },
+        { id: "companyName", label: "Company Name" },
     ],
 
 
