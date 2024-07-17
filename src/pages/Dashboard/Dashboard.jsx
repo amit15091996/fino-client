@@ -84,7 +84,7 @@ const Dashboard = ({ }) => {
       setBankDepositSnackBarOpen(true)
       setBankAndCmsDepositfields({
         recievedFrom: "", collectedBy: fullName, collectionAmount: "", TransactionDate: null, onlineAmount: "", cashAmount: "", balanceAmount: "",
-        remarks: ""
+        remarks: "",companyName:""
       })
     }
     else { setBankDepositSnackBarOpen(true) }
@@ -133,7 +133,18 @@ const Dashboard = ({ }) => {
 
   }, [GET_ALL_CLIENTS_SLICE_REDUCER])
 
+  const companyList = useMemo(() => {
+    return (
+        IsArray(GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response) ? (
+            GET_ALL_CLIENTS_SLICE_REDUCER?.data?.response?.map((item) => {
+                let { clientName, ...banks } = item;
+                return banks;
+            })
+        )?.filter((cll) => isDataPresent(cll?.companyName))?.map((cln) => cln?.companyName) : []
+    )
 
+
+}, [GET_ALL_CLIENTS_SLICE_REDUCER])
   useEffect(() => { if (isUser || isAdmin || isManager) { getAllClients() } }, [])
   useEffect(() => { if (isClient) { getClientDetailsByUsername(); } }, [])
 
@@ -174,7 +185,7 @@ const Dashboard = ({ }) => {
     {
       label: "Cms Transaction",
       minWidth: 150,
-      component: <>{CMS_TRANSACTION_SLICE_REDUCER?.isLoading ? <Loading /> : <Box sx={{ mt: 1 }}><DepositAndCmsForm bankList={bankList} clientList={clientList} onSubmit={onCmsTransactionSave} title={"CMS TRANSACTION"} fields={{ bankAndCmsDepositfields, setBankAndCmsDepositfields }} /></Box>}</>,
+      component: <>{CMS_TRANSACTION_SLICE_REDUCER?.isLoading ? <Loading /> : <Box sx={{ mt: 1 }}><DepositAndCmsForm bankList={bankList} clientList={clientList} companyList={companyList} onSubmit={onCmsTransactionSave} title={"CMS TRANSACTION"} fields={{ bankAndCmsDepositfields, setBankAndCmsDepositfields }} /></Box>}</>,
       icon: <TbTransactionRupee fontSize={18} />
     },
 

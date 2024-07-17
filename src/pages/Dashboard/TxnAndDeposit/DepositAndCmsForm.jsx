@@ -11,7 +11,7 @@ import CustomDropDown, { menuItemStyle } from "../../../components/CustomDropDow
 
 
 
-const DepositAndCmsForm = ({ onSubmit, fields, isUpdate, title, isBankDeposit,bankList,clientList }) => {
+const DepositAndCmsForm = ({ onSubmit, fields, isUpdate, title, isBankDeposit,bankList,clientList,companyList}) => {
   const theme = useTheme();
   const { bankAndCmsDepositfields, setBankAndCmsDepositfields } = fields
 
@@ -154,7 +154,31 @@ const DepositAndCmsForm = ({ onSubmit, fields, isUpdate, title, isBankDeposit,ba
           </Grid>
 
         </Grid>
+         
+         {
+          isBankDeposit?null:<>
+          <Grid container>
+          <Grid item xs={12} md={isUpdate ? 12 : 3}>
+            <Box sx={{ p: 1 }}>
+              <CustomDropDown isFullwidth={true}
+                label={"Company Name"}
+                placeholder={"Company Name"}
+                isRequired={true}
+                value={bankAndCmsDepositfields?.companyName}
+                onChange={(e) => {
+                  setBankAndCmsDepositfields({ ...bankAndCmsDepositfields, companyName: e.target.value });
+                }}>
+                {companyList.map((item, index) => (
+                  <MenuItem id={`${index}-${item}`} value={item} style={menuItemStyle}>{item}</MenuItem>
+                ))}
 
+              </CustomDropDown>
+            </Box>
+          </Grid>
+
+          </Grid>
+          </>
+         }
 
 
         <Box sx={{ p: 1, display: "flex", justifyContent: isUpdate ? "center" : "flex-end", alignItems: "center" }}>
