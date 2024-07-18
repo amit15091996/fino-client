@@ -425,7 +425,7 @@ const FuelReports = () => {
             <Box>
               <CustomDialogTitle title={"MS SALE"} onClose={() => { setMsSaleResponse((prev) => ({ ...prev, dialog: false })) }} />
 
-              {datesWhereMsSaleIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+              {datesWhereMsSaleIsNotAvailable?.length > 0 && <Box sx={{ p: 1 }}>
                 <LeftDates datesArray={datesWhereMsSaleIsNotAvailable} />
               </Box>}
 
@@ -468,7 +468,7 @@ const FuelReports = () => {
           ADD_HSD_TWO_SLICE_REDUCER?.isLoading ? <Loading /> :
             <Box>
               <CustomDialogTitle title={"HSD TANK 02"} onClose={() => { setHsdTankTwoResponse((prev) => ({ ...prev, dialog: false })) }} />
-              {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+              {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ p: 1 }}>
                 <LeftDates datesArray={datesWhereHsdTankTwoIsNotAvailable} />
               </Box>}
 
@@ -495,7 +495,7 @@ const FuelReports = () => {
                 </Box>
               </Box>
               <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-                {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onMsSaleSubmitConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
+                {datesWhereHsdTankTwoIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onHsdTankTwoSaleConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
 
                 <CustomButton width={150} isDisabled={datesWhereHsdTankTwoIsNotAvailable?.length > 0} onClick={onHsdTankTwoSaleConfirm} title={"SUBMIT"} color={"p1"} />
               </Box>
@@ -512,7 +512,7 @@ const FuelReports = () => {
           ADD_HSD_ONE_SLICE_REDUCER?.isLoading ? <Loading /> :
             <Box>
               <CustomDialogTitle title={"HSD TANK 01"} onClose={() => { setHsdTankOneResponse((prev) => ({ ...prev, dialog: false })) }} />
-              {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ p: 2 }}>
+              {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ p: 1 }}>
                 <LeftDates datesArray={datesWhereHsdTankOneIsNotAvailable} />
               </Box>}
 
@@ -539,7 +539,7 @@ const FuelReports = () => {
                 </Box>
               </Box>
               <Box sx={{ p: 2, mt: 2, ...GlobalStyles.alignmentStyles_2 }}>
-                {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onMsSaleSubmitConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
+                {datesWhereHsdTankOneIsNotAvailable?.length > 0 && <Box sx={{ mr: 2 }}><CustomButton onClick={onHsdTankOneSaleConfirm} title={"SUBMIT PREVIOUS DATES"} color={"error"} /></Box>}
 
                 <CustomButton width={150} isDisabled={datesWhereHsdTankOneIsNotAvailable?.length > 0} onClick={onHsdTankOneSaleConfirm} title={"SUBMIT"} color={"p1"} />
               </Box>

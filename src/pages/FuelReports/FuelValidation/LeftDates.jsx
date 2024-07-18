@@ -16,7 +16,7 @@ const LeftDates = ({ datesArray }) => {
                     <UnderLine />
                 </Typography>
             </Box>
-            <Box sx={{ width: "100%", height: "100%",display:"flex"}}>
+            <Box sx={{ width: "100%", height: "100%",display:"flex",flexWrap:"wrap"}}>
             {
                 Array.isArray(datesArray) ? datesArray?.map((date, index) => {
                     return (
