@@ -32,7 +32,7 @@ const AddClients = () => {
     const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
 
 
-    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false, refresh: false, companyName: "" })
+    const [clientName, setClientName] = useState({ clientName: "", bankName: "", snack: false, refresh: false, companyName: null })
     const [clientDelete, setClientDelete] = useState({ dialog: false, snack: false, row: {}, refresh: false })
 
     const ADD_CLIENT_SLICE_REDUCER = useSelector((state) => state?.ADD_CLIENT_SLICE_REDUCER)
@@ -49,7 +49,7 @@ const AddClients = () => {
         e.preventDefault()
         const { payload } = await dispatch(addClientsService({ protectedInterceptors: protectedInterceptors, payload: clientName }))
         if (payload?.statusCode === 200) {
-            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true, refresh: !prev.refresh, companyName: "" }))
+            setClientName((prev) => ({ ...prev, bankName: "", clientName: "", snack: true, refresh: !prev.refresh, companyName: null }))
         }
         else {
             setClientName((prev) => ({ ...prev, snack: true }))
@@ -143,10 +143,10 @@ const AddClients = () => {
                             {
                                 GET_ALL_CLIENTS_SLICE_REDUCER?.isLoading ? <TableLoader /> :
                                     (
-                                        IsArray(companyList) && bankList?.length > 0 ?
+                                        IsArray(companyList) && companyList?.length > 0 ?
 
                                             <CustomTable
-                                                TableName={"Bank's List "}
+                                                TableName={"Company's List "}
                                                 headCells={FinoLabel.CopmanyTableHead}
                                                 rows={companyList}
                                                 isEditNotRequired={true}
