@@ -7,7 +7,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { useCallback, useEffect, useState, useTransition } from "react";
 import { MdPayments } from "react-icons/md";
 import { TbLayoutGridAdd, TbReport } from "react-icons/tb";
 import { RxActivityLog } from "react-icons/rx";
@@ -33,17 +33,15 @@ const SideNavbar = ({ drawerClose, isRouteLoading }) => {
   const [open, setOpen] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPending, startTransition] = useTransition();
-
+  useEffect(() => { isRouteLoading && isRouteLoading(isPending) }, [isPending])
   const handleSelectedIndex = (e, index) => {
     startTransition(() => { setSelectedIndex(index); })
-    isRouteLoading && isRouteLoading(isPending)
     if (index === 0) { navigate(`/Layout/Dashboard?activePath=${index}`); }
     else if (index === 1) { navigate(`/Layout/reports?activePath=${index}`); }
     else if (index === 2) { navigate(`/Layout/fuel-reports?activePath=${index}`); }
     else if (index === 3) { navigate(`/Layout/add-user?activePath=${index}`); }
     else if (index === 4) { navigate(`/Layout/clients?activePath=${index}`); }
     drawerClose && drawerClose()
-
   };
 
   useEffect(() => { setSelectedIndex(+searchParams.get("activePath")); }, [])
