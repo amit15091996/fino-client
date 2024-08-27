@@ -17,6 +17,7 @@ export const FinoLabel = {
     password: "PASSWORD",
     bankDepositTableHead: [
         { id: "bankTransactionDate", label: "Transaction Date" },
+        { id: "transactionRefNumber", label: "Txn Ref Number" },
         { id: "depositedInBank", label: "Deposited Bank" },
         { id: "depositedBy", label: "Deposited By" },
         { id: "collectionAmount", label: "Amount" },
@@ -87,6 +88,7 @@ export const FinoLabel = {
     openingMeter: "Opening Meter",
     closingMeter: "Closing Meter",
     sales: "Sales(Ltr's)",
+    totalSalesInLtr: "Total Sale(Ltr's)",
     totalMeterSales: "Total Meter Sales(LTR's)",
     noRecordFound: "NO RECORD FOUND FOR :- ",
     alertDescription: "No information is available for the given  field's in our database.....",

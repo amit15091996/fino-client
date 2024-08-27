@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  LinearProgress,
   List,
   ListItemButton,
   ListItemIcon,
@@ -13,18 +14,19 @@ import { RxActivityLog } from "react-icons/rx";
 import { BiSolidDashboard } from "react-icons/bi";
 import { SideNavbarStyles } from "../../styles/SideNavbarStyles";
 import { useTheme } from "@emotion/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { BsFillFuelPumpDieselFill } from "react-icons/bs";
 import { RiUserAddFill } from "react-icons/ri";
 import HasAuthority from "../../hooks/HasAuthority";
 import { VscPersonAdd } from "react-icons/vsc";
+import { useLocation } from "react-router-dom";
 
 
 
 
-
-const SideNavbar = ({ drawerClose }) => {
+const SideNavbar = ({ drawerClose, isRouteLoading }) => {
   const { isAdmin, isClient, isManager, isUser } = HasAuthority()
+  const [searchParams, setSearchParams] = useSearchParams({ "activePath": 0 });
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -32,26 +34,25 @@ const SideNavbar = ({ drawerClose }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isPending, startTransition] = useTransition();
 
-
   const handleSelectedIndex = (e, index) => {
     startTransition(() => { setSelectedIndex(index); })
-    if (index === 0) { navigate("/Layout/Dashboard"); }
-    else if (index === 1) { navigate("/Layout/reports"); }
-    else if (index === 2) { navigate("/Layout/fuel-reports"); }
-    else if (index === 3) { navigate("/Layout/add-user"); }
-    else if (index === 4) { navigate("/Layout/clients"); }
+    isRouteLoading && isRouteLoading(isPending)
+    if (index === 0) { navigate(`/Layout/Dashboard?activePath=${index}`); }
+    else if (index === 1) { navigate(`/Layout/reports?activePath=${index}`); }
+    else if (index === 2) { navigate(`/Layout/fuel-reports?activePath=${index}`); }
+    else if (index === 3) { navigate(`/Layout/add-user?activePath=${index}`); }
+    else if (index === 4) { navigate(`/Layout/clients?activePath=${index}`); }
     drawerClose && drawerClose()
 
   };
 
-  useEffect(() => { setSelectedIndex(0); navigate("/Layout/Dashboard"); }, [])
+  useEffect(() => { setSelectedIndex(+searchParams.get("activePath")); }, [])
 
 
   return (
-    <Card
-      sx={{ height: "100%", borderRadius: 0, width: "100%" }}
-    >
+    <Card sx={{ height: "100%", borderRadius: 0, width: "100%" }}>
       <List sx={{ width: "100%" }} aria-labelledby="fino-multiple-list-item">
+
         <ListItemButton
           sx={{
             "&.Mui-selected":
@@ -76,9 +77,7 @@ const SideNavbar = ({ drawerClose }) => {
             }
             primary="Dashboard"
           />
-        </ListItemButton>
-
-
+        </ListItemButton >
         {
           (isUser || isAdmin || isManager) && <ListItemButton
             sx={{

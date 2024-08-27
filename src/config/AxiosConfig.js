@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "https://fino-be.fino-web-app.agency/fino/system/";
+ export const BASE_URL = "https://fino-be.fino-web-app.agency/fino/system/";
 
 // export const BASE_URL = "http://localhost:8099/fino/system/";
 

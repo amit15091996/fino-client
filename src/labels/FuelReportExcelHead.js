@@ -37,12 +37,12 @@ export const FuelReportExcelHead = {
         { id: "salesForHsdTankOneNozzleOne", label: "Sales  of N1" },
         { id: "openingMeterOfHsdTankOneNozzleTwo", label: "Opening Meter  of N2" },
         { id: "salesForHsdTankOneNozzleTwo", label: "Sales of N2" },
-
+        { id: "totalSalesMpdOne", label: "Total Sales(MPD-01)" },
         { id: "openingMeterOfHsdTankOneNozzleThree", label: "Opening Meter of N3" },
         { id: "salesForHsdTankOneNozzleThree", label: "Sales of N3" },
         { id: "openingMeterOfHsdTankOneNozzleFour", label: "Opening Meter of N4" },
         { id: "salesForHsdTankOneNozzleFour", label: "Sales of N4" },
-
+        { id: "totalSalesMpdTwo", label: "Total Sales(MPD-02)" },
 
         { id: "totalSalesForTheDayHsdTankOne", label: "Total Meter Sales(LTR's)" },
         { id: "testing", label: "Testing" },

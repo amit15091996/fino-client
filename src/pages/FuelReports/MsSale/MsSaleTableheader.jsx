@@ -11,17 +11,17 @@ const MsSaleTableheader = () => {
 
 
   return [
-        {id:"msSaleDate",label:"Date"},
-        {id:"openingStockOfMSSale",label:"Opening Stock"},
-        {id:"inwardOfMSSale",label:"Inwards"},
-        {id:"totalStockMSSale",label:"Total Stock"},
-        {id:"totalSalesMSSale",label:"Total Sales"},
-        {id:"closingStockMSSale",label:"Closing Stock"},
-        {id:"dipStockOfMSSale",label:"Dip Stock"},
-        {id:"variationOfMSSale",label:"Variation"},
-        {id:"dipStockOfMSSaleInCentimeter",label:"Dip Stock(CM's)"},
-        {id:"dipStockOfMSSaleInLtrs",label:"Dip Stock(LTR's)"},
-        {id:"mpdtwo",label:<Box>
+        {id:"msSaleDate",label:"Date"?.toUpperCase()},
+        {id:"openingStockOfMSSale",label:"Opening Stock"?.toUpperCase()},
+        {id:"inwardOfMSSale",label:"Inwards"?.toUpperCase()},
+        {id:"totalStockMSSale",label:"Total Stock"?.toUpperCase()},
+        {id:"totalSalesMSSale",label:"Total Sales"?.toUpperCase()},
+        {id:"closingStockMSSale",label:"Closing Stock"?.toUpperCase()},
+        {id:"dipStockOfMSSale",label:"Dip Stock"?.toUpperCase()},
+        {id:"variationOfMSSale",label:"Variation"?.toUpperCase()},
+        {id:"dipStockOfMSSaleInCentimeter",label:"Dip Stock(CM's)"?.toUpperCase()},
+        {id:"dipStockOfMSSaleInLtrs",label:"Dip Stock(LTR's)"?.toUpperCase()},
+        {id:"mpdtwo",label:<Box sx={{minWidth:350}}>
       
       <Box sx={{width:"100%",borderBottom:GlobalStyles?.borderStyle,...GlobalStyles.alignmentStyles}}>
         <Typography variant='v6' color={theme?.palette?.p1?.main}>MPD-02</Typography>
@@ -38,24 +38,24 @@ const MsSaleTableheader = () => {
 
       <Box sx={{width:"100%",display:"flex"}}>
         <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
+        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter?.toUpperCase()}</Typography>
         </Box>
         <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.sales?.toUpperCase()}</Typography>
         </Box>
         <Box sx={{width:"25%",...GlobalStyles.alignmentStyles,borderRight:`1px solid ${GlobalStyles.sideTopNavborderColor}`}}>
-        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter}</Typography>
+        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.openingMeter?.toUpperCase()}</Typography>
         </Box>
         <Box sx={{width:"25%",...GlobalStyles.alignmentStyles}}>
-        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.sales}</Typography>
+        <Typography variant='v6' color={theme?.palette?.p1?.main}>{FinoLabel.sales?.toUpperCase()}</Typography>
         </Box>
       </Box>
         </Box>},
-         {id:"totalMeterSalesForTheDayForMSSaleInLtrs",label:"Total Meter Sales(LTR's)"},
-         {id:"testing",label:"Testing"},
-         {id:"density",label:"Density"},
-         {id:"waterDip",label:"Water Dip"},
-         {id:"remarks",label:"remarks"},
+         {id:"totalMeterSalesForTheDayForMSSaleInLtrs",label:"Total Meter Sales(LTR's)"?.toUpperCase()},
+         {id:"testing",label:"Testing"?.toUpperCase()},
+         {id:"density",label:"Density"?.toUpperCase()},
+         {id:"waterDip",label:"Water Dip"?.toUpperCase()},
+         {id:"remarks",label:"Remarks"?.toUpperCase()},
   ]
 }
 

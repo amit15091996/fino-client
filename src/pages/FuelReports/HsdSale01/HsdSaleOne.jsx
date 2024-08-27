@@ -31,8 +31,11 @@ const HsdSaleOne = ({ hsdTankOneFieldsVar, allhsdTankOneReport, onHsdTankOneSubm
         <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6' >{hsdOne?.openingMeterOfHsdTankOneNozzleTwo}</Typography>
         </Box>
-        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6'>{hsdOne?.salesForHsdTankOneNozzleTwo}</Typography>
+        </Box>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles }}>
+          <Typography variant='v6'>{hsdOne?.salesForHsdTankOneNozzleOne + hsdOne?.salesForHsdTankOneNozzleTwo}</Typography>
         </Box>
       </Box>
     }
@@ -47,8 +50,11 @@ const HsdSaleOne = ({ hsdTankOneFieldsVar, allhsdTankOneReport, onHsdTankOneSubm
         <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6' >{hsdOne?.openingMeterOfHsdTankOneNozzleFour}</Typography>
         </Box>
-        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles }}>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles, borderRight: GlobalStyles?.borderStyle }}>
           <Typography variant='v6'>{hsdOne?.salesForHsdTankOneNozzleFour}</Typography>
+        </Box>
+        <Box sx={{ height: "100%", width: "25%", ...GlobalStyles.alignmentStyles }}>
+          <Typography variant='v6'>{hsdOne?.salesForHsdTankOneNozzleThree + hsdOne?.salesForHsdTankOneNozzleFour}</Typography>
         </Box>
       </Box>
     }
@@ -83,7 +89,7 @@ const HsdSaleOne = ({ hsdTankOneFieldsVar, allhsdTankOneReport, onHsdTankOneSubm
           onDeleteClick={onHsdTankOneDeleteClick}
           onEditClick={onHsdTankOneEditClick}
           excelHead={FuelReportExcelHead?.hsdTankOneExcelHead}
-          excelRows={Array.isArray(allhsdTankOneReport?.data?.response) ? allhsdTankOneReport?.data?.response?.map((hsdOne) => ({ ...hsdOne, hsdTankOneDate: dateFormater(hsdOne?.hsdTankOneDate) })) : []}
+          excelRows={Array.isArray(allhsdTankOneReport?.data?.response) ? allhsdTankOneReport?.data?.response?.map((hsdOne) => ({ ...hsdOne, hsdTankOneDate: dateFormater(hsdOne?.hsdTankOneDate), totalSalesMpdOne: (hsdOne?.salesForHsdTankOneNozzleOne + hsdOne?.salesForHsdTankOneNozzleTwo), totalSalesMpdTwo: (hsdOne?.salesForHsdTankOneNozzleThree + hsdOne?.salesForHsdTankOneNozzleFour) })) : []}
         />
       </Card>
 

@@ -46,7 +46,7 @@ const Dashboard = ({ }) => {
   const [tabValue, setTabValue] = useState(0)
   const [bankAndCmsDepositfields, setBankAndCmsDepositfields] = useState({
     recievedFrom: "", collectedBy: fullName, collectionAmount: "", TransactionDate: null, onlineAmount: "", cashAmount: "", balanceAmount: "",
-    remarks: ""
+    remarks: "",transactionRefNumber:""
   })
   const [bankDepositSnackBarOpen, setBankDepositSnackBarOpen] = useState(false)
   const [cmsTransactionSnackBarOpen, setCmsTransactionSnackBarOpen] = useState(false)
