@@ -12,9 +12,9 @@ const Layout = ({ }) => {
     const { jwtToken, userName, error, userRoles, fullName } = AuthHook()
     const [routeLoading, setRouteLoading] = useState(false)
 
-    const isRouteLoading = useCallback((value) => {
-        console.log(value);
-    }, []);
+    const isRouteLoading = (value) => {
+        setRouteLoading(value)
+    };
 
 
     return (
